@@ -192,7 +192,7 @@ nav{
   display:flex;align-items:center;
   border-radius:0 0 100px 100px;
   margin-top:62px;
-  box-shadow:0 30px 80px rgba(123,47,190,0.7),0 10px 30px rgba(123,47,190,0.45);
+  box-shadow:0 0 80px rgba(123,47,190,0.65),0 0 160px rgba(123,47,190,0.28);
 }
 /* PC background image */
 .hero-bg{
@@ -706,9 +706,14 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
 .rates-fields.active{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
 .services-chk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
 
-.svc-check{display:flex;align-items:center;gap:7px;padding:0.3rem 0.4rem;font-size:13px;color:var(--text-soft);cursor:pointer;transition:color 0.2s;border-radius:6px}
-.svc-check:hover{color:var(--text);background:rgba(123,47,190,0.08)}
-.svc-check input{accent-color:var(--purple);flex-shrink:0}
+.svc-check{display:flex;align-items:center;gap:5px;padding:0.3rem 0.4rem;border-radius:6px;transition:background 0.2s}
+.svc-check:hover{background:rgba(123,47,190,0.08)}
+.svc-check label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-soft);cursor:pointer;flex:1;min-width:0}
+.svc-check label input{accent-color:var(--purple);flex-shrink:0}
+.svc-extra-btn{padding:1px 7px;border-radius:4px;background:rgba(123,47,190,0.1);border:1px solid rgba(176,127,222,0.2);color:var(--text-muted);font-size:10px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;flex-shrink:0;line-height:1.7}
+.svc-extra-btn.active{background:rgba(255,180,50,0.18);border-color:rgba(255,180,50,0.55);color:#FFB432}
+.svc-extra-price{display:none;width:52px;padding:2px 6px;border-radius:4px;background:rgba(0,0,0,0.3);border:1px solid rgba(176,127,222,0.3);color:var(--text);font-size:12px;font-family:'Outfit',sans-serif}
+.svc-extra-price.show{display:block}
 .photo-upload-area{border:2px dashed var(--glass-border);border-radius:var(--r-sm);padding:2rem;text-align:center;cursor:pointer;transition:border-color 0.2s}
 .photo-upload-area:hover{border-color:var(--purple3)}
 .photo-upload-area input[type=file]{display:none}
@@ -1607,6 +1612,14 @@ function submitApplication(e){
     </div>`;
   window.scrollTo(0,0);
 }
+function toggleSvcExtra(btn){
+  btn.classList.toggle('active');
+  const price=btn.nextElementSibling;
+  price.classList.toggle('show');
+  if(price.classList.contains('show')) price.focus();
+  else price.value='';
+}
+
 function initBecomePage(){
   const tubeSelect=document.getElementById('tubeSelect');
   if(tubeSelect&&tubeSelect.options.length<=1){
@@ -1615,10 +1628,10 @@ function initBecomePage(){
   const svcGrid=document.getElementById('servicesCheckList');
   if(svcGrid&&!svcGrid.children.length){
     SERVICES.forEach(s=>{
-      const lbl=document.createElement('label');
-      lbl.className='svc-check';
-      lbl.innerHTML=`<input type="checkbox" name="services[]" value="${s}"> ${s}`;
-      svcGrid.appendChild(lbl);
+      const div=document.createElement('div');
+      div.className='svc-check';
+      div.innerHTML=`<label><input type="checkbox" name="services[]" value="${s}"> ${s}</label><button type="button" class="svc-extra-btn" onclick="toggleSvcExtra(this)">extra</button><input type="number" class="svc-extra-price" name="extra_price[${s}]" placeholder="£" min="0">`;
+      svcGrid.appendChild(div);
     });
   }
   if(!document.getElementById('langRows').children.length) addLangRow();
