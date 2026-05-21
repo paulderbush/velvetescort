@@ -660,38 +660,40 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
 /* AGE MODAL */
 .age-modal-overlay{
   position:fixed;inset:0;z-index:10000;
-  background:rgba(0,0,0,0.88);
-  backdrop-filter:blur(6px);
-  -webkit-backdrop-filter:blur(6px);
+  background:rgba(13,8,18,0.92);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
   display:flex;align-items:center;justify-content:center;
   padding:1rem;
 }
 .age-modal-overlay.hidden{display:none}
 .age-modal-box{
-  background:#1a1420;
-  border:1px solid rgba(176,127,222,0.18);
+  background:rgba(123,47,190,0.1);
+  backdrop-filter:blur(30px) saturate(1.4);
+  -webkit-backdrop-filter:blur(30px) saturate(1.4);
+  border:1px solid rgba(176,127,222,0.28);
   border-radius:28px;
   padding:2.8rem 2.4rem;
   max-width:580px;width:100%;
-  box-shadow:0 30px 80px rgba(0,0,0,0.6);
+  box-shadow:0 0 80px rgba(123,47,190,0.25),0 30px 60px rgba(0,0,0,0.5);
 }
 .age-modal-title{font-size:1.9rem;font-weight:700;margin-bottom:1.4rem;text-align:center;letter-spacing:-0.02em}
 .age-modal-text{color:rgba(240,234,248,0.82);font-size:15px;line-height:1.75;margin-bottom:0.9rem}
 .age-modal-list{color:rgba(240,234,248,0.82);font-size:15px;line-height:1.75;margin:0 0 0.9rem 0;list-style:none;padding:0}
 .age-modal-list li{padding-left:1.2em;position:relative}
-.age-modal-list li::before{content:'•';position:absolute;left:0}
+.age-modal-list li::before{content:'•';position:absolute;left:0;color:var(--purple3)}
 .age-modal-btns{display:flex;align-items:center;justify-content:flex-end;gap:1.5rem;margin-top:2rem}
-.age-btn-no{background:none;border:none;color:rgba(240,234,248,0.55);font-family:'Outfit',sans-serif;font-size:15px;cursor:pointer;padding:0.5rem;transition:color 0.2s}
+.age-btn-no{background:none;border:none;color:rgba(240,234,248,0.45);font-family:'Outfit',sans-serif;font-size:15px;cursor:pointer;padding:0.5rem;transition:color 0.2s}
 .age-btn-no:hover{color:var(--text)}
 .age-btn-yes{
   padding:0.8rem 2.2rem;border-radius:var(--r);
-  background:linear-gradient(135deg,#C0395A,#8B1A35);
+  background:linear-gradient(135deg,var(--purple),var(--purple-dark));
   border:none;color:#fff;font-family:'Outfit',sans-serif;
   font-size:15px;font-weight:600;cursor:pointer;
-  box-shadow:0 4px 22px rgba(192,57,90,0.45);
+  box-shadow:0 4px 22px rgba(123,47,190,0.5);
   transition:all 0.25s;
 }
-.age-btn-yes:hover{transform:translateY(-1px);box-shadow:0 7px 30px rgba(192,57,90,0.6)}
+.age-btn-yes:hover{transform:translateY(-1px);box-shadow:0 7px 30px rgba(123,47,190,0.7)}
 
 /* RESPONSIVE NAV */
 @media(max-width:768px){
