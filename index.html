@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velvet London — Elite Escort Agency</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --purple:#7B2FBE;
+  --purple2:#9B59D0;
+  --purple3:#B07FDE;
+  --purple-dark:#4A1880;
+  --purple-glow:rgba(123,47,190,0.35);
+  --bg:#0D0812;
+  --bg2:#130E1C;
+  --glass:rgba(123,47,190,0.08);
+  --glass-border:rgba(176,127,222,0.18);
+  --glass-hover:rgba(123,47,190,0.15);
+  --text:#F0EAF8;
+  --text-soft:rgba(240,234,248,0.6);
+  --text-muted:rgba(240,234,248,0.38);
+  --r:50px;
+  --r-sm:24px;
+  --r-xs:14px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:400;font-size:15px;line-height:1.6;overflow-x:hidden;min-height:100vh}
+
+/* ORBS */
+.orb-container{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);animation:float 18s ease-in-out infinite}
+.orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(123,47,190,0.22) 0%,transparent 70%);top:-100px;left:-100px;animation-delay:0s}
+.orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(155,89,208,0.18) 0%,transparent 70%);top:40%;right:-80px;animation-delay:-6s}
+.orb3{width:350px;height:350px;background:radial-gradient(circle,rgba(74,24,128,0.25) 0%,transparent 70%);bottom:10%;left:20%;animation-delay:-12s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.05)}66%{transform:translate(-20px,20px) scale(0.97)}}
+
+/* GLASS MIXIN */
+.glass{
+  background:var(--glass);
+  backdrop-filter:blur(20px) saturate(1.4);
+  -webkit-backdrop-filter:blur(20px) saturate(1.4);
+  border:1px solid var(--glass-border);
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;gap:1rem;
+  padding:0.75rem 2rem;
+  background:rgba(13,8,18,0.75);
+  backdrop-filter:blur(24px) saturate(1.5);
+  -webkit-backdrop-filter:blur(24px) saturate(1.5);
+  border-bottom:1px solid var(--glass-border);
+}
+.nav-logo{
+  font-size:1.4rem;font-weight:700;letter-spacing:-0.02em;
+  background:linear-gradient(135deg,#C49FEE,#8B3FCA);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  white-space:nowrap;margin-right:0.5rem;
+}
+.nav-search{
+  flex:1;max-width:340px;
+  display:flex;align-items:center;gap:8px;
+  background:rgba(123,47,190,0.1);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r);
+  padding:0.45rem 1rem;
+  position:relative;
+}
+.nav-search input{
+  background:none;border:none;outline:none;
+  color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;
+  width:100%;
+}
+.nav-search input::placeholder{color:var(--text-muted)}
+.nav-search svg{width:16px;height:16px;opacity:0.5;flex-shrink:0}
+.search-dropdown{
+  position:absolute;top:calc(100% + 8px);left:0;right:0;
+  background:rgba(20,12,32,0.97);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r-sm);
+  overflow:hidden;z-index:999;
+  display:none;
+}
+.search-dropdown.show{display:block}
+.search-result-item{
+  padding:0.6rem 1rem;font-size:14px;
+  cursor:pointer;transition:background 0.2s;
+  display:flex;align-items:center;gap:8px;
+}
+.search-result-item:hover{background:rgba(123,47,190,0.2)}
+.search-result-item .avatar{
+  width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,var(--purple),var(--purple3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;flex-shrink:0;
+}
+.nav-cart{
+  position:relative;cursor:pointer;
+  padding:0.45rem 0.9rem;
+  background:rgba(123,47,190,0.12);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r);
+  display:flex;align-items:center;gap:6px;
+  font-size:13px;transition:all 0.25s;white-space:nowrap;
+  color:var(--text);
+}
+.nav-cart:hover{background:rgba(123,47,190,0.25);border-color:var(--purple3)}
+.cart-badge{
+  background:var(--purple);color:#fff;
+  border-radius:50%;width:18px;height:18px;
+  font-size:11px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  position:absolute;top:-6px;right:-6px;
+}
+.nav-btn{
+  padding:0.5rem 1.3rem;
+  background:linear-gradient(135deg,var(--purple),var(--purple-dark));
+  border:none;border-radius:var(--r);
+  color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;
+  cursor:pointer;transition:all 0.25s;white-space:nowrap;
+  box-shadow:0 4px 20px rgba(123,47,190,0.35);
+}
+.nav-btn:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(123,47,190,0.5)}
+
+/* CART PANEL */
+.cart-panel{
+  position:fixed;top:0;right:-400px;width:360px;height:100vh;z-index:500;
+  background:rgba(13,8,22,0.97);
+  backdrop-filter:blur(30px);
+  border-left:1px solid var(--glass-border);
+  transition:right 0.35s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  padding:1.5rem;
+  overflow-y:auto;
+}
+.cart-panel.open{right:0}
+.cart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.cart-header h3{font-size:1.1rem;font-weight:600}
+.cart-close{background:none;border:none;color:var(--text-soft);cursor:pointer;font-size:1.3rem;padding:4px}
+.cart-item{
+  display:flex;align-items:center;gap:12px;
+  padding:0.8rem;border-radius:var(--r-sm);
+  background:rgba(123,47,190,0.1);border:1px solid var(--glass-border);
+  margin-bottom:0.75rem;
+}
+.cart-item-avatar{
+  width:44px;height:44px;border-radius:var(--r-sm);
+  background:linear-gradient(135deg,var(--purple),var(--purple3));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:600;font-size:13px;flex-shrink:0;
+}
+.cart-item-info{flex:1}
+.cart-item-name{font-weight:600;font-size:14px}
+.cart-item-detail{font-size:12px;color:var(--text-soft)}
+.cart-item-remove{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem;padding:4px}
+.cart-empty{text-align:center;color:var(--text-muted);padding:3rem 0;font-size:14px}
+.cart-total{
+  margin-top:auto;padding-top:1rem;
+  border-top:1px solid var(--glass-border);
+}
+.cart-total-row{display:flex;justify-content:space-between;margin-bottom:0.5rem;font-size:14px}
+.cart-total-row.big{font-weight:700;font-size:1rem}
+.cart-checkout{
+  width:100%;margin-top:1rem;
+  padding:0.85rem;border:none;border-radius:var(--r);
+  background:linear-gradient(135deg,var(--purple),var(--purple-dark));
+  color:#fff;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;
+  cursor:pointer;box-shadow:0 4px 20px rgba(123,47,190,0.4);
+  transition:all 0.25s;
+}
+.cart-checkout:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(123,47,190,0.55)}
+.cart-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:450;
+  display:none;
+}
+.cart-overlay.show{display:block}
+
+/* PAGES */
+.page{display:none;position:relative;z-index:1}
+.page.active{display:block}
+
+/* =================== HOME PAGE =================== */
+/* HERO */
+.hero{
+  position:relative;
+  width:100%;
+  min-height:100vh;
+  overflow:hidden;
+  display:flex;align-items:center;
+}
+/* PC background image */
+.hero-bg{
+  position:absolute;inset:0;
+  background-image:url('PC.jpg');
+  background-size:cover;
+  background-position:center right;
+  background-repeat:no-repeat;
+  z-index:0;
+}
+/* subtle dark overlay on left so text is readable */
+.hero-bg::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(10,5,20,0.72) 0%,rgba(10,5,20,0.45) 50%,rgba(10,5,20,0.1) 100%);
+}
+.hero-content{
+  position:relative;z-index:2;
+  padding:7rem 4rem 4rem 4rem;
+  max-width:600px;
+  display:flex;flex-direction:column;
+  align-items:flex-start;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:0.4rem 1.2rem;
+  background:rgba(123,47,190,0.2);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(176,127,222,0.35);
+  border-radius:var(--r);
+  font-size:12px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--purple3);margin-bottom:1.5rem;
+}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:#A0E080;box-shadow:0 0 8px #A0E080;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.hero-content h1{
+  font-size:clamp(2.4rem,4.5vw,4.2rem);font-weight:700;
+  line-height:1.08;letter-spacing:-0.03em;
+  margin-bottom:1.2rem;
+  text-align:left;
+}
+.hero-content h1 span{
+  background:linear-gradient(135deg,#C49FEE 0%,#8B3FCA 50%,#C49FEE 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-sub{color:var(--text-soft);font-size:1.05rem;margin-bottom:0.8rem;text-align:left;line-height:1.65}
+.hero-hours{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:0.4rem 1.1rem;
+  background:rgba(160,224,128,0.1);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(160,224,128,0.25);
+  border-radius:var(--r);
+  font-size:13px;color:#A0E080;margin-bottom:2rem;
+}
+.hero-btns{display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:flex-start;margin-bottom:0}
+
+/* MOBILE HERO */
+@media(max-width:768px){
+  .hero{
+    flex-direction:column;
+    min-height:auto;
+    align-items:stretch;
+  }
+  .hero-bg{
+    position:relative;
+    width:100%;
+    height:65vw;
+    min-height:280px;
+    max-height:420px;
+    background-image:url('Mobile.jpg');
+    background-position:center top;
+    flex-shrink:0;
+  }
+  .hero-bg::after{
+    background:linear-gradient(to bottom,rgba(10,5,20,0) 40%,rgba(10,5,20,0.95) 100%);
+  }
+  .hero-content{
+    position:relative;z-index:2;
+    padding:1.5rem 1.25rem 2rem;
+    max-width:100%;
+    margin-top:-60px;
+    background:linear-gradient(to bottom,rgba(13,8,18,0.0) 0%,rgba(13,8,18,1) 30%);
+    backdrop-filter:blur(0);
+  }
+  .hero-content h1{font-size:clamp(1.9rem,7vw,2.8rem);text-align:center}
+  .hero-badge,.hero-sub,.hero-hours{align-self:center;text-align:center}
+  .hero-sub{text-align:center}
+  .hero-btns{justify-content:center}
+}
+.btn-wa{
+  display:flex;align-items:center;gap:8px;
+  padding:0.7rem 1.4rem;border-radius:var(--r);
+  background:rgba(37,211,102,0.12);
+  border:1px solid rgba(37,211,102,0.3);
+  color:#25D366;font-size:14px;font-weight:500;cursor:pointer;
+  transition:all 0.25s;text-decoration:none;
+}
+.btn-wa:hover{background:rgba(37,211,102,0.22);transform:translateY(-1px)}
+.btn-tg{
+  display:flex;align-items:center;gap:8px;
+  padding:0.7rem 1.4rem;border-radius:var(--r);
+  background:rgba(0,136,204,0.12);
+  border:1px solid rgba(0,136,204,0.3);
+  color:#29B6F6;font-size:14px;font-weight:500;cursor:pointer;
+  transition:all 0.25s;text-decoration:none;
+}
+.btn-tg:hover{background:rgba(0,136,204,0.22);transform:translateY(-1px)}
+.btn-model-cta{
+  display:flex;align-items:center;gap:8px;
+  padding:0.7rem 1.4rem;border-radius:var(--r);
+  background:rgba(123,47,190,0.15);
+  border:1px solid rgba(176,127,222,0.3);
+  color:var(--purple3);font-size:14px;font-weight:500;cursor:pointer;
+  transition:all 0.25s;text-decoration:none;
+}
+.btn-model-cta:hover{background:rgba(123,47,190,0.28);transform:translateY(-1px)}
+
+/* SECTION */
+.section{padding:4rem 2rem;max-width:1280px;margin:0 auto;position:relative;z-index:1}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.8rem}
+.section-title{font-size:1.5rem;font-weight:700;letter-spacing:-0.02em}
+.section-title span{background:linear-gradient(135deg,#C49FEE,#8B3FCA);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.see-all{
+  padding:0.4rem 1.1rem;border-radius:var(--r);
+  background:rgba(123,47,190,0.12);
+  border:1px solid var(--glass-border);
+  color:var(--purple3);font-size:13px;font-weight:500;cursor:pointer;
+  transition:all 0.25s;white-space:nowrap;font-family:'Outfit',sans-serif;
+}
+.see-all:hover{background:rgba(123,47,190,0.25);border-color:var(--purple3)}
+
+/* MODEL CARDS GRID */
+.models-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.model-card{
+  border-radius:var(--r-sm);
+  background:var(--glass);
+  backdrop-filter:blur(16px);
+  border:1px solid var(--glass-border);
+  overflow:hidden;cursor:pointer;
+  transition:all 0.3s;
+  position:relative;
+}
+.model-card:hover{transform:translateY(-4px);border-color:rgba(176,127,222,0.4);box-shadow:0 12px 40px rgba(123,47,190,0.25)}
+.model-card-img{
+  aspect-ratio:3/4;
+  background:linear-gradient(160deg,rgba(123,47,190,0.3) 0%,rgba(74,24,128,0.5) 100%);
+  display:flex;align-items:flex-end;
+  position:relative;overflow:hidden;
+}
+.model-photo-placeholder{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;
+}
+.model-silhouette-svg{opacity:0.2}
+.model-card-badges{
+  position:absolute;top:10px;left:10px;
+  display:flex;flex-wrap:wrap;gap:4px;
+}
+.badge{
+  padding:2px 8px;border-radius:var(--r);
+  font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
+}
+.badge-new{background:rgba(160,224,128,0.2);border:1px solid rgba(160,224,128,0.4);color:#A0E080}
+.badge-vip{background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.35);color:#FFD700}
+.badge-top{background:rgba(255,100,100,0.15);border:1px solid rgba(255,100,100,0.3);color:#FF7070}
+.model-card-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(to top,rgba(10,5,20,0.95) 0%,transparent 100%);
+  padding:1rem 0.85rem 0.85rem;
+}
+.model-card-name{font-weight:700;font-size:1rem;letter-spacing:-0.01em}
+.model-card-meta{font-size:12px;color:var(--text-soft);margin-top:2px}
+.model-card-tags{
+  display:flex;flex-wrap:wrap;gap:3px;margin-top:5px;
+}
+.tag-chip{
+  padding:2px 7px;border-radius:var(--r);
+  font-size:10px;background:rgba(123,47,190,0.25);
+  border:1px solid rgba(176,127,222,0.2);color:var(--purple3);
+}
+.model-card-footer{
+  padding:0.7rem 0.85rem;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid var(--glass-border);
+}
+.model-rate{font-weight:700;font-size:1rem;color:var(--purple3)}
+.model-rate span{font-size:11px;font-weight:400;color:var(--text-muted)}
+.add-to-cart-btn{
+  padding:0.35rem 0.9rem;border-radius:var(--r);
+  background:linear-gradient(135deg,var(--purple),var(--purple-dark));
+  border:none;color:#fff;font-family:'Outfit',sans-serif;
+  font-size:12px;font-weight:600;cursor:pointer;
+  transition:all 0.2s;
+  box-shadow:0 3px 12px rgba(123,47,190,0.35);
+}
+.add-to-cart-btn:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(123,47,190,0.5)}
+
+/* FAQ */
+.faq-section{max-width:860px;margin:0 auto;padding:4rem 2rem}
+.faq-title{font-size:1.5rem;font-weight:700;margin-bottom:0.5rem}
+.faq-sub{color:var(--text-soft);font-size:14px;margin-bottom:2rem}
+.faq-item{
+  border-radius:var(--r-sm);
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  margin-bottom:0.75rem;overflow:hidden;
+  transition:border-color 0.25s;
+}
+.faq-item.open{border-color:rgba(176,127,222,0.4)}
+.faq-q{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 1.25rem;cursor:pointer;
+  font-weight:600;font-size:0.95rem;
+  gap:1rem;
+}
+.faq-q svg{flex-shrink:0;transition:transform 0.3s}
+.faq-item.open .faq-q svg{transform:rotate(180deg)}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height 0.4s ease;
+}
+.faq-a-inner{padding:0 1.25rem 1.1rem;color:var(--text-soft);font-size:14px;line-height:1.75}
+.faq-see-all{
+  display:flex;justify-content:center;margin-top:1.5rem;
+}
+
+/* PARTNERS */
+.partners-section{padding:3rem 2rem;max-width:1280px;margin:0 auto}
+.partners-title{font-size:1.1rem;font-weight:600;margin-bottom:1.2rem;color:var(--text-soft);letter-spacing:0.06em;text-transform:uppercase;font-size:12px}
+.partners-row{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.partner-banner{
+  border-radius:var(--r-sm);overflow:hidden;
+  border:1px solid var(--glass-border);
+  transition:all 0.25s;cursor:pointer;
+}
+.partner-banner:hover{border-color:rgba(176,127,222,0.4);transform:translateY(-2px)}
+.partner-banner img{display:block;height:60px;width:auto}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--glass-border);
+  padding:2rem;text-align:center;
+  color:var(--text-muted);font-size:13px;
+  position:relative;z-index:1;
+}
+footer a{color:var(--purple3);text-decoration:none}
+
+/* =================== MODELS PAGE =================== */
+.models-page{padding:6rem 2rem 3rem;max-width:1440px;margin:0 auto}
+.models-page-header{margin-bottom:2rem}
+.models-page-header h1{font-size:2rem;font-weight:700;letter-spacing:-0.03em;margin-bottom:0.3rem}
+.models-page-header p{color:var(--text-soft)}
+
+.models-layout{display:grid;grid-template-columns:280px 1fr;gap:2rem;align-items:start}
+
+/* FILTERS SIDEBAR */
+.filters-sidebar{
+  border-radius:var(--r-sm);
+  background:var(--glass);
+  backdrop-filter:blur(20px);
+  border:1px solid var(--glass-border);
+  padding:1.25rem;
+  position:sticky;top:80px;
+}
+.filter-title{font-size:0.8rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.8rem}
+.filter-group{margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(176,127,222,0.1)}
+.filter-group:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+
+/* Filter chips */
+.filter-chips{display:flex;flex-wrap:wrap;gap:6px}
+.filter-chip{
+  padding:0.3rem 0.8rem;border-radius:var(--r);
+  background:rgba(123,47,190,0.08);border:1px solid var(--glass-border);
+  color:var(--text-soft);font-size:12px;font-weight:500;cursor:pointer;
+  transition:all 0.2s;font-family:'Outfit',sans-serif;
+}
+.filter-chip:hover,.filter-chip.active{
+  background:rgba(123,47,190,0.28);border-color:var(--purple3);
+  color:var(--text);
+}
+
+/* Filter search */
+.filter-search{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(123,47,190,0.08);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r-sm);padding:0.45rem 0.8rem;
+  margin-bottom:0.7rem;
+}
+.filter-search input{
+  background:none;border:none;outline:none;
+  color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;width:100%;
+}
+.filter-search input::placeholder{color:var(--text-muted)}
+.filter-search svg{width:14px;height:14px;opacity:0.4;flex-shrink:0}
+.filter-list{max-height:180px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(123,47,190,0.3) transparent}
+.filter-list::-webkit-scrollbar{width:3px}
+.filter-list::-webkit-scrollbar-thumb{background:rgba(123,47,190,0.3);border-radius:3px}
+.filter-check{
+  display:flex;align-items:center;gap:8px;
+  padding:0.3rem 0;cursor:pointer;font-size:13px;color:var(--text-soft);
+  transition:color 0.2s;
+}
+.filter-check:hover{color:var(--text)}
+.filter-check input[type=checkbox]{
+  accent-color:var(--purple);width:14px;height:14px;cursor:pointer;
+}
+
+/* Range slider */
+.range-wrap{margin-top:0.5rem}
+.range-row{display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:4px}
+.range-vals{font-weight:600;color:var(--purple3)}
+.range-track{position:relative;height:4px;background:rgba(176,127,222,0.15);border-radius:2px;margin-bottom:1.2rem}
+.range-fill{position:absolute;height:100%;background:linear-gradient(90deg,var(--purple),var(--purple3));border-radius:2px}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;
+  width:100%;height:4px;background:transparent;
+  position:absolute;top:0;left:0;pointer-events:none;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:18px;height:18px;border-radius:50%;
+  background:#fff;border:2px solid var(--purple);
+  box-shadow:0 2px 8px rgba(123,47,190,0.4);
+  pointer-events:all;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
+.range-min,.range-max{
+  position:absolute;top:0;left:0;pointer-events:none;
+}
+.range-max{pointer-events:none}
+
+/* Models grid */
+.models-grid-main{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:1rem;
+}
+.filters-top-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.2rem;flex-wrap:wrap;gap:0.75rem;
+}
+.results-count{font-size:14px;color:var(--text-soft)}
+.sort-select{
+  background:rgba(123,47,190,0.1);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r-sm);
+  padding:0.4rem 0.8rem;
+  color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;
+  outline:none;cursor:pointer;
+}
+
+/* SERVICES filter (scrollable list of chips) */
+.services-wrap{max-height:200px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(123,47,190,0.3) transparent}
+.services-wrap::-webkit-scrollbar{width:3px}
+.services-wrap::-webkit-scrollbar-thumb{background:rgba(123,47,190,0.3);border-radius:3px}
+
+/* Clear filters */
+.clear-filters{
+  width:100%;margin-top:0.75rem;
+  padding:0.5rem;border-radius:var(--r);
+  background:rgba(255,100,100,0.08);
+  border:1px solid rgba(255,100,100,0.2);
+  color:rgba(255,120,120,0.8);
+  font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;
+  cursor:pointer;transition:all 0.2s;
+}
+.clear-filters:hover{background:rgba(255,100,100,0.15)}
+
+/* MODEL DETAIL PAGE */
+.model-detail-page{padding:6rem 2rem 3rem;max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.back-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:0.45rem 1.1rem;border-radius:var(--r);
+  background:rgba(123,47,190,0.12);border:1px solid var(--glass-border);
+  color:var(--text-soft);font-size:13px;cursor:pointer;margin-bottom:1.5rem;
+  transition:all 0.2s;
+}
+.back-btn:hover{border-color:var(--purple3);color:var(--text)}
+.model-detail-layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.model-detail-img{
+  border-radius:var(--r-sm);overflow:hidden;
+  aspect-ratio:3/4;
+  background:linear-gradient(160deg,rgba(123,47,190,0.3) 0%,rgba(74,24,128,0.5) 100%);
+  display:flex;align-items:center;justify-content:center;
+}
+.model-detail-info{display:flex;flex-direction:column;gap:1rem}
+.model-detail-name{font-size:2rem;font-weight:700;letter-spacing:-0.03em}
+.model-detail-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;
+}
+.stat-box{
+  border-radius:var(--r-xs);
+  background:var(--glass);border:1px solid var(--glass-border);
+  padding:0.6rem 0.75rem;text-align:center;
+}
+.stat-label{font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted)}
+.stat-val{font-size:1rem;font-weight:700;margin-top:2px}
+.model-detail-services{
+  border-radius:var(--r-sm);
+  background:var(--glass);border:1px solid var(--glass-border);
+  padding:1rem;
+}
+.services-title{font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.75rem}
+.services-chips{display:flex;flex-wrap:wrap;gap:5px}
+.service-chip{
+  padding:3px 9px;border-radius:var(--r);
+  background:rgba(123,47,190,0.15);border:1px solid rgba(176,127,222,0.2);
+  color:var(--purple3);font-size:11px;
+}
+.book-now-big{
+  width:100%;padding:0.9rem;border:none;border-radius:var(--r);
+  background:linear-gradient(135deg,var(--purple),var(--purple-dark));
+  color:#fff;font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;
+  cursor:pointer;box-shadow:0 6px 28px rgba(123,47,190,0.45);
+  transition:all 0.25s;
+}
+.book-now-big:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(123,47,190,0.6)}
+.model-rates-box{
+  border-radius:var(--r-sm);
+  background:var(--glass);border:1px solid var(--glass-border);
+  padding:1rem;
+}
+.rates-row{display:flex;justify-content:space-between;padding:0.4rem 0;font-size:14px;border-bottom:1px solid rgba(176,127,222,0.08)}
+.rates-row:last-child{border-bottom:none}
+.rates-row .rate-val{font-weight:700;color:var(--purple3)}
+
+/* FAQ PAGE */
+.faq-page{padding:6rem 2rem 3rem;max-width:860px;margin:0 auto;position:relative;z-index:1}
+.faq-page h1{font-size:2rem;font-weight:700;margin-bottom:0.5rem}
+.faq-page .sub{color:var(--text-soft);margin-bottom:2rem}
+
+/* RESPONSIVE NAV */
+@media(max-width:768px){
+  nav{padding:0.75rem 1rem}
+  .nav-search{max-width:160px}
+  .models-layout{grid-template-columns:1fr}
+  .filters-sidebar{position:static}
+  .models-row{grid-template-columns:repeat(2,1fr)}
+  .model-detail-layout{grid-template-columns:1fr}
+  .hero h1{font-size:2rem}
+}
+</style>
+</head>
+<body>
+
+<div class="orb-container">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+
+<!-- CART PANEL -->
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <h3>🛒 Your Booking</h3>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div id="cartItems">
+    <div class="cart-empty">No companions selected yet.<br>Browse our models to get started.</div>
+  </div>
+  <div class="cart-total" id="cartTotal" style="display:none">
+    <div class="cart-total-row"><span>Subtotal</span><span id="subtotalVal">£0</span></div>
+    <div class="cart-total-row big"><span>Total</span><span id="totalVal">£0</span></div>
+    <button class="cart-checkout" onclick="alert('Thank you! Our team will contact you within 1 hour to confirm your booking.')">
+      Confirm Booking
+    </button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">VELVET</div>
+  <div class="nav-search" id="navSearch">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" placeholder="Search models…" id="navSearchInput" oninput="handleNavSearch(this.value)" onfocus="showSearchDrop()" onblur="setTimeout(hideSearchDrop,200)">
+    <div class="search-dropdown" id="searchDropdown"></div>
+  </div>
+  <div class="nav-cart glass" onclick="openCart()" style="cursor:pointer;padding:0.45rem 0.9rem;border-radius:var(--r);display:flex;align-items:center;gap:6px;font-size:13px;transition:all 0.25s;white-space:nowrap;color:var(--text);">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    Booking
+    <div class="cart-badge" id="cartBadge">0</div>
+  </div>
+  <button class="nav-btn" onclick="showPage('models')">Models</button>
+</nav>
+
+<!-- =================== HOME PAGE =================== -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <div class="hero" style="position:relative;z-index:1">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><span class="dot"></span>London's Premier Escort Agency</div>
+      <h1>Elite companions<br>for <span>discerning</span> gentlemen</h1>
+      <p class="hero-sub">Velvet London offers exclusive social companionship for private, business, and leisure occasions — always discreet, always refined.</p>
+      <div class="hero-hours">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Available daily · 10:00 AM – 2:00 AM
+      </div>
+      <div class="hero-btns">
+        <a href="https://wa.me/447700000000" class="btn-wa" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Text us on WhatsApp
+        </a>
+        <a href="https://t.me/velvetlondon" class="btn-tg" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          Text us on Telegram
+        </a>
+        <a href="#" class="btn-model-cta" onclick="showBecome();return false;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Become a Model
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECOMMENDED -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">⭐ <span>Recommended</span> Girls</div>
+      <button class="see-all" onclick="showPage('models')">See all →</button>
+    </div>
+    <div class="models-row" id="recommendedRow"></div>
+  </div>
+
+  <!-- UNDER 25 -->
+  <div class="section" style="padding-top:0">
+    <div class="section-header">
+      <div class="section-title">🌸 <span>Under 25</span></div>
+      <button class="see-all" onclick="showPage('models')">See all →</button>
+    </div>
+    <div class="models-row" id="under25Row"></div>
+  </div>
+
+  <!-- TOP RATED -->
+  <div class="section" style="padding-top:0">
+    <div class="section-header">
+      <div class="section-title">🏆 <span>Top Rated</span></div>
+      <button class="see-all" onclick="showPage('models')">See all →</button>
+    </div>
+    <div class="models-row" id="topRatedRow"></div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="section-title" style="margin-bottom:0.3rem">Frequently Asked <span>Questions</span></div>
+    <p style="color:var(--text-soft);font-size:14px;margin-bottom:1.5rem">Everything you need to know before making a booking.</p>
+    <div id="faqHome"></div>
+    <div class="faq-see-all">
+      <button class="see-all" onclick="showPage('faq')">See all FAQs →</button>
+    </div>
+  </div>
+
+  <!-- PARTNERS -->
+  <div class="partners-section">
+    <div class="partners-title">Our Partners</div>
+    <div class="partners-row">
+      <div class="partner-banner" onclick="window.open('https://www.eurogirlsescort.com','_blank')">
+        <img src="EuroEscortGirls.png" alt="EuroGirlsEscort" onerror="this.parentElement.innerHTML='<div style=\'padding:0.75rem 1.5rem;font-size:13px;color:var(--purple3);font-weight:600\'>EuroGirlsEscort.com</div>'">
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p style="margin-bottom:0.3rem">© 2025 Velvet London. All rights reserved. For adults 18+ only.</p>
+    <p><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a> · <a href="#">Discretion Policy</a></p>
+  </footer>
+</div>
+
+<!-- =================== MODELS PAGE =================== -->
+<div class="page" id="page-models">
+  <div class="models-page">
+    <button class="back-btn" onclick="showPage('home')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </button>
+    <div class="models-page-header">
+      <h1>Our <span style="background:linear-gradient(135deg,#C49FEE,#8B3FCA);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Companions</span></h1>
+      <p style="color:var(--text-soft)">Browse and filter our exclusive roster of London companions</p>
+    </div>
+    <div class="models-layout">
+      <!-- SIDEBAR -->
+      <div class="filters-sidebar">
+        <div style="font-size:1rem;font-weight:700;margin-bottom:1.2rem">Filters</div>
+
+        <!-- Category -->
+        <div class="filter-group">
+          <div class="filter-title">Category</div>
+          <div class="filter-chips" id="catChips">
+            <button class="filter-chip active" data-cat="all" onclick="setCat(this,'all')">All</button>
+            <button class="filter-chip" data-cat="recommended" onclick="setCat(this,'recommended')">Recommended</button>
+            <button class="filter-chip" data-cat="under25" onclick="setCat(this,'under25')">Under 25</button>
+            <button class="filter-chip" data-cat="toprated" onclick="setCat(this,'toprated')">Top Rated</button>
+            <button class="filter-chip" data-cat="new" onclick="setCat(this,'new')">New Models</button>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="filter-group">
+          <div class="filter-title">Location (London Underground)</div>
+          <div class="filter-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search station…" oninput="filterStations(this.value)" id="stationSearch">
+          </div>
+          <div class="filter-list" id="stationList"></div>
+        </div>
+
+        <!-- Nationality -->
+        <div class="filter-group">
+          <div class="filter-title">Nationality</div>
+          <div class="filter-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search nationality…" oninput="filterNat(this.value)" id="natSearch">
+          </div>
+          <div class="filter-list" id="natList"></div>
+        </div>
+
+        <!-- Age -->
+        <div class="filter-group">
+          <div class="filter-title">Age</div>
+          <div class="range-wrap" id="ageWrap">
+            <div class="range-row"><span>18</span><span class="range-vals" id="ageVals">18 – 60</span><span>60</span></div>
+            <div class="range-track" id="ageTrack">
+              <div class="range-fill" id="ageFill"></div>
+              <input type="range" min="18" max="60" value="18" id="ageMin" oninput="updateRange('age')">
+              <input type="range" min="18" max="60" value="60" id="ageMax" oninput="updateRange('age')">
+            </div>
+          </div>
+        </div>
+
+        <!-- Weight -->
+        <div class="filter-group">
+          <div class="filter-title">Weight (kg)</div>
+          <div class="range-wrap" id="weightWrap">
+            <div class="range-row"><span>40</span><span class="range-vals" id="weightVals">40 – 100</span><span>100</span></div>
+            <div class="range-track" id="weightTrack">
+              <div class="range-fill" id="weightFill"></div>
+              <input type="range" min="40" max="100" value="40" id="weightMin" oninput="updateRange('weight')">
+              <input type="range" min="40" max="100" value="100" id="weightMax" oninput="updateRange('weight')">
+            </div>
+          </div>
+        </div>
+
+        <!-- Height -->
+        <div class="filter-group">
+          <div class="filter-title">Height (cm)</div>
+          <div class="range-wrap" id="heightWrap">
+            <div class="range-row"><span>150</span><span class="range-vals" id="heightVals">150 – 185</span><span>185</span></div>
+            <div class="range-track" id="heightTrack">
+              <div class="range-fill" id="heightFill"></div>
+              <input type="range" min="150" max="185" value="150" id="heightMin" oninput="updateRange('height')">
+              <input type="range" min="150" max="185" value="185" id="heightMax" oninput="updateRange('height')">
+            </div>
+          </div>
+        </div>
+
+        <!-- Services -->
+        <div class="filter-group">
+          <div class="filter-title">Services</div>
+          <div class="filter-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search service…" oninput="filterSvc(this.value)" id="svcSearch">
+          </div>
+          <div class="services-wrap filter-list" id="svcList"></div>
+        </div>
+
+        <button class="clear-filters" onclick="clearFilters()">✕ Clear all filters</button>
+      </div>
+
+      <!-- GRID -->
+      <div>
+        <div class="filters-top-bar">
+          <div class="results-count" id="resultsCount">Showing all models</div>
+          <select class="sort-select" onchange="sortModels(this.value)">
+            <option value="default">Sort: Default</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="age-asc">Age: Youngest first</option>
+            <option value="name">Name: A–Z</option>
+          </select>
+        </div>
+        <div class="models-grid-main" id="modelsGrid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== MODEL DETAIL PAGE =================== -->
+<div class="page" id="page-model-detail">
+  <div class="model-detail-page" id="modelDetailContent"></div>
+</div>
+
+<!-- =================== FAQ PAGE =================== -->
+<div class="page" id="page-faq">
+  <div class="faq-page">
+    <button class="back-btn" onclick="showPage('home')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Home
+    </button>
+    <h1>FAQ — <span style="background:linear-gradient(135deg,#C49FEE,#8B3FCA);-webkit-background-clip:text;-webkit-text-fill-color:transparent">All Questions</span></h1>
+    <p class="sub">Frequently asked questions about our services, companions, and bookings.</p>
+    <div id="faqAll"></div>
+  </div>
+</div>
+
+<script>
+// =================== DATA ===================
+const SERVICES = ["69","Anal Sex","BDSM","Belly-dance","Bisexual DUO","Blowjob With Condom","Blowjob Without Condom","Body to Body Massage","Couples","Cum In Mouth","Cum On Body","Cum On Face","Deep French Kissing","Deep Throat","Dirty Talk","Domination","Double Penetration","DUO","Erotic Massage","Face Sitting","Fetish","Filming With Mask","Filming Without Mask","Fingering","Fisting Giving","Foot Fetish","French Kissing","Girlfriend Experience","Group For Extra","Handcuffs","Lady's Services","Lap Dancing","Light Domination","Lomilomi Massage","Massage","MMF For Double Price","Nuru Massage","Open Minded","Party Girl","Peeing On Client","Peeing On Model","Photos With Mask","Poppers","Pornstar Experience","Professional Massage","Prostate Massage","Rimming Gives","Rimming Receives","Roleplay","Sensual Massage","Shower Together","Smoking Fetish","Snowballing","Soft Spanking Receiving","Spanking Giving","Strapon","Striptease","Swallow Sperm","Tantric Massage","Tie & Tease","Toys","Uniform","Women Clients"];
+
+const NATIONALITIES = ["Albanian","Argentine","Belarusian","Brazilian","British","Bulgarian","Chilean","Chinese","Colombian","Costa Rican","Eastern European","Egyptian","Estonian","French","German","Hungarian","Italian","Kazakh","Latvian","Lithuanian","Mexican","Moldovan","Paraguayan","Polish","Portuguese","Romanian","Russian","Spanish","Thai","Ukrainian","Vietnamese"];
+
+const STATIONS = ["Aldgate","Aldgate East","Angel","Baker Street","Bank","Barbican","Barons Court","Bayswater","Bethnal Green","Bond Street","Borough","Bow Road","Cannon Street","Canary Wharf","Chalk Farm","Chancery Lane","Charing Cross","Chelsea","Clapham Common","Clapham North","Clapham South","Covent Garden","Earl's Court","Elephant & Castle","Euston","Farringdon","Finchley Road","Fulham Broadway","Green Park","Hammersmith","High Street Kensington","Holborn","Hyde Park Corner","Islington","Kennington","Kensington","King's Cross St. Pancras","Knightsbridge","Lancaster Gate","Leicester Square","Liverpool Street","London Bridge","Maida Vale","Mansion House","Marble Arch","Marylebone","Mile End","Monument","Moorgate","Notting Hill Gate","Old Street","Oxford Circus","Paddington","Parsons Green","Piccadilly Circus","Pimlico","Putney Bridge","Queensway","Regent's Park","Sloane Square","Soho","South Kensington","Southwark","St. James's Park","St. Paul's","Stockwell","Stratford","Swiss Cottage","Temple","Tottenham Court Road","Tower Hill","Vauxhall","Victoria","Warren Street","Waterloo","Westminster"];
+
+const NAMES_F = ["Anastasia","Isabella","Valentina","Sophia","Natasha","Elena","Mia","Camille","Oksana","Alicia","Diana","Kate","Veronika","Lara","Monica","Zara","Nikita","Simone","Irina","Tatiana","Daria","Alina","Yvette","Chloe","Gabrielle","Polina","Roxana","Bianca","Jade","Crystal"];
+
+const CATEGORIES = ['recommended','under25','toprated','new',''];
+
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function pick(arr,n){const s=[...arr].sort(()=>0.5-Math.random());return s.slice(0,n)}
+
+const COLORS = [
+  ['rgba(123,47,190,0.4)','rgba(74,24,128,0.7)'],
+  ['rgba(155,89,208,0.4)','rgba(100,40,160,0.7)'],
+  ['rgba(80,20,150,0.4)','rgba(50,10,100,0.7)'],
+  ['rgba(140,60,200,0.4)','rgba(90,30,140,0.7)'],
+];
+
+// Generate models
+const MODELS = Array.from({length:30},(_,i)=>{
+  const age=rnd(18,45);
+  const cats=[];
+  if(Math.random()>0.5) cats.push('recommended');
+  if(age<25) cats.push('under25');
+  if(Math.random()>0.5) cats.push('toprated');
+  if(Math.random()>0.7) cats.push('new');
+  const svcs=pick(SERVICES,rnd(8,20));
+  const col=COLORS[i%COLORS.length];
+  return{
+    id:i,
+    name:NAMES_F[i%NAMES_F.length]+(i>=NAMES_F.length?` ${i+1}`:''),
+    age,height:rnd(158,180),weight:rnd(48,72),
+    nationality:NATIONALITIES[rnd(0,NATIONALITIES.length-1)],
+    station:STATIONS[rnd(0,STATIONS.length-1)],
+    cats,svcs,
+    rateHour:rnd(3,8)*50,
+    color:col,
+    initials:'',
+    rating:(4+Math.random()).toFixed(1),
+  };
+});
+MODELS.forEach(m=>{m.initials=m.name.charAt(0)});
+
+// =================== CART ===================
+let cart=[];
+function openCart(){document.getElementById('cartPanel').classList.add('open');document.getElementById('cartOverlay').classList.add('show')}
+function closeCart(){document.getElementById('cartPanel').classList.remove('open');document.getElementById('cartOverlay').classList.remove('show')}
+function addToCart(id){
+  const m=MODELS.find(x=>x.id===id);
+  if(!m)return;
+  if(!cart.find(x=>x.id===id)){
+    cart.push({...m,duration:1});
+    renderCart();openCart();
+  }
+}
+function removeFromCart(id){cart=cart.filter(x=>x.id!==id);renderCart()}
+function renderCart(){
+  const badge=document.getElementById('cartBadge');
+  badge.textContent=cart.length;
+  const items=document.getElementById('cartItems');
+  const total=document.getElementById('cartTotal');
+  if(cart.length===0){
+    items.innerHTML='<div class="cart-empty">No companions selected yet.<br>Browse our models to get started.</div>';
+    total.style.display='none';return;
+  }
+  items.innerHTML=cart.map(m=>`
+    <div class="cart-item">
+      <div class="cart-item-avatar" style="background:linear-gradient(135deg,${m.color[0]},${m.color[1]})">${m.initials}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${m.name}</div>
+        <div class="cart-item-detail">£${m.rateHour}/hr · ${m.nationality}</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:4px">
+          <span style="font-size:12px;color:var(--text-muted)">Hours:</span>
+          <select style="background:rgba(123,47,190,0.15);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-size:12px;padding:2px 6px;font-family:Outfit,sans-serif" onchange="setDuration(${m.id},this.value)">
+            ${[1,2,3,4,6,8].map(h=>`<option value="${h}" ${m.duration==h?'selected':''}>${h}h — £${m.rateHour*h}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <button class="cart-item-remove" onclick="removeFromCart(${m.id})">✕</button>
+    </div>
+  `).join('');
+  const sub=cart.reduce((s,x)=>s+x.rateHour*x.duration,0);
+  document.getElementById('subtotalVal').textContent='£'+sub;
+  document.getElementById('totalVal').textContent='£'+sub;
+  total.style.display='block';
+}
+function setDuration(id,dur){const m=cart.find(x=>x.id===id);if(m){m.duration=+dur;renderCart()}}
+
+// =================== MODEL CARD ===================
+function modelCardHTML(m,clickable=true){
+  const catBadges=[];
+  if(m.cats.includes('new')) catBadges.push('<span class="badge badge-new">New</span>');
+  if(m.cats.includes('toprated')) catBadges.push('<span class="badge badge-top">Top Rated</span>');
+  if(m.cats.includes('recommended')) catBadges.push('<span class="badge badge-vip">⭐ VIP</span>');
+  const topSvcs=m.svcs.slice(0,3).map(s=>`<span class="tag-chip">${s}</span>`).join('');
+  return `
+  <div class="model-card" onclick="${clickable?`openModel(${m.id})`:''}">
+    <div class="model-card-img" style="background:linear-gradient(160deg,${m.color[0]} 0%,${m.color[1]} 100%)">
+      <div class="model-photo-placeholder">
+        <svg class="model-silhouette-svg" width="60" height="100" viewBox="0 0 60 100" fill="none">
+          <ellipse cx="30" cy="14" rx="13" ry="13" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+          <path d="M8 100 Q8 58 30 52 Q52 58 52 100" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none"/>
+        </svg>
+        <div style="font-size:2rem;font-weight:700;color:rgba(255,255,255,0.15)">${m.initials}</div>
+      </div>
+      <div class="model-card-badges">${catBadges.join('')}</div>
+      <div class="model-card-overlay">
+        <div class="model-card-name">${m.name}</div>
+        <div class="model-card-meta">${m.age} yrs · ${m.height}cm · ${m.nationality}</div>
+        <div class="model-card-tags">${topSvcs}</div>
+      </div>
+    </div>
+    <div class="model-card-footer">
+      <div class="model-rate">£${m.rateHour}<span>/hr</span></div>
+      <button class="add-to-cart-btn" onclick="event.stopPropagation();addToCart(${m.id})">+ Book</button>
+    </div>
+  </div>`;
+}
+
+// =================== HOME SECTIONS ===================
+function renderHomeRows(){
+  const rec=MODELS.filter(m=>m.cats.includes('recommended')).slice(0,4);
+  const u25=MODELS.filter(m=>m.cats.includes('under25')).slice(0,4);
+  const top=MODELS.filter(m=>m.cats.includes('toprated')).slice(0,4);
+  document.getElementById('recommendedRow').innerHTML=rec.map(m=>modelCardHTML(m)).join('');
+  document.getElementById('under25Row').innerHTML=u25.map(m=>modelCardHTML(m)).join('');
+  document.getElementById('topRatedRow').innerHTML=top.map(m=>modelCardHTML(m)).join('');
+}
+
+// =================== MODELS PAGE ===================
+let filteredModels=[...MODELS];
+let activeCat='all';
+let selectedStations=[];
+let selectedNats=[];
+let selectedSvcs=[];
+let ageRange=[18,60];
+let weightRange=[40,100];
+let heightRange=[150,185];
+
+function initModelsPage(){
+  renderModelsGrid(MODELS);
+  buildStationList();
+  buildNatList();
+  buildSvcList();
+  updateRange('age');updateRange('weight');updateRange('height');
+}
+
+function applyFilters(){
+  let ms=[...MODELS];
+  if(activeCat!=='all') ms=ms.filter(m=>m.cats.includes(activeCat));
+  if(selectedStations.length) ms=ms.filter(m=>selectedStations.includes(m.station));
+  if(selectedNats.length) ms=ms.filter(m=>selectedNats.includes(m.nationality));
+  if(selectedSvcs.length) ms=ms.filter(m=>selectedSvcs.every(s=>m.svcs.includes(s)));
+  ms=ms.filter(m=>m.age>=ageRange[0]&&m.age<=ageRange[1]);
+  ms=ms.filter(m=>m.weight>=weightRange[0]&&m.weight<=weightRange[1]);
+  ms=ms.filter(m=>m.height>=heightRange[0]&&m.height<=heightRange[1]);
+  filteredModels=ms;
+  renderModelsGrid(ms);
+}
+
+function renderModelsGrid(ms){
+  const grid=document.getElementById('modelsGrid');
+  const cnt=document.getElementById('resultsCount');
+  if(!grid)return;
+  grid.innerHTML=ms.map(m=>modelCardHTML(m)).join('');
+  cnt.textContent=`Showing ${ms.length} companion${ms.length===1?'':'s'}`;
+}
+
+function setCat(el,cat){
+  document.querySelectorAll('#catChips .filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');activeCat=cat;applyFilters();
+}
+
+function buildStationList(){
+  const el=document.getElementById('stationList');
+  el.innerHTML=STATIONS.map(s=>`
+    <label class="filter-check">
+      <input type="checkbox" value="${s}" onchange="toggleStation('${s}',this.checked)"> ${s}
+    </label>`).join('');
+}
+function filterStations(q){
+  const els=document.querySelectorAll('#stationList .filter-check');
+  els.forEach(el=>{el.style.display=el.textContent.toLowerCase().includes(q.toLowerCase())?'flex':'none'});
+}
+function toggleStation(s,checked){if(checked)selectedStations.push(s);else selectedStations=selectedStations.filter(x=>x!==s);applyFilters()}
+
+function buildNatList(){
+  const el=document.getElementById('natList');
+  el.innerHTML=NATIONALITIES.map(n=>`
+    <label class="filter-check">
+      <input type="checkbox" value="${n}" onchange="toggleNat('${n}',this.checked)"> ${n}
+    </label>`).join('');
+}
+function filterNat(q){
+  const els=document.querySelectorAll('#natList .filter-check');
+  els.forEach(el=>{el.style.display=el.textContent.toLowerCase().includes(q.toLowerCase())?'flex':'none'});
+}
+function toggleNat(n,checked){if(checked)selectedNats.push(n);else selectedNats=selectedNats.filter(x=>x!==n);applyFilters()}
+
+function buildSvcList(){
+  const el=document.getElementById('svcList');
+  el.innerHTML=SERVICES.map(s=>`
+    <label class="filter-check">
+      <input type="checkbox" value="${s}" onchange="toggleSvc('${s}',this.checked)"> ${s}
+    </label>`).join('');
+}
+function filterSvc(q){
+  const els=document.querySelectorAll('#svcList .filter-check');
+  els.forEach(el=>{el.style.display=el.textContent.toLowerCase().includes(q.toLowerCase())?'flex':'none'});
+}
+function toggleSvc(s,checked){if(checked)selectedSvcs.push(s);else selectedSvcs=selectedSvcs.filter(x=>x!==s);applyFilters()}
+
+function updateRange(type){
+  const min=+document.getElementById(type+'Min').value;
+  const max=+document.getElementById(type+'Max').value;
+  const lo=Math.min(min,max);const hi=Math.max(min,max);
+  if(type==='age'){ageRange=[lo,hi];document.getElementById('ageVals').textContent=lo+' – '+hi}
+  if(type==='weight'){weightRange=[lo,hi];document.getElementById('weightVals').textContent=lo+' – '+hi}
+  if(type==='height'){heightRange=[lo,hi];document.getElementById('heightVals').textContent=lo+' – '+hi}
+  const track=document.getElementById(type+'Track');
+  const fill=document.getElementById(type+'Fill');
+  const [mn,mx]=[{age:[18,60],weight:[40,100],height:[150,185]}[type]];
+  const range=mx-mn;
+  const left=((lo-mn)/range)*100;
+  const right=((hi-mn)/range)*100;
+  fill.style.left=left+'%';fill.style.width=(right-left)+'%';
+  applyFilters();
+}
+
+function sortModels(val){
+  let ms=[...filteredModels];
+  if(val==='price-asc') ms.sort((a,b)=>a.rateHour-b.rateHour);
+  else if(val==='price-desc') ms.sort((a,b)=>b.rateHour-a.rateHour);
+  else if(val==='age-asc') ms.sort((a,b)=>a.age-b.age);
+  else if(val==='name') ms.sort((a,b)=>a.name.localeCompare(b.name));
+  renderModelsGrid(ms);
+}
+
+function clearFilters(){
+  activeCat='all';selectedStations=[];selectedNats=[];selectedSvcs=[];
+  ageRange=[18,60];weightRange=[40,100];heightRange=[150,185];
+  document.querySelectorAll('#catChips .filter-chip').forEach((c,i)=>c.classList.toggle('active',i===0));
+  document.querySelectorAll('.filter-check input').forEach(cb=>cb.checked=false);
+  document.getElementById('ageMin').value=18;document.getElementById('ageMax').value=60;
+  document.getElementById('weightMin').value=40;document.getElementById('weightMax').value=100;
+  document.getElementById('heightMin').value=150;document.getElementById('heightMax').value=185;
+  ['age','weight','height'].forEach(t=>updateRange(t));
+  applyFilters();
+}
+
+// =================== MODEL DETAIL ===================
+function openModel(id){
+  const m=MODELS.find(x=>x.id===id);if(!m)return;
+  const el=document.getElementById('modelDetailContent');
+  el.innerHTML=`
+    <button class="back-btn" onclick="history.back();showPage('models')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Models
+    </button>
+    <div class="model-detail-layout">
+      <div>
+        <div class="model-detail-img" style="background:linear-gradient(160deg,${m.color[0]} 0%,${m.color[1]} 100%)">
+          <div style="font-size:5rem;font-weight:700;color:rgba(255,255,255,0.1)">${m.initials}</div>
+        </div>
+      </div>
+      <div class="model-detail-info">
+        <div>
+          <div class="model-detail-name">${m.name}</div>
+          <div style="color:var(--text-soft);font-size:14px;margin-top:4px">${m.nationality} · ${m.station}</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+            <span style="color:#FFD700">★ ${m.rating}</span>
+            ${m.cats.includes('new')?'<span class="badge badge-new">New</span>':''}
+            ${m.cats.includes('toprated')?'<span class="badge badge-top">Top Rated</span>':''}
+          </div>
+        </div>
+        <div class="model-detail-stats">
+          <div class="stat-box"><div class="stat-label">Age</div><div class="stat-val">${m.age}</div></div>
+          <div class="stat-box"><div class="stat-label">Height</div><div class="stat-val">${m.height}cm</div></div>
+          <div class="stat-box"><div class="stat-label">Weight</div><div class="stat-val">${m.weight}kg</div></div>
+        </div>
+        <div class="model-rates-box">
+          <div style="font-weight:600;margin-bottom:0.7rem;font-size:14px">Rates</div>
+          ${[1,2,3,6].map(h=>`<div class="rates-row"><span>${h} Hour${h>1?'s':''}</span><span class="rate-val">£${m.rateHour*h}</span></div>`).join('')}
+          <div class="rates-row"><span>Overnight (10hrs)</span><span class="rate-val">£${m.rateHour*10}</span></div>
+        </div>
+        <button class="book-now-big" onclick="addToCart(${m.id})">+ Add to Booking</button>
+        <div style="font-size:12px;color:var(--text-muted);text-align:center">
+          Available daily · 10:00 AM – 2:00 AM
+        </div>
+        <div class="model-detail-services">
+          <div class="services-title">Services Offered</div>
+          <div class="services-chips">${m.svcs.map(s=>`<span class="service-chip">${s}</span>`).join('')}</div>
+        </div>
+      </div>
+    </div>`;
+  showPage('model-detail');
+}
+
+// =================== FAQ ===================
+const FAQS=[
+  {q:"What is the difference between incall and outcall?",a:"Incall: This refers to when the client visits the escort at a predetermined location, typically the escort's apartment, a hotel room, or another designated meeting place.\n\nOutcall: This is when the escort travels to meet the client at their chosen location, which could be the client's home, hotel room, or another agreed-upon venue.\n\nBoth options offer different advantages depending on the client's preferences and circumstances. Incalls may provide a more controlled environment for the escort, while outcalls offer more convenience and privacy for the client."},
+  {q:"Do you use real pictures of the escorts?",a:"Absolutely. We maintain high standards for our models when they apply to Velvet London. We verify their pictures before accepting them, ensuring clients are guaranteed to get what they see in our galleries.\n\nFurthermore, these pictures are frequently updated to accurately represent our companions."},
+  {q:"Can I book a model in advance?",a:"Yes, you can book a model in advance! However, please note that bookings can only be made up to one week ahead of the desired date. This ensures the availability and scheduling flexibility of our models.\n\nPlease also be aware that some of our models travel to London for a couple of weeks at a time, so their availability may be limited. We recommend checking our booking calendar regularly for the most up-to-date information.\n\nIf you have any further questions or need assistance with your booking, please don't hesitate to contact our customer service team. We're here to help!"},
+  {q:"How do I make a booking?",a:"Making a booking with Velvet London is simple. You can add companions to your booking basket on our website and submit an enquiry, or contact us directly via WhatsApp or Telegram. Our team will confirm availability and provide all the details you need."},
+  {q:"Is my information kept confidential?",a:"Absolutely. Discretion is our highest priority. We never share client information with third parties and all communication is treated with complete confidentiality. Your privacy is as important to us as it is to you."},
+  {q:"What areas do you cover in London?",a:"Our companions are available across all of London, including Central London, Mayfair, Knightsbridge, Chelsea, Kensington, the City, Canary Wharf, and surrounding areas. Travel outside London may be arranged for an additional fee — please enquire for details."},
+  {q:"What payment methods do you accept?",a:"We accept cash, bank transfers, and select cryptocurrency payments. Payment details will be provided upon confirmation of your booking. Please note that all payments must be made before the appointment begins."},
+  {q:"How quickly can I get a companion?",a:"In many cases we can arrange a companion within 1–2 hours, subject to availability. For the best selection, we recommend booking in advance. Last-minute bookings are accommodated when possible during our operating hours of 10:00 AM to 2:00 AM."},
+  {q:"Are your companions independent or employed by the agency?",a:"Velvet London works with both independent companions and those who choose to work with us exclusively. All companions are adults who have freely chosen this profession and work in a safe, supportive environment with full respect for their boundaries."},
+  {q:"What if I'm not satisfied with the companion I booked?",a:"We take all client concerns seriously. If you have any issue before an appointment begins, please contact us immediately and we will do our best to find an alternative companion that better matches your preferences. Once an appointment has started, we are unable to issue refunds."},
+];
+
+function renderFAQs(ids,containerId){
+  const el=document.getElementById(containerId);
+  if(!el)return;
+  const items=ids.map(i=>FAQS[i]);
+  el.innerHTML=items.map((f,idx)=>`
+    <div class="faq-item" id="faq-${containerId}-${idx}">
+      <div class="faq-q" onclick="toggleFAQ('faq-${containerId}-${idx}')">
+        <span>${f.q}</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">${f.a.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>')}</div></div>
+    </div>`).join('');
+}
+function toggleFAQ(id){
+  const el=document.getElementById(id);
+  const isOpen=el.classList.contains('open');
+  el.classList.toggle('open',!isOpen);
+  const a=el.querySelector('.faq-a');
+  a.style.maxHeight=isOpen?'0':a.scrollHeight+'px';
+}
+
+// =================== NAV SEARCH ===================
+function handleNavSearch(q){
+  const dd=document.getElementById('searchDropdown');
+  if(!q.trim()){dd.innerHTML='';dd.classList.remove('show');return}
+  const res=MODELS.filter(m=>m.name.toLowerCase().includes(q.toLowerCase())).slice(0,6);
+  if(!res.length){dd.innerHTML='<div class="search-result-item" style="color:var(--text-muted)">No results found</div>';dd.classList.add('show');return}
+  dd.innerHTML=res.map(m=>`
+    <div class="search-result-item" onclick="openModel(${m.id})">
+      <div class="avatar" style="background:linear-gradient(135deg,${m.color[0]},${m.color[1]})">${m.initials}</div>
+      <div>
+        <div style="font-weight:500;font-size:13px">${m.name}</div>
+        <div style="font-size:11px;color:var(--text-muted)">${m.nationality} · £${m.rateHour}/hr</div>
+      </div>
+    </div>`).join('');
+  dd.classList.add('show');
+}
+function showSearchDrop(){if(document.getElementById('navSearchInput').value) document.getElementById('searchDropdown').classList.add('show')}
+function hideSearchDrop(){document.getElementById('searchDropdown').classList.remove('show')}
+
+// =================== PAGE ROUTING ===================
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  window.scrollTo(0,0);
+  if(name==='models') initModelsPage();
+}
+
+// =================== BECOME A MODEL ===================
+function showBecome(){
+  alert('Thank you for your interest!\n\nPlease contact us via WhatsApp or Telegram with your photos and details. Our team will review your application within 24 hours.');
+}
+
+// =================== INIT ===================
+renderHomeRows();
+renderFAQs([0,1,2],'faqHome');
+renderFAQs(FAQS.map((_,i)=>i),'faqAll');
+
+// Init range fills on page load
+setTimeout(()=>{
+  ['age','weight','height'].forEach(t=>{
+    const fill=document.getElementById(t+'Fill');
+    if(fill){fill.style.left='0%';fill.style.width='100%'}
+  });
+},100);
+</script>
+</body>
+</html>
