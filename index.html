@@ -192,25 +192,7 @@ nav{
   display:flex;align-items:center;
   border-radius:0 0 100px 100px;
   margin-top:62px;
-}
-.hero-glow{
-  position:relative;
-  height:0;
-  overflow:visible;
-  pointer-events:none;
-  z-index:1;
-}
-.hero-glow::before{
-  content:'';
-  position:absolute;
-  left:-5%;
-  right:-5%;
-  top:0;
-  height:70px;
-  background:
-    linear-gradient(to bottom,rgba(123,47,190,0.55) 0%,transparent 100%),
-    radial-gradient(ellipse 110% 100% at 50% 0%,rgba(123,47,190,0.5) 0%,transparent 100%);
-  pointer-events:none;
+  box-shadow:0 30px 80px rgba(123,47,190,0.7),0 10px 30px rgba(123,47,190,0.45);
 }
 /* PC background image */
 .hero-bg{
@@ -839,7 +821,6 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
     </div>
   </div>
 
-  <div class="hero-glow"></div>
 
   <!-- RECOMMENDED -->
   <div class="section">
