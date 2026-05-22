@@ -192,25 +192,7 @@ nav{
   display:flex;align-items:center;
   border-radius:0 0 100px 100px;
   margin-top:62px;
-}
-.hero-glow{
-  position:relative;
-  height:0;
-  overflow:visible;
-  pointer-events:none;
-  z-index:1;
-}
-.hero-glow::before{
-  content:'';
-  position:absolute;
-  left:-5%;
-  right:-5%;
-  top:0;
-  height:70px;
-  background:
-    linear-gradient(to bottom,rgba(123,47,190,0.55) 0%,transparent 100%),
-    radial-gradient(ellipse 110% 100% at 50% 0%,rgba(123,47,190,0.5) 0%,transparent 100%);
-  pointer-events:none;
+  box-shadow:0 0 80px rgba(123,47,190,0.65),0 0 160px rgba(123,47,190,0.28);
 }
 /* PC background image */
 .hero-bg{
@@ -299,7 +281,8 @@ nav{
   .hero-content h1{font-size:clamp(1.9rem,7vw,2.8rem);text-align:center}
   .hero-badge,.hero-sub,.hero-hours{align-self:center;text-align:center}
   .hero-sub{text-align:center}
-  .hero-btns{justify-content:center}
+  .hero-btns{justify-content:center;gap:0.5rem}
+  .hero-btns .btn-wa,.hero-btns .btn-tg,.hero-btns .btn-model-cta{padding:0.42rem 0.9rem;font-size:13px}
 }
 .btn-wa{
   display:flex;align-items:center;gap:8px;
@@ -626,6 +609,49 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
   background:rgba(123,47,190,0.15);border:1px solid rgba(176,127,222,0.2);
   color:var(--purple3);font-size:11px;
 }
+/* ===== REAL MODEL GALLERY ===== */
+.detail-gallery{position:relative;border-radius:var(--r-sm);overflow:hidden;width:100%;height:min(75vh,620px);background:#0d0818;user-select:none}
+.gallery-track{display:flex;height:100%;transition:transform 0.4s cubic-bezier(.4,0,.2,1)}
+.gallery-slide{flex:0 0 100%;width:100%;height:100%;object-fit:cover;object-position:top center}
+.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.45);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.12);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;transition:background 0.2s;font-size:20px;line-height:1;padding:0}
+.gallery-arrow:hover{background:rgba(123,47,190,0.65)}
+.gallery-arrow.prev{left:10px}
+.gallery-arrow.next{right:10px}
+.gallery-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:3}
+.gallery-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.35);cursor:pointer;transition:all 0.2s}
+.gallery-dot.active{background:#fff;width:14px;border-radius:3px}
+.gallery-counter{position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.45);backdrop-filter:blur(8px);border-radius:20px;padding:3px 10px;font-size:11px;color:rgba(255,255,255,0.75);z-index:3}
+/* Extended stats */
+.stat-grid-ext{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem}
+/* Pricing */
+.price-calc{border-radius:var(--r-sm);background:var(--glass);border:1px solid var(--glass-border);padding:1.25rem}
+.price-calc-title{font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:0.9rem;font-weight:700}
+.price-type-row{display:flex;gap:6px;margin-bottom:1rem}
+.price-type-btn{flex:1;padding:0.55rem;border-radius:var(--r-xs);background:rgba(123,47,190,0.08);border:1px solid var(--glass-border);color:var(--text-soft);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;text-align:center}
+.price-type-btn.active{background:rgba(123,47,190,0.3);border-color:var(--purple3);color:#fff}
+.duration-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem}
+.duration-btn{padding:0.3rem 0.75rem;border-radius:var(--r-xs);background:rgba(123,47,190,0.08);border:1px solid var(--glass-border);color:var(--text-soft);font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.duration-btn.active{background:rgba(123,47,190,0.28);border-color:var(--purple3);color:#fff}
+.price-display-row{display:flex;align-items:flex-end;gap:6px;margin:0.5rem 0 2px}
+.price-main{font-size:2.6rem;font-weight:700;line-height:1;letter-spacing:-0.03em}
+.price-sub{font-size:12px;color:var(--text-muted);margin-bottom:0.5rem}
+.price-total-bar{display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0 0;border-top:1px solid rgba(176,127,222,0.12);margin-top:0.4rem}
+.price-total-label{font-size:12px;color:var(--text-muted)}
+.price-total-val{font-size:1.15rem;font-weight:700;color:var(--purple3)}
+/* Extra services */
+.extra-svc-list{display:flex;flex-direction:column}
+.extra-svc-row{display:flex;align-items:center;justify-content:space-between;padding:0.45rem 0;border-bottom:1px solid rgba(176,127,222,0.07);cursor:pointer;transition:opacity 0.15s}
+.extra-svc-row:last-child{border-bottom:none}
+.extra-svc-row:hover{opacity:0.75}
+.extra-svc-left{display:flex;align-items:center;gap:9px}
+.extra-svc-chk{width:16px;height:16px;border-radius:3px;border:1px solid rgba(176,127,222,0.35);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.18s;color:transparent;font-size:10px}
+.extra-svc-chk.on{background:var(--purple);border-color:var(--purple);color:#fff}
+.extra-svc-name{font-size:13px;color:var(--text-soft)}
+.extra-svc-price{font-size:13px;font-weight:600;color:var(--purple3)}
+/* Bio */
+.model-bio{border-radius:var(--r-sm);background:var(--glass);border:1px solid var(--glass-border);padding:1.1rem}
+.model-bio p{font-size:13.5px;line-height:1.75;color:var(--text-soft);margin:0}
+.model-bio p+p{margin-top:0.75rem}
 .book-now-big{
   width:100%;padding:0.9rem;border:none;border-radius:var(--r);
   background:linear-gradient(135deg,var(--purple),var(--purple-dark));
@@ -724,9 +750,14 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
 .rates-fields.active{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
 .services-chk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
 
-.svc-check{display:flex;align-items:center;gap:7px;padding:0.3rem 0.4rem;font-size:13px;color:var(--text-soft);cursor:pointer;transition:color 0.2s;border-radius:6px}
-.svc-check:hover{color:var(--text);background:rgba(123,47,190,0.08)}
-.svc-check input{accent-color:var(--purple);flex-shrink:0}
+.svc-check{display:flex;align-items:center;gap:5px;padding:0.3rem 0.4rem;border-radius:6px;transition:background 0.2s}
+.svc-check:hover{background:rgba(123,47,190,0.08)}
+.svc-check label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-soft);cursor:pointer;flex:1;min-width:0}
+.svc-check label input{accent-color:var(--purple);flex-shrink:0}
+.svc-extra-btn{padding:1px 7px;border-radius:4px;background:rgba(123,47,190,0.1);border:1px solid rgba(176,127,222,0.2);color:var(--text-muted);font-size:10px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;flex-shrink:0;line-height:1.7}
+.svc-extra-btn.active{background:rgba(255,180,50,0.18);border-color:rgba(255,180,50,0.55);color:#FFB432}
+.svc-extra-price{display:none;width:52px;padding:2px 6px;border-radius:4px;background:rgba(0,0,0,0.3);border:1px solid rgba(176,127,222,0.3);color:var(--text);font-size:12px;font-family:'Outfit',sans-serif}
+.svc-extra-price.show{display:block}
 .photo-upload-area{border:2px dashed var(--glass-border);border-radius:var(--r-sm);padding:2rem;text-align:center;cursor:pointer;transition:border-color 0.2s}
 .photo-upload-area:hover{border-color:var(--purple3)}
 .photo-upload-area input[type=file]{display:none}
@@ -746,21 +777,36 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
 .form-success .check-icon{font-size:3rem;display:block;margin-bottom:1rem;color:#A0E080}
 
 /* RESPONSIVE NAV */
+.nav-search-cancel{display:none}
+.mobile-filter-toggle{display:none;width:100%;padding:0.75rem 1rem;background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:var(--r-sm);color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;align-items:center;justify-content:space-between;gap:8px;transition:all 0.2s}
+.mobile-filter-toggle.active{background:rgba(123,47,190,0.2);border-color:rgba(176,127,222,0.4);color:var(--purple3)}
 @media(max-width:768px){
   nav{padding:0.75rem 1rem}
   .nav-search{max-width:160px}
+  .nav-search input{font-size:16px}
   .nav-badge{display:none}
+  nav.search-mode .nav-search{max-width:none;flex:1}
+  nav.search-mode .nav-cart,nav.search-mode .nav-btn{display:none!important}
+  nav.search-mode .nav-search-cancel{display:flex;align-items:center;padding:0.3rem 0.5rem;background:none;border:none;color:var(--purple3);font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;flex-shrink:0;white-space:nowrap}
   .models-layout{grid-template-columns:1fr}
-  .filters-sidebar{position:static}
+  .mobile-filter-toggle{display:flex;grid-column:1/-1}
+  .filters-sidebar{position:static;display:none;grid-column:1/-1}
+  .filters-sidebar.open{display:block}
   .models-row{grid-template-columns:repeat(2,1fr)}
   .model-detail-layout{grid-template-columns:1fr}
   .hero h1{font-size:2rem}
   .hero-btns{flex-wrap:wrap}
-  .footer-inner{flex-direction:column;align-items:flex-start}
-  .footer-btns{flex-wrap:wrap}
+  .hero-btns .btn-wa,.hero-btns .btn-tg{justify-content:center}
+  .hero-btns .btn-model-cta{justify-content:center}
+  .footer-inner{flex-direction:column;align-items:center;text-align:center}
+  .footer-btns{flex-wrap:wrap;justify-content:center}
   .form-grid-2,.form-grid-3{grid-template-columns:1fr}
   .services-chk-grid{grid-template-columns:repeat(2,1fr)}
   .rates-fields.active{grid-template-columns:1fr}
+  .partners-section{text-align:center}
+  .partners-row{justify-content:center}
+  .stat-grid-ext{grid-template-columns:repeat(3,1fr)}
+  .detail-gallery{height:min(65vw,480px)}
 }
 </style>
 </head>
@@ -798,9 +844,10 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
   <div class="nav-logo">VELVET</div>
   <div class="nav-search" id="navSearch">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" placeholder="Search models…" id="navSearchInput" oninput="handleNavSearch(this.value)" onfocus="showSearchDrop()" onblur="setTimeout(hideSearchDrop,200)">
+    <input type="text" placeholder="Search models…" id="navSearchInput" oninput="handleNavSearch(this.value)" onfocus="navSearchFocus()" onblur="navSearchBlur()">
     <div class="search-dropdown" id="searchDropdown"></div>
   </div>
+  <button class="nav-search-cancel" id="navSearchCancel" onclick="cancelNavSearch()">Cancel</button>
   <div class="nav-cart glass" onclick="openCart()" style="cursor:pointer;padding:0.45rem 0.9rem;border-radius:var(--r);display:flex;align-items:center;gap:6px;font-size:13px;transition:all 0.25s;white-space:nowrap;color:var(--text);">
     Booking
     <div class="cart-badge" id="cartBadge">0</div>
@@ -823,13 +870,13 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
       <h1>Elite companions for <span>discerning</span> gentlemen</h1>
       <p class="hero-sub">Velvet London offers exclusive social companionship for private, business, and leisure occasions — always discreet, always refined.</p>
       <div class="hero-btns">
-        <a href="https://wa.me/447700000000" class="btn-wa" target="_blank">
+        <a href="https://wa.me/447450842231?text=Hello%20Velvet%20Agency%20%F0%9F%91%8B%F0%9F%8F%BC" class="btn-wa" target="_blank">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Text us on WhatsApp
+          WhatsApp
         </a>
-        <a href="https://t.me/velvetlondon" class="btn-tg" target="_blank">
+        <a href="https://t.me/velvetescortlondon?text=Hello%20Velvet%20Agency%20%F0%9F%91%8B%F0%9F%8F%BC" class="btn-tg" target="_blank">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-          Text us on Telegram
+          Telegram
         </a>
         <a href="#" class="btn-model-cta" onclick="showPage('become');return false;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -839,7 +886,6 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
     </div>
   </div>
 
-  <div class="hero-glow"></div>
 
   <!-- RECOMMENDED -->
   <div class="section">
@@ -882,9 +928,9 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
   <div class="partners-section">
     <div class="partners-title">Our Partners</div>
     <div class="partners-row">
-      <div class="partner-banner" onclick="window.open('https://www.eurogirlsescort.com','_blank')">
-        <img src="EuroEscortGirls.png" alt="EuroGirlsEscort" onerror="this.parentElement.innerHTML='<div style=\'padding:0.75rem 1.5rem;font-size:13px;color:var(--purple3);font-weight:600\'>EuroGirlsEscort.com</div>'">
-      </div>
+      <a class="partner-banner" href="https://www.eurogirlsescort.com" target="_blank" rel="noopener noreferrer">
+        <img src="images/EuroEscortGirls.png" alt="EuroGirlsEscort.com">
+      </a>
     </div>
   </div>
 
@@ -902,8 +948,13 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
       <p style="color:var(--text-soft)">Browse and filter our exclusive roster of London companions</p>
     </div>
     <div class="models-layout">
+      <!-- MOBILE FILTER TOGGLE -->
+      <button class="mobile-filter-toggle" id="filterToggle" onclick="toggleMobileFilters()">
+        <span style="display:flex;align-items:center;gap:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Choose Filters</span>
+        <svg id="filterToggleChevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
       <!-- SIDEBAR -->
-      <div class="filters-sidebar">
+      <div class="filters-sidebar" id="filtersSidebar">
         <div style="font-size:1rem;font-weight:700;margin-bottom:1.2rem">Filters</div>
 
         <!-- Category -->
@@ -1163,11 +1214,11 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
       <p><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a> · <a href="#">Discretion Policy</a></p>
     </div>
     <div class="footer-btns">
-      <a href="https://wa.me/447700000000" class="btn-wa" target="_blank" style="font-size:13px;padding:0.5rem 1.1rem">
+      <a href="https://wa.me/447450842231?text=Hello%20Velvet%20Agency%20%F0%9F%91%8B%F0%9F%8F%BC" class="btn-wa" target="_blank" style="font-size:13px;padding:0.5rem 1.1rem">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         WhatsApp
       </a>
-      <a href="https://t.me/velvetlondon" class="btn-tg" target="_blank" style="font-size:13px;padding:0.5rem 1.1rem">
+      <a href="https://t.me/velvetescortlondon?text=Hello%20Velvet%20Agency%20%F0%9F%91%8B%F0%9F%8F%BC" class="btn-tg" target="_blank" style="font-size:13px;padding:0.5rem 1.1rem">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
         Telegram
       </a>
@@ -1245,6 +1296,51 @@ const MODELS = Array.from({length:30},(_,i)=>{
 });
 MODELS.forEach(m=>{m.initials=m.name.charAt(0)});
 
+// =================== REAL MODELS ===================
+const MILKYWAY_DATA = {
+  id:9999, real:true, folder:'MILKYWAY',
+  name:'Milkyway', age:23, height:166, weight:54,
+  nationality:'Brazilian', station:'South Kensington',
+  rating:'5.0', rateHour:350,
+  color:['rgba(160,80,30,0.4)','rgba(100,45,15,0.7)'],
+  initials:'MW',
+  cats:['recommended','toprated','under25','new'],
+  breastSize:'32B', breastType:'Natural', clothingSize:'S',
+  eyeColor:'Brown', hairColor:'Brunette', orientation:'Heterosexual',
+  languages:'English (Basic) · Portuguese (Fluent)',
+  svcs:['69','Blowjob With Condom','Cum On Body','Deep Throat','Face Sitting','MMF For Double Price','Group For Extra','Massage','Striptease','Lap Dancing','Toys','Light Domination','Soft Spanking Receiving','Spanking Giving'],
+  extraSvcs:[
+    {name:'Blowjob Without Condom',price:40},
+    {name:'Cum On Face',price:50},
+    {name:'Peeing On Client',price:60},
+    {name:'Rimming Gives',price:80},
+    {name:'Strapon',price:100},
+    {name:'Cum In Mouth',price:80},
+    {name:'Prostate Massage',price:40},
+    {name:'Filming Without Mask',price:200},
+  ],
+  incallRates:[
+    {label:'30 min',price:300},
+    {label:'45 min',price:350},
+    {label:'1 hour',price:350},
+    {label:'Extra 30 min',price:150},
+    {label:'Extra 1 hour',price:300},
+    {label:'Overnight',price:2700},
+  ],
+  outcallRates:[
+    {label:'1 hour',price:400},
+    {label:'Extra 30 min',price:150},
+    {label:'Extra 1 hour',price:300},
+    {label:'Overnight',price:2700},
+  ],
+  description:[
+    'Milkyway is a captivating Brazilian companion based in London, known for her natural warmth, effortless elegance, and an innate ability to make every encounter feel genuinely special. With striking brunette hair, expressive brown eyes, and a naturally beautiful figure, she is as visually captivating as she is engaging in conversation.',
+    'Whether you are looking for a refined companion for a private dinner, a social event, or an intimate experience, Milkyway brings attentiveness and genuine care to every meeting. Her easygoing nature and exotic charm make every moment feel relaxed, personal, and memorable.',
+    'Fluent in Portuguese and conversational in English, she welcomes gentlemen from all backgrounds with warmth and discretion. All appointments are arranged with complete respect for your privacy. Available daily across London for both incall and outcall bookings.',
+  ],
+};
+MODELS.unshift(MILKYWAY_DATA);
+
 // =================== CART ===================
 let cart=[];
 function openCart(){document.getElementById('cartPanel').classList.add('open');document.getElementById('cartOverlay').classList.add('show')}
@@ -1299,14 +1395,15 @@ function modelCardHTML(m,clickable=true){
   const topSvcs=m.svcs.slice(0,3).map(s=>`<span class="tag-chip">${s}</span>`).join('');
   return `
   <div class="model-card" onclick="${clickable?`openModel(${m.id})`:''}">
-    <div class="model-card-img" style="background:linear-gradient(160deg,${m.color[0]} 0%,${m.color[1]} 100%)">
-      <div class="model-photo-placeholder">
+    <div class="model-card-img" style="${m.real?`background:url('${m.folder}/1.webp') top center/cover no-repeat`:`background:linear-gradient(160deg,${m.color[0]} 0%,${m.color[1]} 100%)`}">
+      ${!m.real?`<div class="model-photo-placeholder">
         <svg class="model-silhouette-svg" width="60" height="100" viewBox="0 0 60 100" fill="none">
           <ellipse cx="30" cy="14" rx="13" ry="13" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
           <path d="M8 100 Q8 58 30 52 Q52 58 52 100" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none"/>
         </svg>
         <div style="font-size:2rem;font-weight:700;color:rgba(255,255,255,0.15)">${m.initials}</div>
-      </div>
+      </div>`:''}
+
       <div class="model-card-badges">${catBadges.join('')}</div>
       <div class="model-card-overlay">
         <div class="model-card-name">${m.name}</div>
@@ -1360,6 +1457,10 @@ function applyFilters(){
   ms=ms.filter(m=>m.height>=heightRange[0]&&m.height<=heightRange[1]);
   filteredModels=ms;
   renderModelsGrid(ms);
+  if(window.innerWidth<=768){
+    const grid=document.getElementById('modelsGrid');
+    if(grid) setTimeout(()=>grid.scrollIntoView({behavior:'smooth',block:'start'}),100);
+  }
 }
 
 function renderModelsGrid(ms){
@@ -1452,9 +1553,193 @@ function clearFilters(){
   applyFilters();
 }
 
+// =================== REAL MODEL DETAIL ===================
+let _gallery={photos:[],current:0};
+let _pricing={type:'incall',durationIdx:0,extras:new Set(),model:null};
+
+function probeModelPhotos(folder,cb){
+  const found=[];let done=0;const max=20;
+  for(let i=1;i<=max;i++){
+    const img=new Image();const idx=i;
+    img.onload=()=>{found.push({idx,src:img.src});finish()};
+    img.onerror=finish;
+    img.src=`${folder}/${idx}.webp`;
+  }
+  function finish(){if(++done===max)cb(found.sort((a,b)=>a.idx-b.idx).map(x=>x.src))}
+}
+
+function _galleryMove(){
+  const track=document.getElementById('gallery-track');
+  if(!track)return;
+  const w=track.parentElement.offsetWidth;
+  track.style.transform=`translateX(-${_gallery.current*w}px)`;
+  document.querySelectorAll('.gallery-dot').forEach((d,i)=>d.classList.toggle('active',i===_gallery.current));
+  const ctr=document.getElementById('gallery-counter');
+  if(ctr)ctr.textContent=`${_gallery.current+1} / ${_gallery.photos.length}`;
+}
+
+function galleryGo(dir){
+  const n=_gallery.photos.length;if(!n)return;
+  _gallery.current=(_gallery.current+dir+n)%n;
+  _galleryMove();
+}
+
+function galleryGoTo(idx){
+  _gallery.current=idx;
+  _galleryMove();
+}
+
+function selectPriceType(type){
+  _pricing.type=type;_pricing.durationIdx=0;_pricing.extras=new Set();
+  document.querySelectorAll('.price-type-btn').forEach(b=>b.classList.toggle('active',b.dataset.type===type));
+  const rates=type==='incall'?_pricing.model.incallRates:_pricing.model.outcallRates;
+  const dur=document.getElementById('duration-btns');
+  if(dur)dur.innerHTML=rates.map((r,i)=>`<button class="duration-btn${i===0?' active':''}" onclick="selectDuration(${i})">${r.label}</button>`).join('');
+  document.querySelectorAll('.extra-svc-chk').forEach(c=>c.classList.remove('on'));
+  refreshPriceDisplay();
+}
+
+function selectDuration(idx){
+  _pricing.durationIdx=idx;
+  document.querySelectorAll('.duration-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  refreshPriceDisplay();
+}
+
+function toggleExtraSvc(idx){
+  if(_pricing.extras.has(idx))_pricing.extras.delete(idx);
+  else _pricing.extras.add(idx);
+  const rows=document.querySelectorAll('.extra-svc-row');
+  if(rows[idx])rows[idx].querySelector('.extra-svc-chk').classList.toggle('on',_pricing.extras.has(idx));
+  refreshPriceDisplay();
+}
+
+function refreshPriceDisplay(){
+  const m=_pricing.model;if(!m)return;
+  const rates=_pricing.type==='incall'?m.incallRates:m.outcallRates;
+  const rate=rates[_pricing.durationIdx]||rates[0];
+  let extras=0;_pricing.extras.forEach(i=>extras+=m.extraSvcs[i].price);
+  const total=rate.price+extras;
+  const pEl=document.getElementById('price-main');
+  const sEl=document.getElementById('price-sub');
+  const tEl=document.getElementById('price-total-val');
+  if(pEl)pEl.textContent=`£${total}`;
+  if(sEl)sEl.textContent=`${rate.label} · ${_pricing.type==='incall'?'Incall':'Outcall'}${extras?` + £${extras} extras`:''}`;
+  if(tEl)tEl.textContent=`£${total}`;
+}
+
+function buildRealModelHTML(m){
+  const initRate=m.incallRates[0];
+  const stats=[
+    ['Age',m.age],['Height',`${m.height}cm`],['Weight',`${m.weight}kg`],['Clothing',m.clothingSize],
+    ['Breast',m.breastSize],['Type',m.breastType],['Eyes',m.eyeColor],['Hair',m.hairColor],
+  ];
+  return `
+    <button class="back-btn" onclick="showPage('models')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Models
+    </button>
+    <div class="model-detail-layout">
+      <div>
+        <div class="detail-gallery">
+          <div class="gallery-track" id="gallery-track">
+            <img class="gallery-slide" src="${m.folder}/1.webp" alt="${m.name}">
+          </div>
+          <button class="gallery-arrow prev" onclick="galleryGo(-1)">&#8249;</button>
+          <button class="gallery-arrow next" onclick="galleryGo(1)">&#8250;</button>
+          <div class="gallery-dots" id="gallery-dots"><span class="gallery-dot active"></span></div>
+          <div class="gallery-counter" id="gallery-counter">1 / 1</div>
+        </div>
+        <div class="model-bio">
+          ${m.description.map(p=>`<p>${p}</p>`).join('')}
+        </div>
+      </div>
+      <div class="model-detail-info">
+        <div>
+          <div class="model-detail-name">${m.name}</div>
+          <div style="color:var(--text-soft);font-size:14px;margin-top:4px">${m.nationality} · ${m.station}</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <span style="color:#FFD700;font-size:14px">★ ${m.rating}</span>
+            ${m.cats.includes('toprated')?'<span class="badge badge-top">Top Rated</span>':''}
+            ${m.cats.includes('new')?'<span class="badge badge-new">New</span>':''}
+          </div>
+        </div>
+        <div class="stat-grid-ext">
+          ${stats.map(([l,v])=>`<div class="stat-box"><div class="stat-label">${l}</div><div class="stat-val" style="font-size:0.82rem">${v}</div></div>`).join('')}
+        </div>
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:13px">
+          <span style="color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:0.08em">Languages:</span>
+          ${m.languages.split(' · ').map(l=>`<span class="service-chip">${l}</span>`).join('')}
+        </div>
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:13px">
+          <span style="color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:0.08em">Orientation:</span>
+          <span class="service-chip">${m.orientation}</span>
+        </div>
+        <div class="price-calc">
+          <div class="price-calc-title">Book a Session</div>
+          <div class="price-type-row">
+            <button class="price-type-btn active" data-type="incall" onclick="selectPriceType('incall')">Incall</button>
+            <button class="price-type-btn" data-type="outcall" onclick="selectPriceType('outcall')">Outcall <span style="font-size:10px;opacity:0.6">min 1hr</span></button>
+          </div>
+          <div class="duration-row" id="duration-btns">
+            ${m.incallRates.map((r,i)=>`<button class="duration-btn${i===0?' active':''}" onclick="selectDuration(${i})">${r.label}</button>`).join('')}
+          </div>
+          <div class="price-display-row">
+            <div id="price-main" class="price-main">£${initRate.price}</div>
+          </div>
+          <div id="price-sub" class="price-sub">${initRate.label} · Incall</div>
+          <div class="price-total-bar">
+            <span class="price-total-label">Total</span>
+            <span class="price-total-val" id="price-total-val">£${initRate.price}</span>
+          </div>
+        </div>
+        <a href="https://wa.me/447450842231?text=Hello%20Velvet%20Agency%20%F0%9F%91%8B%F0%9F%8F%BC%20I%20would%20like%20to%20book%20Milkyway" target="_blank" class="book-now-big" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Book Milkyway via WhatsApp
+        </a>
+        <div class="model-detail-services">
+          <div class="services-title">Services Offered</div>
+          <div class="services-chips">${m.svcs.map(s=>`<span class="service-chip">${s}</span>`).join('')}</div>
+        </div>
+        <div class="model-detail-services">
+          <div class="services-title">Extra Services</div>
+          <div class="extra-svc-list">
+            ${m.extraSvcs.map((s,i)=>`
+            <div class="extra-svc-row" onclick="toggleExtraSvc(${i})">
+              <div class="extra-svc-left">
+                <div class="extra-svc-chk">✓</div>
+                <span class="extra-svc-name">${s.name}</span>
+              </div>
+              <span class="extra-svc-price">+£${s.price}</span>
+            </div>`).join('')}
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);text-align:center">${m.nationality} · ${m.orientation} · Available daily 10:00 AM – 2:00 AM</div>
+      </div>
+    </div>`;
+}
+
+function openRealModel(m){
+  _pricing={type:'incall',durationIdx:0,extras:new Set(),model:m};
+  _gallery={photos:[],current:0};
+  document.getElementById('modelDetailContent').innerHTML=buildRealModelHTML(m);
+  showPage('model-detail');
+  probeModelPhotos(m.folder,photos=>{
+    _gallery.photos=photos;
+    const track=document.getElementById('gallery-track');
+    if(!track)return;
+    track.innerHTML=photos.map(src=>`<img class="gallery-slide" src="${src}" alt="${m.name}">`).join('');
+    const dotsEl=document.getElementById('gallery-dots');
+    if(dotsEl)dotsEl.innerHTML=photos.map((_,i)=>`<span class="gallery-dot${i===0?' active':''}" onclick="galleryGoTo(${i})"></span>`).join('');
+    const ctr=document.getElementById('gallery-counter');
+    if(ctr)ctr.textContent=`1 / ${photos.length}`;
+    if(photos.length<=1)document.querySelectorAll('.gallery-arrow').forEach(a=>a.style.display='none');
+  });
+}
+
 // =================== MODEL DETAIL ===================
 function openModel(id){
   const m=MODELS.find(x=>x.id===id);if(!m)return;
+  if(m.real){openRealModel(m);return;}
   const el=document.getElementById('modelDetailContent');
   el.innerHTML=`
     <button class="back-btn" onclick="history.back();showPage('models')">
@@ -1502,16 +1787,23 @@ function openModel(id){
 
 // =================== FAQ ===================
 const FAQS=[
-  {q:"What is the difference between incall and outcall?",a:"Incall: This refers to when the client visits the escort at a predetermined location, typically the escort's apartment, a hotel room, or another designated meeting place.\n\nOutcall: This is when the escort travels to meet the client at their chosen location, which could be the client's home, hotel room, or another agreed-upon venue.\n\nBoth options offer different advantages depending on the client's preferences and circumstances. Incalls may provide a more controlled environment for the escort, while outcalls offer more convenience and privacy for the client."},
-  {q:"Do you use real pictures of the escorts?",a:"Absolutely. We maintain high standards for our models when they apply to Velvet London. We verify their pictures before accepting them, ensuring clients are guaranteed to get what they see in our galleries.\n\nFurthermore, these pictures are frequently updated to accurately represent our companions."},
-  {q:"Can I book a model in advance?",a:"Yes, you can book a model in advance! However, please note that bookings can only be made up to one week ahead of the desired date. This ensures the availability and scheduling flexibility of our models.\n\nPlease also be aware that some of our models travel to London for a couple of weeks at a time, so their availability may be limited. We recommend checking our booking calendar regularly for the most up-to-date information.\n\nIf you have any further questions or need assistance with your booking, please don't hesitate to contact our customer service team. We're here to help!"},
-  {q:"How do I make a booking?",a:"Making a booking with Velvet London is simple. You can add companions to your booking basket on our website and submit an enquiry, or contact us directly via WhatsApp or Telegram. Our team will confirm availability and provide all the details you need."},
-  {q:"Is my information kept confidential?",a:"Absolutely. Discretion is our highest priority. We never share client information with third parties and all communication is treated with complete confidentiality. Your privacy is as important to us as it is to you."},
-  {q:"What areas do you cover in London?",a:"Our companions are available across all of London, including Central London, Mayfair, Knightsbridge, Chelsea, Kensington, the City, Canary Wharf, and surrounding areas. Travel outside London may be arranged for an additional fee — please enquire for details."},
-  {q:"What payment methods do you accept?",a:"We accept cash, bank transfers, and select cryptocurrency payments. Payment details will be provided upon confirmation of your booking. Please note that all payments must be made before the appointment begins."},
-  {q:"How quickly can I get a companion?",a:"In many cases we can arrange a companion within 1–2 hours, subject to availability. For the best selection, we recommend booking in advance. Last-minute bookings are accommodated when possible during our operating hours of 10:00 AM to 2:00 AM."},
-  {q:"Are your companions independent or employed by the agency?",a:"Velvet London works with both independent companions and those who choose to work with us exclusively. All companions are adults who have freely chosen this profession and work in a safe, supportive environment with full respect for their boundaries."},
-  {q:"What if I'm not satisfied with the companion I booked?",a:"We take all client concerns seriously. If you have any issue before an appointment begins, please contact us immediately and we will do our best to find an alternative companion that better matches your preferences. Once an appointment has started, we are unable to issue refunds."},
+  {q:"What is the difference between incall and outcall?",a:"Incall is when you visit the companion at her location — typically her own apartment, a hotel room, or another arranged venue. Outcall is when she travels to meet you at a location of your choosing, whether that's your home, hotel, or elsewhere.\n\nBoth arrangements have their own appeal. Incalls offer a prepared, comfortable setting chosen by the companion, while outcalls give you the convenience and privacy of your own space."},
+  {q:"Do you use real, verified photos of the companions?",a:"Yes, always. Every companion on Velvet London is verified before joining our roster. We review their photos personally to ensure what you see in the gallery is an accurate representation of who will arrive.\n\nPhotos are refreshed regularly so you always have a current, honest look at each companion."},
+  {q:"Can I book a companion in advance?",a:"Absolutely. Advance bookings are welcome, though we recommend booking no more than one week ahead to ensure accurate availability. Some of our companions visit London for limited periods, so earlier enquiries are always a good idea.\n\nIf you need help planning a booking, our team is happy to assist — just reach out via WhatsApp or Telegram."},
+  {q:"Can I book someone for right now?",a:"Yes, in many cases you can. If a companion is available at the time of your request, we can arrange a same-day appointment.\n\nWe work with a real-time availability system — simply tell us who you're interested in and your preferred time, and we'll confirm whether she's free. If not, we can suggest alternatives who are available immediately."},
+  {q:"How do I make a booking?",a:"Online: Browse our models page, add companions to your enquiry basket, and submit your request through the site.\n\nTelegram: Message us directly and describe your preferences. We'll suggest companions that fit and handle everything from there — our Telegram contact keeps you updated at every step."},
+  {q:"How can I pay for a booking?",a:"Cash: Paid directly to the companion upon arrival. We accept any major currency.\n\nBank Transfer: We support instant peer-to-peer transfers via platforms such as Revolut, making it quick and seamless.\n\nCrypto: We also accept cryptocurrency — USDT, Bitcoin, and Ethereum — sent directly to the companion's wallet."},
+  {q:"Can I make a special request?",a:"Of course. Simply let us know what you have in mind when you get in touch, and we'll pass your request to the companion before the appointment. Our team is here to make sure your experience is exactly what you're hoping for."},
+  {q:"Can I book a companion for me and my partner?",a:"Yes. We have companions who are happy to spend time with couples. Whether you're looking for a bisexual companion to join you both or simply someone comfortable with the arrangement, we can find the right match.\n\nGet in touch and let us know your preferences — our team will take care of the rest."},
+  {q:"Do you have well-known or high-profile companions?",a:"Yes. Our roster includes companions with backgrounds in modelling, entertainment, and public life — including catwalk and commercial models, TV personalities, Instagram influencers, and other notable figures.\n\nIf you're looking for someone with a particular profile or background, let us know and we'll do our best to accommodate."},
+  {q:"Can I pay in a currency other than GBP?",a:"Yes. All our rates are listed in British pounds, but we're happy to accept payment in any currency. The equivalent amount is calculated using the live bank exchange rate at the time of your appointment."},
+  {q:"Can I book a companion to come to my hotel?",a:"Absolutely. Outcall bookings to hotels across London are a standard part of what we offer. Simply provide the hotel name, your room number, and the name on the reservation when you book.\n\nAll information shared with us is handled with complete discretion — only the people directly involved in the arrangement will have access to your details."},
+  {q:"Can companions meet me at the airport?",a:"Yes. Our companions can meet you at any London airport and spend time with you from the moment you arrive — whether that's accompanying you across the city, joining you at meetings, or simply making your visit more enjoyable.\n\nJust let us know your arrival details and we'll arrange everything in advance."},
+  {q:"What happens if I pay online and then need to cancel?",a:"If you've paid a deposit online, that payment serves as confirmation of your booking and is non-refundable. Once an appointment begins, cancellation is no longer possible.\n\nIf something unexpected comes up, please contact us as early as possible and we'll do our best to find a fair solution."},
+  {q:"What exactly am I paying for?",a:"You are paying for the companion's time. Our role is to connect you with the right person — what you choose to do during that time is entirely between you and her, and remains completely private.\n\nWe do not involve ourselves in what happens during appointments. Everything is confidential."},
+  {q:"Where are the companions based?",a:"The majority of our companions are based in Central London and can typically be ready within 30 minutes. You can meet them at their location or yours — whichever suits you best."},
+  {q:"Can I travel with a companion outside London?",a:"Yes, this is something we can arrange. Our companions are available for both short trips and longer journeys to other UK cities or internationally.\n\nPlease note that not every companion holds a visa for international travel, so it's important to discuss your plans with us in advance. Additional arrangements such as transport and accommodation may apply."},
+  {q:"How does your Telegram bot work?",a:"Our Telegram contact makes the booking process as smooth as possible. Simply message us, tell us your preferences, and we'll handle everything — from suggesting available companions to confirming your appointment and keeping you updated in real time."},
 ];
 
 function renderFAQs(ids,containerId){
@@ -1553,6 +1845,30 @@ function handleNavSearch(q){
 }
 function showSearchDrop(){if(document.getElementById('navSearchInput').value) document.getElementById('searchDropdown').classList.add('show')}
 function hideSearchDrop(){document.getElementById('searchDropdown').classList.remove('show')}
+function navSearchFocus(){
+  showSearchDrop();
+  document.querySelector('nav').classList.add('search-mode');
+}
+function navSearchBlur(){
+  setTimeout(()=>{
+    hideSearchDrop();
+    document.querySelector('nav').classList.remove('search-mode');
+  },250);
+}
+function cancelNavSearch(){
+  document.getElementById('navSearchInput').value='';
+  document.getElementById('navSearchInput').blur();
+  hideSearchDrop();
+  document.querySelector('nav').classList.remove('search-mode');
+}
+function toggleMobileFilters(){
+  const sidebar=document.getElementById('filtersSidebar');
+  const btn=document.getElementById('filterToggle');
+  const chev=document.getElementById('filterToggleChevron');
+  const open=sidebar.classList.toggle('open');
+  btn.classList.toggle('active',open);
+  chev.style.transform=open?'rotate(180deg)':'';
+}
 
 // =================== PAGE ROUTING ===================
 function showPage(name){
@@ -1626,6 +1942,14 @@ function submitApplication(e){
     </div>`;
   window.scrollTo(0,0);
 }
+function toggleSvcExtra(btn){
+  btn.classList.toggle('active');
+  const price=btn.nextElementSibling;
+  price.classList.toggle('show');
+  if(price.classList.contains('show')) price.focus();
+  else price.value='';
+}
+
 function initBecomePage(){
   const tubeSelect=document.getElementById('tubeSelect');
   if(tubeSelect&&tubeSelect.options.length<=1){
@@ -1634,10 +1958,10 @@ function initBecomePage(){
   const svcGrid=document.getElementById('servicesCheckList');
   if(svcGrid&&!svcGrid.children.length){
     SERVICES.forEach(s=>{
-      const lbl=document.createElement('label');
-      lbl.className='svc-check';
-      lbl.innerHTML=`<input type="checkbox" name="services[]" value="${s}"> ${s}`;
-      svcGrid.appendChild(lbl);
+      const div=document.createElement('div');
+      div.className='svc-check';
+      div.innerHTML=`<label><input type="checkbox" name="services[]" value="${s}"> ${s}</label><button type="button" class="svc-extra-btn" onclick="toggleSvcExtra(this)">extra</button><input type="number" class="svc-extra-price" name="extra_price[${s}]" placeholder="£" min="0">`;
+      svcGrid.appendChild(div);
     });
   }
   if(!document.getElementById('langRows').children.length) addLangRow();
