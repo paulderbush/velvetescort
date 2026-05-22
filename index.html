@@ -1552,9 +1552,191 @@ function clearFilters(){
   applyFilters();
 }
 
+// =================== REAL MODEL DETAIL ===================
+let _gallery={photos:[],current:0};
+let _pricing={type:'incall',durationIdx:0,extras:new Set(),model:null};
+
+function probeModelPhotos(folder,cb){
+  const found=[];let done=0;const max=15;
+  for(let i=1;i<=max;i++){
+    const img=new Image();const idx=i;
+    img.onload=()=>{found.push({idx,src:img.src});finish()};
+    img.onerror=finish;
+    img.src=`${folder}/${idx}.webp`;
+  }
+  function finish(){if(++done===max)cb(found.sort((a,b)=>a.idx-b.idx).map(x=>x.src))}
+}
+
+function galleryGo(dir){
+  const n=_gallery.photos.length;if(!n)return;
+  _gallery.current=(_gallery.current+dir+n)%n;
+  const track=document.getElementById('gallery-track');
+  if(track)track.style.transform=`translateX(-${_gallery.current*100}%)`;
+  document.querySelectorAll('.gallery-dot').forEach((d,i)=>d.classList.toggle('active',i===_gallery.current));
+  const ctr=document.getElementById('gallery-counter');
+  if(ctr)ctr.textContent=`${_gallery.current+1} / ${n}`;
+}
+
+function galleryGoTo(idx){
+  _gallery.current=idx;
+  const track=document.getElementById('gallery-track');
+  if(track)track.style.transform=`translateX(-${idx*100}%)`;
+  document.querySelectorAll('.gallery-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+  const ctr=document.getElementById('gallery-counter');
+  if(ctr)ctr.textContent=`${idx+1} / ${_gallery.photos.length}`;
+}
+
+function selectPriceType(type){
+  _pricing.type=type;_pricing.durationIdx=0;_pricing.extras=new Set();
+  document.querySelectorAll('.price-type-btn').forEach(b=>b.classList.toggle('active',b.dataset.type===type));
+  const rates=type==='incall'?_pricing.model.incallRates:_pricing.model.outcallRates;
+  const dur=document.getElementById('duration-btns');
+  if(dur)dur.innerHTML=rates.map((r,i)=>`<button class="duration-btn${i===0?' active':''}" onclick="selectDuration(${i})">${r.label}</button>`).join('');
+  document.querySelectorAll('.extra-svc-chk').forEach(c=>c.classList.remove('on'));
+  refreshPriceDisplay();
+}
+
+function selectDuration(idx){
+  _pricing.durationIdx=idx;
+  document.querySelectorAll('.duration-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  refreshPriceDisplay();
+}
+
+function toggleExtraSvc(idx){
+  if(_pricing.extras.has(idx))_pricing.extras.delete(idx);
+  else _pricing.extras.add(idx);
+  const rows=document.querySelectorAll('.extra-svc-row');
+  if(rows[idx])rows[idx].querySelector('.extra-svc-chk').classList.toggle('on',_pricing.extras.has(idx));
+  refreshPriceDisplay();
+}
+
+function refreshPriceDisplay(){
+  const m=_pricing.model;if(!m)return;
+  const rates=_pricing.type==='incall'?m.incallRates:m.outcallRates;
+  const rate=rates[_pricing.durationIdx]||rates[0];
+  let extras=0;_pricing.extras.forEach(i=>extras+=m.extraSvcs[i].price);
+  const total=rate.price+extras;
+  const pEl=document.getElementById('price-main');
+  const sEl=document.getElementById('price-sub');
+  const tEl=document.getElementById('price-total-val');
+  if(pEl)pEl.textContent=`£${total}`;
+  if(sEl)sEl.textContent=`${rate.label} · ${_pricing.type==='incall'?'Incall':'Outcall'}${extras?` + £${extras} extras`:''}`;
+  if(tEl)tEl.textContent=`£${total}`;
+}
+
+function buildRealModelHTML(m){
+  const initRate=m.incallRates[0];
+  const stats=[
+    ['Age',m.age],['Height',`${m.height}cm`],['Weight',`${m.weight}kg`],['Clothing',m.clothingSize],
+    ['Breast',m.breastSize],['Type',m.breastType],['Eyes',m.eyeColor],['Hair',m.hairColor],
+  ];
+  return `
+    <button class="back-btn" onclick="showPage('models')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Models
+    </button>
+    <div class="model-detail-layout">
+      <div>
+        <div class="detail-gallery">
+          <div class="gallery-track" id="gallery-track">
+            <img class="gallery-slide" src="${m.folder}/1.webp" alt="${m.name}">
+          </div>
+          <button class="gallery-arrow prev" onclick="galleryGo(-1)">&#8249;</button>
+          <button class="gallery-arrow next" onclick="galleryGo(1)">&#8250;</button>
+          <div class="gallery-dots" id="gallery-dots"><span class="gallery-dot active"></span></div>
+          <div class="gallery-counter" id="gallery-counter">1 / 1</div>
+        </div>
+      </div>
+      <div class="model-detail-info">
+        <div>
+          <div class="model-detail-name">${m.name}</div>
+          <div style="color:var(--text-soft);font-size:14px;margin-top:4px">${m.nationality} · ${m.station}</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <span style="color:#FFD700;font-size:14px">★ ${m.rating}</span>
+            ${m.cats.includes('toprated')?'<span class="badge badge-top">Top Rated</span>':''}
+            ${m.cats.includes('new')?'<span class="badge badge-new">New</span>':''}
+          </div>
+        </div>
+        <div class="stat-grid-ext">
+          ${stats.map(([l,v])=>`<div class="stat-box"><div class="stat-label">${l}</div><div class="stat-val" style="font-size:0.82rem">${v}</div></div>`).join('')}
+        </div>
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:13px">
+          <span style="color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:0.08em">Languages:</span>
+          ${m.languages.split(' · ').map(l=>`<span class="service-chip">${l}</span>`).join('')}
+        </div>
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:13px">
+          <span style="color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:0.08em">Orientation:</span>
+          <span class="service-chip">${m.orientation}</span>
+        </div>
+        <div class="price-calc">
+          <div class="price-calc-title">Book a Session</div>
+          <div class="price-type-row">
+            <button class="price-type-btn active" data-type="incall" onclick="selectPriceType('incall')">Incall</button>
+            <button class="price-type-btn" data-type="outcall" onclick="selectPriceType('outcall')">Outcall <span style="font-size:10px;opacity:0.6">min 1hr</span></button>
+          </div>
+          <div class="duration-row" id="duration-btns">
+            ${m.incallRates.map((r,i)=>`<button class="duration-btn${i===0?' active':''}" onclick="selectDuration(${i})">${r.label}</button>`).join('')}
+          </div>
+          <div class="price-display-row">
+            <div id="price-main" class="price-main">£${initRate.price}</div>
+          </div>
+          <div id="price-sub" class="price-sub">${initRate.label} · Incall</div>
+          <div class="price-total-bar">
+            <span class="price-total-label">Total</span>
+            <span class="price-total-val" id="price-total-val">£${initRate.price}</span>
+          </div>
+        </div>
+        <a href="https://wa.me/447450842231?text=Hello%20Velvet%20Agency%20%F0%9F%91%8B%F0%9F%8F%BC%20I%20would%20like%20to%20book%20Milkyway" target="_blank" class="book-now-big" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Book Milkyway via WhatsApp
+        </a>
+        <div class="model-detail-services">
+          <div class="services-title">Services Offered</div>
+          <div class="services-chips">${m.svcs.map(s=>`<span class="service-chip">${s}</span>`).join('')}</div>
+        </div>
+        <div class="model-detail-services">
+          <div class="services-title">Extra Services</div>
+          <div class="extra-svc-list">
+            ${m.extraSvcs.map((s,i)=>`
+            <div class="extra-svc-row" onclick="toggleExtraSvc(${i})">
+              <div class="extra-svc-left">
+                <div class="extra-svc-chk">✓</div>
+                <span class="extra-svc-name">${s.name}</span>
+              </div>
+              <span class="extra-svc-price">+£${s.price}</span>
+            </div>`).join('')}
+          </div>
+        </div>
+        <div class="model-bio">
+          ${m.description.map(p=>`<p>${p}</p>`).join('')}
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);text-align:center">${m.nationality} · ${m.orientation} · Available daily 10:00 AM – 2:00 AM</div>
+      </div>
+    </div>`;
+}
+
+function openRealModel(m){
+  _pricing={type:'incall',durationIdx:0,extras:new Set(),model:m};
+  _gallery={photos:[],current:0};
+  document.getElementById('modelDetailContent').innerHTML=buildRealModelHTML(m);
+  showPage('model-detail');
+  probeModelPhotos(m.folder,photos=>{
+    _gallery.photos=photos;
+    const track=document.getElementById('gallery-track');
+    if(!track)return;
+    track.innerHTML=photos.map(src=>`<img class="gallery-slide" src="${src}" alt="${m.name}">`).join('');
+    const dotsEl=document.getElementById('gallery-dots');
+    if(dotsEl)dotsEl.innerHTML=photos.map((_,i)=>`<span class="gallery-dot${i===0?' active':''}" onclick="galleryGoTo(${i})"></span>`).join('');
+    const ctr=document.getElementById('gallery-counter');
+    if(ctr)ctr.textContent=`1 / ${photos.length}`;
+    if(photos.length<=1)document.querySelectorAll('.gallery-arrow').forEach(a=>a.style.display='none');
+  });
+}
+
 // =================== MODEL DETAIL ===================
 function openModel(id){
   const m=MODELS.find(x=>x.id===id);if(!m)return;
+  if(m.real){openRealModel(m);return;}
   const el=document.getElementById('modelDetailContent');
   el.innerHTML=`
     <button class="back-btn" onclick="history.back();showPage('models')">
