@@ -612,7 +612,7 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
 /* ===== REAL MODEL GALLERY ===== */
 .detail-gallery{position:relative;border-radius:var(--r-sm);overflow:hidden;width:100%;height:min(75vh,620px);background:#0d0818;user-select:none}
 .gallery-track{display:flex;height:100%;transition:transform 0.4s cubic-bezier(.4,0,.2,1)}
-.gallery-slide{min-width:100%;height:100%;object-fit:cover;object-position:top center;flex-shrink:0}
+.gallery-slide{flex:0 0 100%;width:100%;height:100%;object-fit:cover;object-position:top center}
 .gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.45);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.12);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;transition:background 0.2s;font-size:20px;line-height:1;padding:0}
 .gallery-arrow:hover{background:rgba(123,47,190,0.65)}
 .gallery-arrow.prev{left:10px}
@@ -1568,23 +1568,25 @@ function probeModelPhotos(folder,cb){
   function finish(){if(++done===max)cb(found.sort((a,b)=>a.idx-b.idx).map(x=>x.src))}
 }
 
+function _galleryMove(){
+  const track=document.getElementById('gallery-track');
+  if(!track)return;
+  const w=track.parentElement.offsetWidth;
+  track.style.transform=`translateX(-${_gallery.current*w}px)`;
+  document.querySelectorAll('.gallery-dot').forEach((d,i)=>d.classList.toggle('active',i===_gallery.current));
+  const ctr=document.getElementById('gallery-counter');
+  if(ctr)ctr.textContent=`${_gallery.current+1} / ${_gallery.photos.length}`;
+}
+
 function galleryGo(dir){
   const n=_gallery.photos.length;if(!n)return;
   _gallery.current=(_gallery.current+dir+n)%n;
-  const track=document.getElementById('gallery-track');
-  if(track)track.style.transform=`translateX(-${_gallery.current*100}%)`;
-  document.querySelectorAll('.gallery-dot').forEach((d,i)=>d.classList.toggle('active',i===_gallery.current));
-  const ctr=document.getElementById('gallery-counter');
-  if(ctr)ctr.textContent=`${_gallery.current+1} / ${n}`;
+  _galleryMove();
 }
 
 function galleryGoTo(idx){
   _gallery.current=idx;
-  const track=document.getElementById('gallery-track');
-  if(track)track.style.transform=`translateX(-${idx*100}%)`;
-  document.querySelectorAll('.gallery-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
-  const ctr=document.getElementById('gallery-counter');
-  if(ctr)ctr.textContent=`${idx+1} / ${_gallery.photos.length}`;
+  _galleryMove();
 }
 
 function selectPriceType(type){
@@ -1647,6 +1649,9 @@ function buildRealModelHTML(m){
           <div class="gallery-dots" id="gallery-dots"><span class="gallery-dot active"></span></div>
           <div class="gallery-counter" id="gallery-counter">1 / 1</div>
         </div>
+        <div class="model-bio">
+          ${m.description.map(p=>`<p>${p}</p>`).join('')}
+        </div>
       </div>
       <div class="model-detail-info">
         <div>
@@ -1707,9 +1712,6 @@ function buildRealModelHTML(m){
               <span class="extra-svc-price">+£${s.price}</span>
             </div>`).join('')}
           </div>
-        </div>
-        <div class="model-bio">
-          ${m.description.map(p=>`<p>${p}</p>`).join('')}
         </div>
         <div style="font-size:12px;color:var(--text-muted);text-align:center">${m.nationality} · ${m.orientation} · Available daily 10:00 AM – 2:00 AM</div>
       </div>
