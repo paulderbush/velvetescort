@@ -1557,7 +1557,7 @@ let _gallery={photos:[],current:0};
 let _pricing={type:'incall',durationIdx:0,extras:new Set(),model:null};
 
 function probeModelPhotos(folder,cb){
-  const found=[];let done=0;const max=15;
+  const found=[];let done=0;const max=20;
   for(let i=1;i<=max;i++){
     const img=new Image();const idx=i;
     img.onload=()=>{found.push({idx,src:img.src});finish()};
