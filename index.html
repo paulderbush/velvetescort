@@ -578,7 +578,9 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
   transition:all 0.2s;
 }
 .back-btn:hover{border-color:var(--purple3);color:var(--text)}
-.model-detail-layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+.model-detail-layout{display:grid;grid-template-columns:1fr 1fr;column-gap:2rem;row-gap:1.5rem;align-items:start}
+.model-detail-layout>.model-detail-info{grid-column:2;grid-row:1/3}
+.model-detail-layout>.model-bio{grid-column:1;grid-row:2}
 .model-detail-img{
   border-radius:var(--r-sm);overflow:hidden;
   aspect-ratio:3/4;
@@ -794,6 +796,8 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
   .filters-sidebar.open{display:block}
   .models-row{grid-template-columns:repeat(2,1fr)}
   .model-detail-layout{grid-template-columns:1fr}
+  .model-detail-layout>.model-detail-info{grid-column:1;grid-row:2}
+  .model-detail-layout>.model-bio{grid-column:1;grid-row:3}
   .hero h1{font-size:2rem}
   .hero-btns{flex-wrap:wrap}
   .hero-btns .btn-wa,.hero-btns .btn-tg{justify-content:center}
@@ -1330,6 +1334,8 @@ const MILKYWAY_DATA = {
     {name:'Filming Without Mask',price:200},
   ],
   incallRates:[
+    {label:'30 min',price:300},
+    {label:'45 min',price:350},
     {label:'1 Hour',price:350},
     {label:'2 Hours',price:650},
     {label:'3 Hours',price:950},
@@ -1458,11 +1464,18 @@ function setContactMethod(method){
 }
 
 async function submitBooking(){
-  const name=(document.getElementById('bf-name')||{}).value?.trim();
-  const contact=(document.getElementById('bf-contact')||{}).value?.trim();
-  const date=(document.getElementById('bf-date')||{}).value;
-  const time=(document.getElementById('bf-time')||{}).value;
-  if(!name||!contact||!date||!time){alert('Please fill in all fields.');return;}
+  const nameEl=document.getElementById('bf-name');
+  const contactEl=document.getElementById('bf-contact');
+  const dateEl=document.getElementById('bf-date');
+  const timeEl=document.getElementById('bf-time');
+  const name=nameEl?nameEl.value.trim():'';
+  const contact=contactEl?contactEl.value.trim():'';
+  const date=dateEl?dateEl.value:'';
+  const time=timeEl?timeEl.value:'';
+  if(!name){alert('Please enter your name.');return;}
+  if(!contact){alert('Please enter your contact details.');return;}
+  if(!date){alert('Please select a date.');return;}
+  if(!time){alert('Please enter a time.');return;}
   const d=_bookingDraft;
   const contactLabel=_contactMethod==='email'?'Email':_contactMethod==='whatsapp'?'WhatsApp':'Telegram';
   const extrasText=d.extras.length?d.extras.map(e=>`  • ${e.name} +£${e.price}`).join('\n'):'  None';
