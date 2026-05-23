@@ -578,7 +578,9 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
   transition:all 0.2s;
 }
 .back-btn:hover{border-color:var(--purple3);color:var(--text)}
-.model-detail-layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.model-detail-layout{display:grid;grid-template-columns:1fr 1fr;column-gap:2rem;row-gap:1rem;align-items:start}
+.model-detail-layout>.model-detail-info{grid-column:2;grid-row:1/3}
+.model-detail-layout>.model-bio{grid-column:1;grid-row:2}
 .model-detail-img{
   border-radius:var(--r-sm);overflow:hidden;
   aspect-ratio:3/4;
@@ -794,6 +796,8 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
   .filters-sidebar.open{display:block}
   .models-row{grid-template-columns:repeat(2,1fr)}
   .model-detail-layout{grid-template-columns:1fr}
+  .model-detail-layout>.model-detail-info{grid-column:1;grid-row:2}
+  .model-detail-layout>.model-bio{grid-column:1;grid-row:3}
   .hero h1{font-size:2rem}
   .hero-btns{flex-wrap:wrap}
   .hero-btns .btn-wa,.hero-btns .btn-tg{justify-content:center}
@@ -806,8 +810,25 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
   .partners-section{text-align:center}
   .partners-row{justify-content:center}
   .stat-grid-ext{grid-template-columns:repeat(3,1fr)}
-  .detail-gallery{height:min(65vw,480px)}
+  .detail-gallery{height:min(130vw,640px)}
+  .cart-panel{width:100%;right:-100%}
+  .cart-panel.open{right:0}
 }
+/* BOOKING FORM */
+.booking-summary{background:rgba(123,47,190,0.1);border:1px solid var(--glass-border);border-radius:var(--r-sm);padding:1rem;margin-bottom:1.25rem}
+.booking-form{display:flex;flex-direction:column;gap:0.5rem}
+.bf-label{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);font-weight:600;margin-top:0.5rem}
+.bf-input{width:100%;padding:0.65rem 0.85rem;background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);border-radius:var(--r-xs);color:var(--text);font-family:'Outfit',sans-serif;font-size:15px;outline:none;box-sizing:border-box;appearance:none;-webkit-appearance:none}
+.bf-input:focus{border-color:var(--purple3)}
+.bf-input[type=date]::-webkit-calendar-picker-indicator,.bf-input[type=time]::-webkit-calendar-picker-indicator{filter:invert(0.7)}
+.bf-methods{display:flex;gap:6px}
+.bf-method{flex:1;padding:0.55rem 0.4rem;background:rgba(123,47,190,0.08);border:1px solid var(--glass-border);border-radius:var(--r-xs);color:var(--text-soft);font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s}
+.bf-method.active{background:rgba(123,47,190,0.35);border-color:var(--purple3);color:var(--text);font-weight:600}
+.booking-submit-btn{margin-top:0.75rem;width:100%;padding:0.85rem;background:linear-gradient(135deg,var(--purple),var(--purple-dark));border:none;border-radius:var(--r);color:#fff;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(123,47,190,0.4);transition:all 0.25s}
+.booking-submit-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(123,47,190,0.55)}
+.booking-submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.make-booking-btn{width:100%;padding:0.85rem;border:none;border-radius:var(--r);background:linear-gradient(135deg,var(--purple),var(--purple-dark));color:#fff;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(123,47,190,0.4);transition:all 0.25s}
+.make-booking-btn:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(123,47,190,0.6)}
 </style>
 </head>
 <body>
@@ -824,18 +845,11 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
 <!-- CART PANEL -->
 <div class="cart-panel" id="cartPanel">
   <div class="cart-header">
-    <h3>Your Booking</h3>
+    <h3 id="cartPanelTitle">Your Booking</h3>
     <button class="cart-close" onclick="closeCart()">✕</button>
   </div>
-  <div id="cartItems">
+  <div id="cartContent">
     <div class="cart-empty">No companions selected yet.<br>Browse our models to get started.</div>
-  </div>
-  <div class="cart-total" id="cartTotal" style="display:none">
-    <div class="cart-total-row"><span>Subtotal</span><span id="subtotalVal">£0</span></div>
-    <div class="cart-total-row big"><span>Total</span><span id="totalVal">£0</span></div>
-    <button class="cart-checkout" onclick="alert('Thank you! Our team will contact you within 1 hour to confirm your booking.')">
-      Confirm Booking
-    </button>
   </div>
 </div>
 
@@ -1322,16 +1336,20 @@ const MILKYWAY_DATA = {
   incallRates:[
     {label:'30 min',price:300},
     {label:'45 min',price:350},
-    {label:'1 hour',price:350},
-    {label:'Extra 30 min',price:150},
-    {label:'Extra 1 hour',price:300},
-    {label:'Overnight',price:2700},
+    {label:'1 Hour',price:350},
+    {label:'2 Hours',price:650},
+    {label:'3 Hours',price:950},
+    {label:'4 Hours',price:1250},
+    {label:'5 Hours',price:1550},
+    {label:'9 Hours',price:2700},
   ],
   outcallRates:[
-    {label:'1 hour',price:400},
-    {label:'Extra 30 min',price:150},
-    {label:'Extra 1 hour',price:300},
-    {label:'Overnight',price:2700},
+    {label:'1 Hour',price:400},
+    {label:'2 Hours',price:700},
+    {label:'3 Hours',price:1000},
+    {label:'4 Hours',price:1300},
+    {label:'5 Hours',price:1600},
+    {label:'9 Hours',price:2700},
   ],
   description:[
     'Milkyway is a captivating Brazilian companion based in London, known for her natural warmth, effortless elegance, and an innate ability to make every encounter feel genuinely special. With striking brunette hair, expressive brown eyes, and a naturally beautiful figure, she is as visually captivating as she is engaging in conversation.',
@@ -1341,29 +1359,67 @@ const MILKYWAY_DATA = {
 };
 MODELS.unshift(MILKYWAY_DATA);
 
-// =================== CART ===================
+// =================== CART / BOOKING ===================
 let cart=[];
+let _bookingDraft=null;
+let _contactMethod='email';
+
 function openCart(){document.getElementById('cartPanel').classList.add('open');document.getElementById('cartOverlay').classList.add('show')}
 function closeCart(){document.getElementById('cartPanel').classList.remove('open');document.getElementById('cartOverlay').classList.remove('show')}
+
 function addToCart(id){
   const m=MODELS.find(x=>x.id===id);
-  if(!m)return;
-  if(!cart.find(x=>x.id===id)){
-    cart.push({...m,duration:1});
-    renderCart();openCart();
-  }
+  if(!m||m.real)return;
+  if(!cart.find(x=>x.id===id)){cart.push({...m,duration:1});}
+  renderCart();openCart();
 }
 function removeFromCart(id){cart=cart.filter(x=>x.id!==id);renderCart()}
+function setDuration(id,dur){const m=cart.find(x=>x.id===id);if(m){m.duration=+dur;renderCart()}}
+
 function renderCart(){
   const badge=document.getElementById('cartBadge');
-  badge.textContent=cart.length;
-  const items=document.getElementById('cartItems');
-  const total=document.getElementById('cartTotal');
-  if(cart.length===0){
-    items.innerHTML='<div class="cart-empty">No companions selected yet.<br>Browse our models to get started.</div>';
-    total.style.display='none';return;
+  const content=document.getElementById('cartContent');
+  if(_bookingDraft){
+    badge.textContent='1';
+    const d=_bookingDraft;
+    content.innerHTML=`
+      <div class="booking-summary">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:0.85rem">
+          <div style="width:44px;height:54px;border-radius:8px;background:url('${d.modelFolder}/1.webp') top center/cover no-repeat;flex-shrink:0;border:1px solid var(--glass-border)"></div>
+          <div>
+            <div style="font-weight:600;font-size:15px">${d.modelName}</div>
+            <div style="font-size:12px;color:var(--text-soft)">${d.durationLabel} · ${d.type==='incall'?'Incall':'Outcall'}</div>
+          </div>
+          <button onclick="_bookingDraft=null;renderCart()" style="margin-left:auto;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem;padding:4px">✕</button>
+        </div>
+        ${d.extras.length?`<div style="margin-bottom:0.65rem;border-top:1px solid var(--glass-border);padding-top:0.65rem">${d.extras.map(e=>`<div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-soft);padding:2px 0"><span>${e.name}</span><span>+£${e.price}</span></div>`).join('')}</div>`:''}
+        <div style="display:flex;justify-content:space-between;font-weight:700;font-size:1rem;padding-top:0.5rem;border-top:1px solid var(--glass-border)"><span>Total</span><span>£${d.total}</span></div>
+      </div>
+      <div class="booking-form">
+        <div class="bf-label">Your name</div>
+        <input class="bf-input" type="text" id="bf-name" placeholder="e.g. James" autocomplete="name">
+        <div class="bf-label">Contact via</div>
+        <div class="bf-methods">
+          <button class="bf-method active" data-m="email" onclick="setContactMethod('email')">Email</button>
+          <button class="bf-method" data-m="whatsapp" onclick="setContactMethod('whatsapp')">WhatsApp</button>
+          <button class="bf-method" data-m="telegram" onclick="setContactMethod('telegram')">Telegram</button>
+        </div>
+        <input class="bf-input" type="email" id="bf-contact" placeholder="your@email.com" autocomplete="email">
+        <div class="bf-label">Date</div>
+        <input class="bf-input" type="date" id="bf-date">
+        <div class="bf-label">Time (24h)</div>
+        <input class="bf-input" type="time" id="bf-time">
+        <button class="booking-submit-btn" onclick="submitBooking()">Make a Booking</button>
+      </div>`;
+    return;
   }
-  items.innerHTML=cart.map(m=>`
+  badge.textContent=cart.length;
+  if(cart.length===0){
+    content.innerHTML='<div class="cart-empty">No companions selected yet.<br>Browse our models to get started.</div>';
+    return;
+  }
+  const sub=cart.reduce((s,x)=>s+x.rateHour*x.duration,0);
+  content.innerHTML=cart.map(m=>`
     <div class="cart-item">
       <div class="cart-item-avatar" style="background:linear-gradient(135deg,${m.color[0]},${m.color[1]})">${m.initials}</div>
       <div class="cart-item-info">
@@ -1378,13 +1434,69 @@ function renderCart(){
       </div>
       <button class="cart-item-remove" onclick="removeFromCart(${m.id})">✕</button>
     </div>
-  `).join('');
-  const sub=cart.reduce((s,x)=>s+x.rateHour*x.duration,0);
-  document.getElementById('subtotalVal').textContent='£'+sub;
-  document.getElementById('totalVal').textContent='£'+sub;
-  total.style.display='block';
+  `).join('')+`
+  <div style="margin-top:auto;padding-top:1rem;border-top:1px solid var(--glass-border)">
+    <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:0.5rem"><span>Total</span><span style="font-weight:700">£${sub}</span></div>
+    <button class="cart-checkout" onclick="alert('Thank you! Our team will contact you within 1 hour to confirm your booking.')">Confirm Booking</button>
+  </div>`;
 }
-function setDuration(id,dur){const m=cart.find(x=>x.id===id);if(m){m.duration=+dur;renderCart()}}
+
+function makeBooking(){
+  const m=_pricing.model;if(!m)return;
+  const rates=_pricing.type==='incall'?m.incallRates:m.outcallRates;
+  const rate=rates[_pricing.durationIdx]||rates[0];
+  const extrasArr=[];
+  _pricing.extras.forEach(i=>extrasArr.push(m.extraSvcs[i]));
+  const extrasTotal=extrasArr.reduce((s,e)=>s+e.price,0);
+  _bookingDraft={modelId:m.id,modelName:m.name,modelFolder:m.folder,type:_pricing.type,durationLabel:rate.label,basePrice:rate.price,extras:extrasArr,extrasTotal,total:rate.price+extrasTotal};
+  _contactMethod='email';
+  renderCart();openCart();
+}
+
+function setContactMethod(method){
+  _contactMethod=method;
+  document.querySelectorAll('.bf-method').forEach(b=>b.classList.toggle('active',b.dataset.m===method));
+  const inp=document.getElementById('bf-contact');if(!inp)return;
+  if(method==='email'){inp.type='email';inp.placeholder='your@email.com';}
+  else if(method==='whatsapp'){inp.type='tel';inp.placeholder='+44 7000 000000';}
+  else{inp.type='text';inp.placeholder='@username';}
+  inp.value='';
+}
+
+async function submitBooking(){
+  const nameEl=document.getElementById('bf-name');
+  const contactEl=document.getElementById('bf-contact');
+  const dateEl=document.getElementById('bf-date');
+  const timeEl=document.getElementById('bf-time');
+  const name=nameEl?nameEl.value.trim():'';
+  const contact=contactEl?contactEl.value.trim():'';
+  const date=dateEl?dateEl.value:'';
+  const time=timeEl?timeEl.value:'';
+  if(!name){alert('Please enter your name.');return;}
+  if(!contact){alert('Please enter your contact details.');return;}
+  if(!date){alert('Please select a date.');return;}
+  if(!time){alert('Please enter a time.');return;}
+  const d=_bookingDraft;
+  const contactLabel=_contactMethod==='email'?'Email':_contactMethod==='whatsapp'?'WhatsApp':'Telegram';
+  const extrasText=d.extras.length?d.extras.map(e=>`  • ${e.name} +£${e.price}`).join('\n'):'  None';
+  const msg=`🔖 <b>New Booking Request</b>\n\n<b>Model:</b> ${d.modelName}\n<b>Client:</b> ${name}\n<b>${contactLabel}:</b> ${contact}\n\n<b>Session:</b> ${d.durationLabel} · ${d.type==='incall'?'Incall':'Outcall'}\n<b>Base:</b> £${d.basePrice}\n\n<b>Extras:</b>\n${extrasText}\n\n<b>Total: £${d.total}</b>\n\n<b>Date:</b> ${date}\n<b>Time:</b> ${time}`;
+  const btn=document.querySelector('.booking-submit-btn');
+  if(btn){btn.textContent='Sending…';btn.disabled=true;}
+  try{
+    const params=new URLSearchParams({chat_id:'-5098693486',text:msg,parse_mode:'HTML'});
+    const res=await fetch('https://api.telegram.org/bot8881061797:AAEDLHP9Uvs4Qw3Gezdzq3_T-_yFIo1fu0A/sendMessage',{method:'POST',body:params});
+    const json=await res.json();
+    if(json.ok){
+      _bookingDraft=null;
+      document.getElementById('cartContent').innerHTML=`<div style="text-align:center;padding:3rem 1rem"><div style="font-size:3rem;margin-bottom:1rem">✓</div><div style="font-size:1.1rem;font-weight:600;margin-bottom:0.5rem">Booking Sent!</div><div style="font-size:13px;color:var(--text-soft)">Our team will contact you shortly to confirm your appointment with ${d.modelName}.</div><button onclick="closeCart();renderCart()" style="margin-top:2rem;background:var(--purple);border:none;color:#fff;padding:0.75rem 2rem;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;font-family:Outfit,sans-serif">Close</button></div>`;
+      document.getElementById('cartBadge').textContent='0';
+    }else{throw new Error(json.description||'Telegram API error');}
+  }catch(e){
+    if(btn){btn.textContent='Make a Booking';btn.disabled=false;}
+    const waText=encodeURIComponent(`Booking: ${d.modelName} · ${d.durationLabel} · ${d.type==='incall'?'Incall':'Outcall'} · £${d.total}\nName: ${name}\nDate: ${date} ${time}`);
+    document.getElementById('cartContent').innerHTML+=`<div style="margin-top:1rem;padding:1rem;background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.2);border-radius:var(--r-xs);font-size:13px;color:var(--text-soft)">Couldn't send automatically${e.message&&e.message!=='Failed to fetch'?' ('+e.message+')':''}. <a href="https://wa.me/447450842231?text=${waText}" target="_blank" style="color:var(--purple3);text-decoration:none;font-weight:600">Send via WhatsApp →</a></div>`;
+  }
+}
 
 // =================== MODEL CARD ===================
 function modelCardHTML(m,clickable=true){
@@ -1412,7 +1524,7 @@ function modelCardHTML(m,clickable=true){
       </div>
     </div>
     <div class="model-card-footer">
-      <div class="model-rate">£${m.rateHour}<span>/hr</span></div>
+      <div class="model-rate">${m.real?`from £${Math.min(...m.incallRates.map(r=>r.price))}`:`£${m.rateHour}<span>/hr</span>`}</div>
       <button class="add-to-cart-btn" onclick="event.stopPropagation();addToCart(${m.id})">+ Book</button>
     </div>
   </div>`;
@@ -1649,9 +1761,6 @@ function buildRealModelHTML(m){
           <div class="gallery-dots" id="gallery-dots"><span class="gallery-dot active"></span></div>
           <div class="gallery-counter" id="gallery-counter">1 / 1</div>
         </div>
-        <div class="model-bio">
-          ${m.description.map(p=>`<p>${p}</p>`).join('')}
-        </div>
       </div>
       <div class="model-detail-info">
         <div>
@@ -1692,10 +1801,7 @@ function buildRealModelHTML(m){
             <span class="price-total-val" id="price-total-val">£${initRate.price}</span>
           </div>
         </div>
-        <a href="https://wa.me/447450842231?text=Hello%20Velvet%20Agency%20%F0%9F%91%8B%F0%9F%8F%BC%20I%20would%20like%20to%20book%20Milkyway" target="_blank" class="book-now-big" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Book Milkyway via WhatsApp
-        </a>
+        <button class="make-booking-btn" onclick="makeBooking()">Make a Booking</button>
         <div class="model-detail-services">
           <div class="services-title">Services Offered</div>
           <div class="services-chips">${m.svcs.map(s=>`<span class="service-chip">${s}</span>`).join('')}</div>
@@ -1714,6 +1820,9 @@ function buildRealModelHTML(m){
           </div>
         </div>
         <div style="font-size:12px;color:var(--text-muted);text-align:center">${m.nationality} · ${m.orientation} · Available daily 10:00 AM – 2:00 AM</div>
+      </div>
+      <div class="model-bio">
+        ${m.description.map(p=>`<p>${p}</p>`).join('')}
       </div>
     </div>`;
 }
