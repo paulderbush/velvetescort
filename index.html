@@ -93,10 +93,11 @@ nav{
 }
 .search-result-item:hover{background:rgba(123,47,190,0.2)}
 .search-result-item .avatar{
-  width:28px;height:28px;border-radius:50%;
+  width:36px;height:42px;border-radius:8px;
   background:linear-gradient(135deg,var(--purple),var(--purple3));
   display:flex;align-items:center;justify-content:center;
   font-size:11px;font-weight:600;flex-shrink:0;
+  overflow:hidden;background-size:cover!important;
 }
 .nav-cart{
   position:relative;cursor:pointer;
@@ -1965,10 +1966,10 @@ function handleNavSearch(q){
   if(!res.length){dd.innerHTML='<div class="search-result-item" style="color:var(--text-muted)">No results found</div>';dd.classList.add('show');return}
   dd.innerHTML=res.map(m=>`
     <div class="search-result-item" onclick="openModel(${m.id})">
-      <div class="avatar" style="background:linear-gradient(135deg,${m.color[0]},${m.color[1]})">${m.initials}</div>
+      <div class="avatar" style="${m.real?`background:url('${m.folder}/1.webp') top center/cover no-repeat`:`background:linear-gradient(135deg,${m.color[0]},${m.color[1]})`}">${m.real?'':m.initials}</div>
       <div>
         <div style="font-weight:500;font-size:13px">${m.name}</div>
-        <div style="font-size:11px;color:var(--text-muted)">${m.nationality} · £${m.rateHour}/hr</div>
+        <div style="font-size:11px;color:var(--text-muted)">${m.nationality} · ${m.real?`from £${Math.min(...m.incallRates.map(r=>r.price))}`:`£${m.rateHour}/hr`}</div>
       </div>
     </div>`).join('');
   dd.classList.add('show');
