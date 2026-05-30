@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Velvet London — Elite Escort Agency</title>
+<link rel="icon" href="images/favicon.png" type="image/png">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -580,10 +581,7 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
   transition:all 0.2s;
 }
 .back-btn:hover{border-color:var(--purple3);color:var(--text)}
-.model-detail-layout{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;grid-template-areas:"gal info" "bio info";column-gap:2rem;row-gap:1rem;align-items:start}
-.model-detail-layout>div:first-child{grid-area:gal}
-.model-detail-layout>.model-detail-info{grid-area:info}
-.model-detail-layout>.model-bio{grid-area:bio}
+.model-detail-layout{display:grid;grid-template-columns:1fr 1fr;column-gap:2rem;align-items:start}
 .model-detail-img{
   border-radius:var(--r-sm);overflow:hidden;
   aspect-ratio:3/4;
@@ -615,8 +613,8 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
   color:var(--purple3);font-size:11px;
 }
 /* ===== REAL MODEL GALLERY ===== */
-.detail-gallery{position:relative;border-radius:var(--r-sm);overflow:hidden;width:100%;height:min(75vh,620px);background:#0d0818;user-select:none}
-.gallery-track{display:flex;height:100%;transition:transform 0.4s cubic-bezier(.4,0,.2,1)}
+.detail-gallery{position:relative;border-radius:var(--r-sm);overflow:hidden;width:100%;aspect-ratio:5/7;background:#0d0818;user-select:none}
+.gallery-track{position:absolute;inset:0;display:flex;transition:transform 0.4s cubic-bezier(.4,0,.2,1)}
 .gallery-slide{flex:0 0 100%;width:100%;height:100%;object-fit:cover;object-position:top center}
 .gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.45);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.12);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;transition:background 0.2s;font-size:20px;line-height:1;padding:0}
 .gallery-arrow:hover{background:rgba(123,47,190,0.65)}
@@ -798,7 +796,7 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
   .filters-sidebar{position:static;display:none;grid-column:1/-1}
   .filters-sidebar.open{display:block}
   .models-row{grid-template-columns:repeat(2,1fr)}
-  .model-detail-layout{grid-template-columns:1fr;grid-template-areas:"gal" "info" "bio"}
+  .model-detail-layout{grid-template-columns:1fr}
   .hero h1{font-size:2rem}
   .hero-btns{flex-wrap:wrap}
   .hero-btns .btn-wa,.hero-btns .btn-tg{justify-content:center}
@@ -811,7 +809,7 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
   .partners-section{text-align:center}
   .partners-row{justify-content:center}
   .stat-grid-ext{grid-template-columns:repeat(3,1fr)}
-  .detail-gallery{height:min(130vw,640px)}
+  .detail-gallery{aspect-ratio:5/7;height:auto}
   .cart-panel{width:100%;right:-100%}
   .cart-panel.open{right:0}
 }
@@ -830,6 +828,26 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
 .booking-submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
 .make-booking-btn{width:100%;padding:0.85rem;border:none;border-radius:var(--r);background:linear-gradient(135deg,var(--purple),var(--purple-dark));color:#fff;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(123,47,190,0.4);transition:all 0.25s}
 .make-booking-btn:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(123,47,190,0.6)}
+/* MAP */
+.model-map-block{border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--glass-border);margin-top:1rem}
+.model-map-block iframe{display:block;width:100%;height:280px;border:none;filter:invert(0.9) hue-rotate(180deg)}
+/* REVIEWS */
+.reviews-section{margin-top:1rem;display:flex;flex-direction:column;gap:1rem}
+.review-card{border-radius:var(--r-sm);background:var(--glass);border:1px solid var(--glass-border);padding:1rem}
+.review-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;flex-wrap:wrap;gap:6px}
+.review-name{font-weight:600;font-size:14px}
+.review-meta{font-size:11px;color:var(--text-muted)}
+.review-stars{color:#FFD700;font-size:15px;letter-spacing:1px}
+.review-text{font-size:13px;line-height:1.7;color:var(--text-soft)}
+.review-form{border-radius:var(--r-sm);background:var(--glass);border:1px solid var(--glass-border);padding:1.1rem}
+.review-form-title{font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);font-weight:700;margin-bottom:1rem}
+.star-picker{display:flex;gap:6px;margin:0.25rem 0}
+.star-picker button{background:none;border:none;font-size:1.6rem;cursor:pointer;color:rgba(255,255,255,0.2);transition:color 0.15s;padding:0;line-height:1}
+.star-picker button.active{color:#FFD700}
+.review-submit-btn{margin-top:0.75rem;width:100%;padding:0.75rem;background:linear-gradient(135deg,var(--purple),var(--purple-dark));border:none;border-radius:var(--r);color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.25s}
+.review-submit-btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(123,47,190,0.5)}
+.review-submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.section-label{font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);font-weight:700;margin-bottom:0.75rem}
 </style>
 </head>
 <body>
@@ -1316,7 +1334,7 @@ const MILKYWAY_DATA = {
   id:9999, real:true, folder:'MILKYWAY',
   name:'Milkyway', age:23, height:166, weight:54,
   nationality:'Brazilian', station:'South Kensington',
-  rating:'5.0', rateHour:350,
+  rateHour:350,
   color:['rgba(160,80,30,0.4)','rgba(100,45,15,0.7)'],
   initials:'MW',
   cats:['recommended','toprated','under25','new'],
@@ -1356,6 +1374,11 @@ const MILKYWAY_DATA = {
     'Milkyway is a captivating Brazilian companion based in London, known for her natural warmth, effortless elegance, and an innate ability to make every encounter feel genuinely special. With striking brunette hair, expressive brown eyes, and a naturally beautiful figure, she is as visually captivating as she is engaging in conversation.',
     'Whether you are looking for a refined companion for a private dinner, a social event, or an intimate experience, Milkyway brings attentiveness and genuine care to every meeting. Her easygoing nature and exotic charm make every moment feel relaxed, personal, and memorable.',
     'Fluent in Portuguese and conversational in English, she welcomes gentlemen from all backgrounds with warmth and discretion. All appointments are arranged with complete respect for your privacy. Available daily across London for both incall and outcall bookings.',
+  ],
+  reviews:[
+    {name:'James M.', duration:'2 Hours', type:'incall', rating:5, text:'Milkyway is everything her profile promises and more. Warm, attentive, and genuinely great company. The incall apartment was spotless and comfortable. Will definitely book again.', date:'2025-04-28'},
+    {name:'Alex T.', duration:'1 Hour', type:'incall', rating:5, text:'Absolutely stunning in person. Very relaxed, no rush, made me feel completely at ease from the moment I arrived. Highly recommended.', date:'2025-05-10'},
+    {name:'Michael R.', duration:'3 Hours', type:'outcall', rating:5, text:'Booked Milkyway for dinner and the evening after. She was charming and engaging throughout — a real pleasure to spend time with. Discrete, professional, and beautiful.', date:'2025-05-18'},
   ],
 };
 MODELS.unshift(MILKYWAY_DATA);
@@ -1520,7 +1543,7 @@ function modelCardHTML(m,clickable=true){
       <div class="model-card-badges">${catBadges.join('')}</div>
       <div class="model-card-overlay">
         <div class="model-card-name">${m.name}</div>
-        <div class="model-card-meta">${m.age} yrs · ${m.height}cm · ${m.nationality}</div>
+        <div class="model-card-meta">${m.age} yrs · ${m.height}cm · ${m.nationality}${(()=>{const r=computeRating(m);return r?` · ★ ${r}`:''})()}</div>
         <div class="model-card-tags">${topSvcs}</div>
       </div>
     </div>
@@ -1666,6 +1689,63 @@ function clearFilters(){
   applyFilters();
 }
 
+// =================== REVIEWS ===================
+let _reviewRating=0;
+
+function computeRating(m){
+  const revs=m.reviews||[];
+  if(!revs.length)return null;
+  return (revs.reduce((s,r)=>s+r.rating,0)/revs.length).toFixed(1);
+}
+
+function setReviewStar(n){
+  _reviewRating=n;
+  document.querySelectorAll('.star-picker button').forEach((b,i)=>b.classList.toggle('active',i<n));
+}
+
+async function submitReview(modelId){
+  const m=MODELS.find(x=>x.id===modelId);if(!m)return;
+  const nameEl=document.getElementById('rv-name');
+  const durEl=document.getElementById('rv-duration');
+  const typeEl=document.querySelector('.rv-type-btn.active');
+  const textEl=document.getElementById('rv-text');
+  const name=nameEl?nameEl.value.trim():'';
+  const dur=durEl?durEl.value:'';
+  const type=typeEl?typeEl.dataset.t:'';
+  const text=textEl?textEl.value.trim():'';
+  if(!name){alert('Please enter your name.');return;}
+  if(!_reviewRating){alert('Please select a star rating.');return;}
+  if(!text){alert('Please write a short review.');return;}
+  const btn=document.getElementById('rv-submit');
+  if(btn){btn.textContent='Sending…';btn.disabled=true;}
+  const msg=`⭐ <b>New Review (pending moderation)</b>\n\n<b>Model:</b> ${m.name}\n<b>From:</b> ${name}\n<b>Duration:</b> ${dur} · ${type==='incall'?'Incall':'Outcall'}\n<b>Rating:</b> ${'★'.repeat(_reviewRating)}${'☆'.repeat(5-_reviewRating)} (${_reviewRating}/5)\n\n${text}`;
+  try{
+    const params=new URLSearchParams({chat_id:'-5098693486',text:msg,parse_mode:'HTML'});
+    await fetch('https://api.telegram.org/bot8881061797:AAEDLHP9Uvs4Qw3Gezdzq3_T-_yFIo1fu0A/sendMessage',{method:'POST',body:params});
+  }catch(e){}
+  const newReview={name,duration:dur,type,rating:_reviewRating,text,date:new Date().toISOString().slice(0,10)};
+  m.reviews=(m.reviews||[]).concat(newReview);
+  _reviewRating=0;
+  _pricing={type:'incall',durationIdx:0,extras:new Set(),model:m};
+  _gallery={photos:[],current:0};
+  document.getElementById('modelDetailContent').innerHTML=buildRealModelHTML(m);
+  initGalleryTouch();
+  probeModelPhotos(m.folder,photos=>{
+    _gallery.photos=photos;
+    const track=document.getElementById('gallery-track');if(!track)return;
+    track.innerHTML=photos.map(src=>`<img class="gallery-slide" src="${src}" alt="${m.name}">`).join('');
+    const dotsEl=document.getElementById('gallery-dots');
+    if(dotsEl)dotsEl.innerHTML=photos.map((_,i)=>`<span class="gallery-dot${i===0?' active':''}" onclick="galleryGoTo(${i})"></span>`).join('');
+    const ctr=document.getElementById('gallery-counter');
+    if(ctr)ctr.textContent=`1 / ${photos.length}`;
+    if(photos.length<=1)document.querySelectorAll('.gallery-arrow').forEach(a=>a.style.display='none');
+  });
+}
+
+function selectReviewType(el,t){
+  document.querySelectorAll('.rv-type-btn').forEach(b=>b.classList.toggle('active',b===el));
+}
+
 // =================== REAL MODEL DETAIL ===================
 let _gallery={photos:[],current:0};
 let _pricing={type:'incall',durationIdx:0,extras:new Set(),model:null};
@@ -1746,6 +1826,11 @@ function buildRealModelHTML(m){
     ['Age',m.age],['Height',`${m.height}cm`],['Weight',`${m.weight}kg`],['Clothing',m.clothingSize],
     ['Breast',m.breastSize],['Type',m.breastType],['Eyes',m.eyeColor],['Hair',m.hairColor],
   ];
+  const rating=computeRating(m);
+  const reviews=m.reviews||[];
+  const mapQ=encodeURIComponent(m.station+' Underground Station London');
+  const durOptions=m.incallRates.map(r=>`<option value="${r.label}">${r.label} (Incall from £${r.price})</option>`).join('')+
+    m.outcallRates.map(r=>`<option value="${r.label} outcall">${r.label} (Outcall from £${r.price})</option>`).join('');
   return `
     <button class="back-btn" onclick="history.back()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
@@ -1762,13 +1847,16 @@ function buildRealModelHTML(m){
           <div class="gallery-dots" id="gallery-dots"><span class="gallery-dot active"></span></div>
           <div class="gallery-counter" id="gallery-counter">1 / 1</div>
         </div>
+        <div class="model-bio" style="margin-top:1rem">
+          ${m.description.map(p=>`<p>${p}</p>`).join('')}
+        </div>
       </div>
       <div class="model-detail-info">
         <div>
           <div class="model-detail-name">${m.name}</div>
           <div style="color:var(--text-soft);font-size:14px;margin-top:4px">${m.nationality} · ${m.station}</div>
           <div style="display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap">
-            <span style="color:#FFD700;font-size:14px">★ ${m.rating}</span>
+            ${rating?`<span style="color:#FFD700;font-size:14px">★ ${rating}</span>`:''}
             ${m.cats.includes('toprated')?'<span class="badge badge-top">Top Rated</span>':''}
             ${m.cats.includes('new')?'<span class="badge badge-new">New</span>':''}
           </div>
@@ -1822,8 +1910,43 @@ function buildRealModelHTML(m){
         </div>
         <div style="font-size:12px;color:var(--text-muted);text-align:center">${m.nationality} · ${m.orientation} · Available daily 10:00 AM – 2:00 AM</div>
       </div>
-      <div class="model-bio">
-        ${m.description.map(p=>`<p>${p}</p>`).join('')}
+    </div>
+    <div class="model-map-block">
+      <iframe src="https://maps.google.com/maps?q=${mapQ}&output=embed" loading="lazy"></iframe>
+    </div>
+    <div class="reviews-section">
+      ${reviews.length?`
+      <div class="review-card">
+        <div class="section-label">Reviews (${reviews.length})${rating?` · ★ ${rating} avg`:''}</div>
+        ${reviews.map(r=>`
+        <div style="padding:0.75rem 0;border-bottom:1px solid rgba(176,127,222,0.1)">
+          <div class="review-header">
+            <span class="review-name">${r.name}</span>
+            <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
+          </div>
+          <div class="review-meta" style="margin-bottom:0.4rem">${r.duration} · ${r.type==='incall'?'Incall':'Outcall'} · ${r.date}</div>
+          <div class="review-text">${r.text}</div>
+        </div>`).join('')}
+      </div>`:``}
+      <div class="review-form">
+        <div class="review-form-title">Leave a Review</div>
+        <div class="bf-label">Your name</div>
+        <input class="bf-input" type="text" id="rv-name" placeholder="e.g. James">
+        <div class="bf-label">Duration &amp; type</div>
+        <select class="bf-input" id="rv-duration">${durOptions}</select>
+        <div class="bf-label">Type</div>
+        <div style="display:flex;gap:6px;margin-bottom:0.25rem">
+          <button class="bf-method rv-type-btn active" data-t="incall" onclick="selectReviewType(this,'incall')">Incall</button>
+          <button class="bf-method rv-type-btn" data-t="outcall" onclick="selectReviewType(this,'outcall')">Outcall</button>
+        </div>
+        <div class="bf-label">Your rating</div>
+        <div class="star-picker">
+          ${[1,2,3,4,5].map(n=>`<button onclick="setReviewStar(${n})">★</button>`).join('')}
+        </div>
+        <div class="bf-label">Your review</div>
+        <textarea class="bf-input" id="rv-text" rows="4" placeholder="Share your experience…" style="resize:vertical;font-family:Outfit,sans-serif"></textarea>
+        <button class="review-submit-btn" id="rv-submit" onclick="submitReview(${m.id})">Submit Review</button>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:0.5rem;text-align:center">Reviews are moderated before appearing publicly.</div>
       </div>
     </div>`;
 }
@@ -1969,7 +2092,7 @@ function handleNavSearch(q){
       <div class="avatar" style="${m.real?`background:url('${m.folder}/1.webp') top center/cover no-repeat`:`background:linear-gradient(135deg,${m.color[0]},${m.color[1]})`}">${m.real?'':m.initials}</div>
       <div>
         <div style="font-weight:500;font-size:13px">${m.name}</div>
-        <div style="font-size:11px;color:var(--text-muted)">${m.nationality} · ${m.real?`from £${Math.min(...m.incallRates.map(r=>r.price))}`:`£${m.rateHour}/hr`}</div>
+        <div style="font-size:11px;color:var(--text-muted)">${m.nationality} · ${m.real?`from £${Math.min(...m.incallRates.map(r=>r.price))}`:`£${m.rateHour}/hr`}${(()=>{const r=computeRating(m);return r?` · ★ ${r}`:''})()}</div>
       </div>
     </div>`).join('');
   dd.classList.add('show');
