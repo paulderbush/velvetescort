@@ -829,8 +829,12 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
 .make-booking-btn{width:100%;padding:0.85rem;border:none;border-radius:var(--r);background:linear-gradient(135deg,var(--purple),var(--purple-dark));color:#fff;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(123,47,190,0.4);transition:all 0.25s}
 .make-booking-btn:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(123,47,190,0.6)}
 /* MAP */
-.model-map-block{border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--glass-border);margin-top:1rem}
-.model-map-block iframe{display:block;width:100%;height:280px;border:none;filter:invert(0.9) hue-rotate(180deg)}
+.model-map-block{position:relative;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--glass-border);margin-top:1rem}
+.model-map-block iframe{display:block;width:100%;height:420px;border:none;filter:invert(0.9) hue-rotate(180deg)}
+.map-marker{position:absolute;top:50%;left:50%;transform:translate(-50%,-100%);pointer-events:none;z-index:2;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.5))}
+.map-marker svg{width:38px;height:38px;display:block}
+@keyframes mapPulse{0%,100%{transform:translate(-50%,-100%) scale(1)}50%{transform:translate(-50%,-100%) scale(1.12)}}
+.map-marker{animation:mapPulse 1.8s ease-in-out infinite}
 /* REVIEWS */
 .reviews-section{margin-top:1rem;display:flex;flex-direction:column;gap:1rem}
 .review-card{border-radius:var(--r-sm);background:var(--glass);border:1px solid var(--glass-border);padding:1rem}
@@ -1375,11 +1379,7 @@ const MILKYWAY_DATA = {
     'Whether you are looking for a refined companion for a private dinner, a social event, or an intimate experience, Milkyway brings attentiveness and genuine care to every meeting. Her easygoing nature and exotic charm make every moment feel relaxed, personal, and memorable.',
     'Fluent in Portuguese and conversational in English, she welcomes gentlemen from all backgrounds with warmth and discretion. All appointments are arranged with complete respect for your privacy. Available daily across London for both incall and outcall bookings.',
   ],
-  reviews:[
-    {name:'James M.', duration:'2 Hours', type:'incall', rating:5, text:'Milkyway is everything her profile promises and more. Warm, attentive, and genuinely great company. The incall apartment was spotless and comfortable. Will definitely book again.', date:'2025-04-28'},
-    {name:'Alex T.', duration:'1 Hour', type:'incall', rating:5, text:'Absolutely stunning in person. Very relaxed, no rush, made me feel completely at ease from the moment I arrived. Highly recommended.', date:'2025-05-10'},
-    {name:'Michael R.', duration:'3 Hours', type:'outcall', rating:5, text:'Booked Milkyway for dinner and the evening after. She was charming and engaging throughout — a real pleasure to spend time with. Discrete, professional, and beautiful.', date:'2025-05-18'},
-  ],
+  reviews:[],
 };
 MODELS.unshift(MILKYWAY_DATA);
 
@@ -1543,7 +1543,7 @@ function modelCardHTML(m,clickable=true){
       <div class="model-card-badges">${catBadges.join('')}</div>
       <div class="model-card-overlay">
         <div class="model-card-name">${m.name}</div>
-        <div class="model-card-meta">${m.age} yrs · ${m.height}cm · ${m.nationality}${(()=>{const r=computeRating(m);return r?` · ★ ${r}`:''})()}</div>
+        <div class="model-card-meta">${m.age} yrs · ${m.height}cm · ${m.nationality}${(()=>{const r=computeRating(m.reviews);return r?` · ★ ${r}`:''})()}</div>
         <div class="model-card-tags">${topSvcs}</div>
       </div>
     </div>
@@ -1692,15 +1692,65 @@ function clearFilters(){
 // =================== REVIEWS ===================
 let _reviewRating=0;
 
-function computeRating(m){
-  const revs=m.reviews||[];
-  if(!revs.length)return null;
-  return (revs.reduce((s,r)=>s+r.rating,0)/revs.length).toFixed(1);
+// Fill in after Supabase setup
+const SUPABASE_URL='https://rfmixjljtwzhedsjsjni.supabase.co';
+const SUPABASE_KEY='sb_publishable_r7LdYArejggySFV2So1rmg_72NU_XK5';
+
+function computeRating(reviews){
+  if(!reviews||!reviews.length)return null;
+  return (reviews.reduce((s,r)=>s+r.rating,0)/reviews.length).toFixed(1);
+}
+
+async function loadReviewsFromSupabase(modelId){
+  try{
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/reviews?model_id=eq.${modelId}&approved=eq.true&order=created_at.desc`,{
+      headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`}
+    });
+    if(!r.ok)return[];
+    return await r.json();
+  }catch(e){return[];}
+}
+
+async function saveReviewToSupabase(review){
+  try{
+    await fetch(`${SUPABASE_URL}/rest/v1/reviews`,{
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify(review)
+    });
+  }catch(e){}
+}
+
+function renderReviewsList(reviews){
+  const rating=computeRating(reviews);
+  if(!reviews.length)return`<div style="color:var(--text-muted);font-size:13px;text-align:center;padding:1rem 0">No reviews yet — be the first to leave one.</div>`;
+  return`
+    <div class="section-label" style="margin-bottom:0.5rem">Reviews (${reviews.length})${rating?` · ★ ${rating} avg`:''}</div>
+    ${reviews.map(r=>`
+    <div style="padding:0.75rem 0;border-bottom:1px solid rgba(176,127,222,0.1)">
+      <div class="review-header">
+        <span class="review-name">${r.name}</span>
+        <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
+      </div>
+      <div class="review-meta" style="margin-bottom:0.4rem">${r.duration} · ${r.type==='incall'?'Incall':'Outcall'} · ${r.date}</div>
+      <div class="review-text">${r.text}</div>
+    </div>`).join('')}`;
+}
+
+function reviewDurationOptions(m,type){
+  const rates=type==='outcall'?m.outcallRates:m.incallRates;
+  return rates.map(r=>`<option value="${r.label}">${r.label}</option>`).join('');
 }
 
 function setReviewStar(n){
   _reviewRating=n;
   document.querySelectorAll('.star-picker button').forEach((b,i)=>b.classList.toggle('active',i<n));
+}
+
+function selectReviewType(el,t){
+  document.querySelectorAll('.rv-type-btn').forEach(b=>b.classList.toggle('active',b===el));
+  const sel=document.getElementById('rv-duration');
+  if(sel&&_pricing.model)sel.innerHTML=reviewDurationOptions(_pricing.model,t);
 }
 
 async function submitReview(modelId){
@@ -1711,39 +1761,40 @@ async function submitReview(modelId){
   const textEl=document.getElementById('rv-text');
   const name=nameEl?nameEl.value.trim():'';
   const dur=durEl?durEl.value:'';
-  const type=typeEl?typeEl.dataset.t:'';
+  const type=typeEl?typeEl.dataset.t:'incall';
   const text=textEl?textEl.value.trim():'';
   if(!name){alert('Please enter your name.');return;}
   if(!_reviewRating){alert('Please select a star rating.');return;}
   if(!text){alert('Please write a short review.');return;}
   const btn=document.getElementById('rv-submit');
   if(btn){btn.textContent='Sending…';btn.disabled=true;}
-  const msg=`⭐ <b>New Review (pending moderation)</b>\n\n<b>Model:</b> ${m.name}\n<b>From:</b> ${name}\n<b>Duration:</b> ${dur} · ${type==='incall'?'Incall':'Outcall'}\n<b>Rating:</b> ${'★'.repeat(_reviewRating)}${'☆'.repeat(5-_reviewRating)} (${_reviewRating}/5)\n\n${text}`;
+  const today=new Date().toISOString().slice(0,10);
+  const review={model_id:modelId,name,duration:dur,type,rating:_reviewRating,text,date:today,approved:true};
+  const tgMsg=`⭐ <b>New Review</b>\n\n<b>Model:</b> ${m.name}\n<b>From:</b> ${name}\n<b>Duration:</b> ${dur} · ${type==='incall'?'Incall':'Outcall'}\n<b>Rating:</b> ${'★'.repeat(_reviewRating)}${'☆'.repeat(5-_reviewRating)} (${_reviewRating}/5)\n\n${text}`;
   try{
-    const params=new URLSearchParams({chat_id:'-5098693486',text:msg,parse_mode:'HTML'});
-    await fetch('https://api.telegram.org/bot8881061797:AAEDLHP9Uvs4Qw3Gezdzq3_T-_yFIo1fu0A/sendMessage',{method:'POST',body:params});
-  }catch(e){}
-  const newReview={name,duration:dur,type,rating:_reviewRating,text,date:new Date().toISOString().slice(0,10)};
-  m.reviews=(m.reviews||[]).concat(newReview);
-  _reviewRating=0;
-  _pricing={type:'incall',durationIdx:0,extras:new Set(),model:m};
-  _gallery={photos:[],current:0};
-  document.getElementById('modelDetailContent').innerHTML=buildRealModelHTML(m);
-  initGalleryTouch();
-  probeModelPhotos(m.folder,photos=>{
-    _gallery.photos=photos;
-    const track=document.getElementById('gallery-track');if(!track)return;
-    track.innerHTML=photos.map(src=>`<img class="gallery-slide" src="${src}" alt="${m.name}">`).join('');
-    const dotsEl=document.getElementById('gallery-dots');
-    if(dotsEl)dotsEl.innerHTML=photos.map((_,i)=>`<span class="gallery-dot${i===0?' active':''}" onclick="galleryGoTo(${i})"></span>`).join('');
-    const ctr=document.getElementById('gallery-counter');
-    if(ctr)ctr.textContent=`1 / ${photos.length}`;
-    if(photos.length<=1)document.querySelectorAll('.gallery-arrow').forEach(a=>a.style.display='none');
-  });
-}
-
-function selectReviewType(el,t){
-  document.querySelectorAll('.rv-type-btn').forEach(b=>b.classList.toggle('active',b===el));
+    await Promise.all([
+      saveReviewToSupabase(review),
+      fetch('https://api.telegram.org/bot8881061797:AAEDLHP9Uvs4Qw3Gezdzq3_T-_yFIo1fu0A/sendMessage',{
+        method:'POST',body:new URLSearchParams({chat_id:'-5098693486',text:tgMsg,parse_mode:'HTML'})
+      })
+    ]);
+    m.reviews=(m.reviews||[]).concat(review);
+    const listEl=document.getElementById('reviews-list');
+    if(listEl)listEl.innerHTML=renderReviewsList(m.reviews);
+    const ratingEl=document.getElementById('model-rating-display');
+    const r=computeRating(m.reviews);
+    if(ratingEl)ratingEl.innerHTML=r?`<span style="color:#FFD700;font-size:14px">★ ${r}</span>`:'';
+    _reviewRating=0;
+    const form=document.getElementById('rv-form');
+    if(form)form.innerHTML=`<div style="text-align:center;padding:1.5rem 0">
+      <div style="font-size:2rem;margin-bottom:0.5rem">✓</div>
+      <div style="font-weight:600;margin-bottom:0.35rem">Thank you!</div>
+      <div style="font-size:13px;color:var(--text-soft)">Your review has been published.</div>
+    </div>`;
+  }catch(e){
+    if(btn){btn.textContent='Submit Review';btn.disabled=false;}
+    alert('Something went wrong. Please try again.');
+  }
 }
 
 // =================== REAL MODEL DETAIL ===================
@@ -1826,11 +1877,10 @@ function buildRealModelHTML(m){
     ['Age',m.age],['Height',`${m.height}cm`],['Weight',`${m.weight}kg`],['Clothing',m.clothingSize],
     ['Breast',m.breastSize],['Type',m.breastType],['Eyes',m.eyeColor],['Hair',m.hairColor],
   ];
-  const rating=computeRating(m);
   const reviews=m.reviews||[];
+  const rating=computeRating(reviews);
   const mapQ=encodeURIComponent(m.station+' Underground Station London');
-  const durOptions=m.incallRates.map(r=>`<option value="${r.label}">${r.label} (Incall from £${r.price})</option>`).join('')+
-    m.outcallRates.map(r=>`<option value="${r.label} outcall">${r.label} (Outcall from £${r.price})</option>`).join('');
+  const durOptions=reviewDurationOptions(m,'incall');
   return `
     <button class="back-btn" onclick="history.back()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
@@ -1856,7 +1906,7 @@ function buildRealModelHTML(m){
           <div class="model-detail-name">${m.name}</div>
           <div style="color:var(--text-soft);font-size:14px;margin-top:4px">${m.nationality} · ${m.station}</div>
           <div style="display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap">
-            ${rating?`<span style="color:#FFD700;font-size:14px">★ ${rating}</span>`:''}
+            <span id="model-rating-display">${rating?`<span style="color:#FFD700;font-size:14px">★ ${rating}</span>`:''}</span>
             ${m.cats.includes('toprated')?'<span class="badge badge-top">Top Rated</span>':''}
             ${m.cats.includes('new')?'<span class="badge badge-new">New</span>':''}
           </div>
@@ -1912,27 +1962,20 @@ function buildRealModelHTML(m){
       </div>
     </div>
     <div class="model-map-block">
-      <iframe src="https://maps.google.com/maps?q=${mapQ}&output=embed" loading="lazy"></iframe>
+      <iframe src="https://maps.google.com/maps?q=${mapQ}&z=15&output=embed" loading="lazy"></iframe>
+      <div class="map-marker" title="${m.station}">
+        <svg viewBox="0 0 24 24" fill="#7B2FBE" stroke="#fff" stroke-width="1.4"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z"/><circle cx="12" cy="9" r="2.6" fill="#fff" stroke="none"/></svg>
+      </div>
     </div>
     <div class="reviews-section">
-      ${reviews.length?`
-      <div class="review-card">
-        <div class="section-label">Reviews (${reviews.length})${rating?` · ★ ${rating} avg`:''}</div>
-        ${reviews.map(r=>`
-        <div style="padding:0.75rem 0;border-bottom:1px solid rgba(176,127,222,0.1)">
-          <div class="review-header">
-            <span class="review-name">${r.name}</span>
-            <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
-          </div>
-          <div class="review-meta" style="margin-bottom:0.4rem">${r.duration} · ${r.type==='incall'?'Incall':'Outcall'} · ${r.date}</div>
-          <div class="review-text">${r.text}</div>
-        </div>`).join('')}
-      </div>`:``}
-      <div class="review-form">
+      <div class="review-card" id="reviews-list">
+        <div style="color:var(--text-muted);font-size:13px;text-align:center;padding:0.5rem 0">Loading reviews…</div>
+      </div>
+      <div class="review-form" id="rv-form">
         <div class="review-form-title">Leave a Review</div>
         <div class="bf-label">Your name</div>
         <input class="bf-input" type="text" id="rv-name" placeholder="e.g. James">
-        <div class="bf-label">Duration &amp; type</div>
+        <div class="bf-label">Duration</div>
         <select class="bf-input" id="rv-duration">${durOptions}</select>
         <div class="bf-label">Type</div>
         <div style="display:flex;gap:6px;margin-bottom:0.25rem">
@@ -1966,10 +2009,19 @@ function initGalleryTouch(){
 function openRealModel(m){
   _pricing={type:'incall',durationIdx:0,extras:new Set(),model:m};
   _gallery={photos:[],current:0};
+  m.reviews=m.reviews||[];
   document.getElementById('modelDetailContent').innerHTML=buildRealModelHTML(m);
   history.pushState({page:'model-detail',id:m.id},'','#model');
   showPage('model-detail');
   initGalleryTouch();
+  loadReviewsFromSupabase(m.id).then(reviews=>{
+    m.reviews=reviews;
+    const listEl=document.getElementById('reviews-list');
+    if(listEl)listEl.innerHTML=renderReviewsList(reviews);
+    const ratingEl=document.getElementById('model-rating-display');
+    const r=computeRating(reviews);
+    if(ratingEl)ratingEl.innerHTML=r?`<span style="color:#FFD700;font-size:14px">★ ${r}</span>`:'';
+  });
   probeModelPhotos(m.folder,photos=>{
     _gallery.photos=photos;
     const track=document.getElementById('gallery-track');
@@ -2092,7 +2144,7 @@ function handleNavSearch(q){
       <div class="avatar" style="${m.real?`background:url('${m.folder}/1.webp') top center/cover no-repeat`:`background:linear-gradient(135deg,${m.color[0]},${m.color[1]})`}">${m.real?'':m.initials}</div>
       <div>
         <div style="font-weight:500;font-size:13px">${m.name}</div>
-        <div style="font-size:11px;color:var(--text-muted)">${m.nationality} · ${m.real?`from £${Math.min(...m.incallRates.map(r=>r.price))}`:`£${m.rateHour}/hr`}${(()=>{const r=computeRating(m);return r?` · ★ ${r}`:''})()}</div>
+        <div style="font-size:11px;color:var(--text-muted)">${m.nationality} · ${m.real?`from £${Math.min(...m.incallRates.map(r=>r.price))}`:`£${m.rateHour}/hr`}${(()=>{const r=computeRating(m.reviews);return r?` · ★ ${r}`:''})()}</div>
       </div>
     </div>`).join('');
   dd.classList.add('show');
