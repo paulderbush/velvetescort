@@ -1693,8 +1693,8 @@ function clearFilters(){
 let _reviewRating=0;
 
 // Fill in after Supabase setup
-const SUPABASE_URL='https://PLACEHOLDER.supabase.co';
-const SUPABASE_KEY='PLACEHOLDER';
+const SUPABASE_URL='https://rfmixjljtwzhedsjsjni.supabase.co';
+const SUPABASE_KEY='sb_publishable_r7LdYArejggySFV2So1rmg_72NU_XK5';
 
 function computeRating(reviews){
   if(!reviews||!reviews.length)return null;
@@ -1702,7 +1702,6 @@ function computeRating(reviews){
 }
 
 async function loadReviewsFromSupabase(modelId){
-  if(SUPABASE_URL.includes('PLACEHOLDER'))return[];
   try{
     const r=await fetch(`${SUPABASE_URL}/rest/v1/reviews?model_id=eq.${modelId}&approved=eq.true&order=created_at.desc`,{
       headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`}
@@ -1713,7 +1712,6 @@ async function loadReviewsFromSupabase(modelId){
 }
 
 async function saveReviewToSupabase(review){
-  if(SUPABASE_URL.includes('PLACEHOLDER'))return;
   try{
     await fetch(`${SUPABASE_URL}/rest/v1/reviews`,{
       method:'POST',
@@ -1771,8 +1769,8 @@ async function submitReview(modelId){
   const btn=document.getElementById('rv-submit');
   if(btn){btn.textContent='Sending…';btn.disabled=true;}
   const today=new Date().toISOString().slice(0,10);
-  const review={model_id:modelId,name,duration:dur,type,rating:_reviewRating,text,date:today,approved:false};
-  const tgMsg=`⭐ <b>New Review (pending moderation)</b>\n\n<b>Model:</b> ${m.name}\n<b>From:</b> ${name}\n<b>Duration:</b> ${dur} · ${type==='incall'?'Incall':'Outcall'}\n<b>Rating:</b> ${'★'.repeat(_reviewRating)}${'☆'.repeat(5-_reviewRating)} (${_reviewRating}/5)\n\n${text}`;
+  const review={model_id:modelId,name,duration:dur,type,rating:_reviewRating,text,date:today,approved:true};
+  const tgMsg=`⭐ <b>New Review</b>\n\n<b>Model:</b> ${m.name}\n<b>From:</b> ${name}\n<b>Duration:</b> ${dur} · ${type==='incall'?'Incall':'Outcall'}\n<b>Rating:</b> ${'★'.repeat(_reviewRating)}${'☆'.repeat(5-_reviewRating)} (${_reviewRating}/5)\n\n${text}`;
   try{
     await Promise.all([
       saveReviewToSupabase(review),
@@ -1780,14 +1778,23 @@ async function submitReview(modelId){
         method:'POST',body:new URLSearchParams({chat_id:'-5098693486',text:tgMsg,parse_mode:'HTML'})
       })
     ]);
-  }catch(e){}
-  _reviewRating=0;
-  const form=document.getElementById('rv-form');
-  if(form)form.innerHTML=`<div style="text-align:center;padding:1.5rem 0">
-    <div style="font-size:2rem;margin-bottom:0.5rem">✓</div>
-    <div style="font-weight:600;margin-bottom:0.35rem">Thank you!</div>
-    <div style="font-size:13px;color:var(--text-soft)">Your review will appear after moderation.</div>
-  </div>`;
+    m.reviews=(m.reviews||[]).concat(review);
+    const listEl=document.getElementById('reviews-list');
+    if(listEl)listEl.innerHTML=renderReviewsList(m.reviews);
+    const ratingEl=document.getElementById('model-rating-display');
+    const r=computeRating(m.reviews);
+    if(ratingEl)ratingEl.innerHTML=r?`<span style="color:#FFD700;font-size:14px">★ ${r}</span>`:'';
+    _reviewRating=0;
+    const form=document.getElementById('rv-form');
+    if(form)form.innerHTML=`<div style="text-align:center;padding:1.5rem 0">
+      <div style="font-size:2rem;margin-bottom:0.5rem">✓</div>
+      <div style="font-weight:600;margin-bottom:0.35rem">Thank you!</div>
+      <div style="font-size:13px;color:var(--text-soft)">Your review has been published.</div>
+    </div>`;
+  }catch(e){
+    if(btn){btn.textContent='Submit Review';btn.disabled=false;}
+    alert('Something went wrong. Please try again.');
+  }
 }
 
 // =================== REAL MODEL DETAIL ===================
