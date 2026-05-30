@@ -365,6 +365,7 @@ nav{
 }
 .badge-new{background:rgba(160,224,128,0.2);border:1px solid rgba(160,224,128,0.4);color:#A0E080}
 .badge-vip{background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.35);color:#FFD700}
+.card-rating-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.55);backdrop-filter:blur(6px);border:1px solid rgba(255,215,0,0.4);border-radius:20px;padding:3px 9px;font-size:12px;font-weight:600;color:#FFD700;letter-spacing:0.03em;pointer-events:none}
 .badge-top{background:rgba(255,100,100,0.15);border:1px solid rgba(255,100,100,0.3);color:#FF7070}
 .model-card-overlay{
   position:absolute;bottom:0;left:0;right:0;
@@ -1557,9 +1558,10 @@ function modelCardHTML(m,clickable=true){
       </div>`:''}
 
       <div class="model-card-badges">${catBadges.join('')}</div>
+      ${(()=>{const r=computeRating(m.reviews);return r?`<div class="card-rating-badge">★ ${r}</div>`:''})()}
       <div class="model-card-overlay">
         <div class="model-card-name">${m.name}</div>
-        <div class="model-card-meta">${m.age} yrs · ${m.height}cm · ${m.nationality}${(()=>{const r=computeRating(m.reviews);return r?` · ★ ${r}`:''})()}</div>
+        <div class="model-card-meta">${m.age} yrs · ${m.height}cm · ${m.nationality}</div>
         <div class="model-card-tags">${topSvcs}</div>
       </div>
     </div>
@@ -1743,12 +1745,12 @@ function renderReviewsList(reviews){
   return`
     <div class="section-label" style="margin-bottom:0.5rem">Reviews (${reviews.length})${rating?` · ★ ${rating} avg`:''}</div>
     ${reviews.map(r=>`
-    <div style="padding:0.75rem 0;border-bottom:1px solid rgba(176,127,222,0.1)">
+    <div style="padding:0.75rem 0">
       <div class="review-header">
         <span class="review-name">${r.name}</span>
         <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
       </div>
-      <div class="review-meta" style="margin-bottom:0.4rem">${r.duration} · ${r.type==='incall'?'Incall':'Outcall'} · ${r.date}</div>
+      <div class="review-meta" style="margin-bottom:0.5rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(176,127,222,0.15)">${r.duration} · ${r.type==='incall'?'Incall':'Outcall'} · ${r.date}</div>
       <div class="review-text">${r.text}</div>
     </div>`).join('')}`;
 }
