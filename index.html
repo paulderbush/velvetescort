@@ -1559,7 +1559,7 @@ function modelCardHTML(m,clickable=true){
       </div>
     </div>
     <div class="model-card-footer">
-      <div class="model-rate">${m.real?`from £${Math.min(...m.incallRates.map(r=>r.price))}`:`£${m.rateHour}<span>/hr</span>`}</div>
+      <div class="model-rate">${m.real?`<span>from </span>£${Math.min(...m.incallRates.map(r=>r.price))}`:`£${m.rateHour}<span>/hr</span>`}</div>
       <button class="add-to-cart-btn" onclick="event.stopPropagation();addToCart(${m.id})">+ Book</button>
     </div>
   </div>`;
