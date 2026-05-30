@@ -1729,6 +1729,22 @@ async function loadReviewsFromSupabase(modelId){
   }catch(e){return[];}
 }
 
+async function loadAllReviews(){
+  try{
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/reviews?approved=eq.true&order=created_at.desc`,{
+      headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`}
+    });
+    if(!r.ok)return;
+    const all=await r.json();
+    const byModel={};
+    all.forEach(rv=>{(byModel[rv.model_id]=byModel[rv.model_id]||[]).push(rv);});
+    MODELS.forEach(m=>{if(byModel[m.id])m.reviews=byModel[m.id];});
+    // refresh any currently-rendered card grids
+    if(document.getElementById('page-home').classList.contains('active'))renderHomeRows();
+    if(document.getElementById('page-models').classList.contains('active'))applyFilters();
+  }catch(e){}
+}
+
 async function saveReviewToSupabase(review){
   try{
     await fetch(`${SUPABASE_URL}/rest/v1/reviews`,{
@@ -2290,6 +2306,7 @@ function initBecomePage(){
 
 // =================== INIT ===================
 renderHomeRows();
+loadAllReviews();
 renderFAQs([0,1,2],'faqHome');
 renderFAQs(FAQS.map((_,i)=>i),'faqAll');
 
