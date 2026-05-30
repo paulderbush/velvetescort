@@ -584,6 +584,12 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
 }
 .back-btn:hover{border-color:var(--purple3);color:var(--text)}
 .model-detail-layout{display:grid;grid-template-columns:1fr 1fr;column-gap:2rem;align-items:start}
+.real-detail-layout{display:grid;grid-template-columns:1fr 1fr;column-gap:2rem;row-gap:1rem;align-items:start}
+.real-detail-layout>.detail-left{grid-column:1;grid-row:1}
+.real-detail-layout>.model-detail-info{grid-column:2;grid-row:1}
+.real-detail-layout>.model-map-block{grid-column:1/-1;grid-row:2}
+.real-detail-layout>.reviews-section{grid-column:1/-1;grid-row:3}
+.real-detail-layout .detail-left>.model-bio{margin-top:1rem}
 .model-detail-img{
   border-radius:var(--r-sm);overflow:hidden;
   aspect-ratio:3/4;
@@ -799,6 +805,13 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
   .filters-sidebar.open{display:block}
   .models-row{grid-template-columns:repeat(2,1fr)}
   .model-detail-layout{grid-template-columns:1fr}
+  .real-detail-layout{display:flex;flex-direction:column;gap:1rem;align-items:stretch}
+  .real-detail-layout>.detail-left{display:contents}
+  .real-detail-layout .detail-left>.detail-gallery{order:1}
+  .real-detail-layout>.model-detail-info{order:2}
+  .real-detail-layout>.model-map-block{order:3}
+  .real-detail-layout>.reviews-section{order:4}
+  .real-detail-layout .detail-left>.model-bio{order:5;margin-top:0}
   .hero h1{font-size:2rem}
   .hero-btns{flex-wrap:wrap}
   .hero-btns .btn-wa,.hero-btns .btn-tg{justify-content:center}
@@ -831,14 +844,10 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
 .make-booking-btn{width:100%;padding:0.85rem;border:none;border-radius:var(--r);background:linear-gradient(135deg,var(--purple),var(--purple-dark));color:#fff;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(123,47,190,0.4);transition:all 0.25s}
 .make-booking-btn:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(123,47,190,0.6)}
 /* MAP */
-.model-map-block{position:relative;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--glass-border);margin-top:1rem}
+.model-map-block{position:relative;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--glass-border)}
 .model-map-block iframe{display:block;width:100%;height:420px;border:none;filter:invert(0.9) hue-rotate(180deg)}
-.map-marker{position:absolute;top:50%;left:50%;transform:translate(-50%,-100%);pointer-events:none;z-index:2;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.5))}
-.map-marker svg{width:38px;height:38px;display:block}
-@keyframes mapPulse{0%,100%{transform:translate(-50%,-100%) scale(1)}50%{transform:translate(-50%,-100%) scale(1.12)}}
-.map-marker{animation:mapPulse 1.8s ease-in-out infinite}
 /* REVIEWS */
-.reviews-section{margin-top:1rem;display:flex;flex-direction:column;gap:1rem}
+.reviews-section{display:flex;flex-direction:column;gap:1rem}
 .review-card{border-radius:var(--r-sm);background:var(--glass);border:1px solid var(--glass-border);padding:1rem}
 .review-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;flex-wrap:wrap;gap:6px}
 .review-name{font-weight:600;font-size:14px}
@@ -1888,8 +1897,8 @@ function buildRealModelHTML(m){
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
       Back to Models
     </button>
-    <div class="model-detail-layout">
-      <div>
+    <div class="real-detail-layout">
+      <div class="detail-left">
         <div class="detail-gallery">
           <div class="gallery-track" id="gallery-track">
             <img class="gallery-slide" src="${m.folder}/1.webp" alt="${m.name}">
@@ -1899,7 +1908,7 @@ function buildRealModelHTML(m){
           <div class="gallery-dots" id="gallery-dots"><span class="gallery-dot active"></span></div>
           <div class="gallery-counter" id="gallery-counter">1 / 1</div>
         </div>
-        <div class="model-bio" style="margin-top:1rem">
+        <div class="model-bio">
           ${m.description.map(p=>`<p>${p}</p>`).join('')}
         </div>
       </div>
@@ -1962,14 +1971,10 @@ function buildRealModelHTML(m){
         </div>
         <div style="font-size:12px;color:var(--text-muted);text-align:center">${m.nationality} · ${m.orientation} · Available daily 10:00 AM – 2:00 AM</div>
       </div>
-    </div>
-    <div class="model-map-block">
-      <iframe src="https://maps.google.com/maps?q=${mapQ}&z=15&output=embed" loading="lazy"></iframe>
-      <div class="map-marker" title="${m.station}">
-        <svg viewBox="0 0 24 24" fill="#7B2FBE" stroke="#fff" stroke-width="1.4"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z"/><circle cx="12" cy="9" r="2.6" fill="#fff" stroke="none"/></svg>
+      <div class="model-map-block">
+        <iframe src="https://maps.google.com/maps?q=${mapQ}&z=15&output=embed" loading="lazy"></iframe>
       </div>
-    </div>
-    <div class="reviews-section">
+      <div class="reviews-section">
       <div class="review-card" id="reviews-list">
         <div style="color:var(--text-muted);font-size:13px;text-align:center;padding:0.5rem 0">Loading reviews…</div>
       </div>
@@ -1991,8 +1996,9 @@ function buildRealModelHTML(m){
         <div class="bf-label">Your review</div>
         <textarea class="bf-input" id="rv-text" rows="4" placeholder="Share your experience…" style="resize:vertical;font-family:Outfit,sans-serif"></textarea>
         <button class="review-submit-btn" id="rv-submit" onclick="submitReview(${m.id})">Submit Review</button>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:0.5rem;text-align:center">Reviews are moderated before appearing publicly.</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:0.5rem;text-align:center">Your review is published instantly. Inappropriate reviews may be removed.</div>
       </div>
+    </div>
     </div>`;
 }
 
