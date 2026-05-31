@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Velvet London — Elite Escort Agency</title>
-<meta name="description" content="Velvet London offers exclusive social companionship for private, business, and leisure occasions — always discreet, always refined.">
-<link rel="canonical" href="https://velvetescort.co.uk/">
-<meta property="og:title" content="Velvet London — Elite Escort Agency">
-<meta property="og:description" content="Velvet London offers exclusive social companionship for private, business, and leisure occasions — always discreet, always refined.">
-<meta property="og:url" content="https://velvetescort.co.uk/">
+<title>Our Companions — Velvet London</title>
+<meta name="description" content="Browse our exclusive roster of London companions. Filter by location, nationality, services and more.">
+<link rel="canonical" href="https://velvetescort.co.uk/models/">
+<meta property="og:title" content="Our Companions — Velvet London">
+<meta property="og:description" content="Browse our exclusive roster of London companions. Filter by location, nationality, services and more.">
+<meta property="og:url" content="https://velvetescort.co.uk/models/">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="/images/favicon.png?v=2">
 <link rel="shortcut icon" type="image/png" href="/images/favicon.png?v=2">
@@ -928,83 +928,126 @@ input[type=range]::-webkit-slider-thumb:hover{background:var(--purple3)}
 </div>
 <div id="fakeModelOverlay"></div>
 
-<!-- HOME PAGE -->
 <div style="position:relative;z-index:1">
+  <div class="models-page">
+    <a class="back-btn" href="/">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </a>
+    <div class="models-page-header">
+      <h1>Our <span style="background:linear-gradient(135deg,#C49FEE,#8B3FCA);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Companions</span></h1>
+      <p style="color:var(--text-soft)">Browse and filter our exclusive roster of London companions</p>
+    </div>
+    <div class="models-layout">
+      <!-- MOBILE FILTER TOGGLE -->
+      <button class="mobile-filter-toggle" id="filterToggle" onclick="toggleMobileFilters()">
+        <span style="display:flex;align-items:center;gap:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Choose Filters</span>
+        <svg id="filterToggleChevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <!-- SIDEBAR -->
+      <div class="filters-sidebar" id="filtersSidebar">
+        <div style="font-size:1rem;font-weight:700;margin-bottom:1.2rem">Filters</div>
 
-  <!-- HERO -->
-  <div class="hero" style="position:relative;z-index:1">
-    <div class="hero-bg"></div>
-    <div class="hero-content">
-      <div class="hero-hours">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        Available daily · 10:00 AM – 2:00 AM
+        <!-- Category -->
+        <div class="filter-group">
+          <div class="filter-title">Category</div>
+          <div class="filter-chips" id="catChips">
+            <button class="filter-chip active" data-cat="all" onclick="setCat(this,'all')">All</button>
+            <button class="filter-chip" data-cat="recommended" onclick="setCat(this,'recommended')">Recommended</button>
+            <button class="filter-chip" data-cat="under25" onclick="setCat(this,'under25')">Under 25</button>
+            <button class="filter-chip" data-cat="toprated" onclick="setCat(this,'toprated')">Top Rated</button>
+            <button class="filter-chip" data-cat="new" onclick="setCat(this,'new')">New Models</button>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="filter-group">
+          <div class="filter-title">Location (London Underground)</div>
+          <div class="filter-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search station…" oninput="filterStations(this.value)" id="stationSearch">
+          </div>
+          <div class="filter-list" id="stationList"></div>
+        </div>
+
+        <!-- Nationality -->
+        <div class="filter-group">
+          <div class="filter-title">Nationality</div>
+          <div class="filter-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search nationality…" oninput="filterNat(this.value)" id="natSearch">
+          </div>
+          <div class="filter-list" id="natList"></div>
+        </div>
+
+        <!-- Age -->
+        <div class="filter-group">
+          <div class="filter-title">Age</div>
+          <div class="range-wrap" id="ageWrap">
+            <div class="range-row"><span>18</span><span class="range-vals" id="ageVals">18 – 60</span><span>60</span></div>
+            <div class="range-track" id="ageTrack">
+              <div class="range-fill" id="ageFill"></div>
+              <input type="range" min="18" max="60" value="18" id="ageMin" oninput="updateRange('age')">
+              <input type="range" min="18" max="60" value="60" id="ageMax" oninput="updateRange('age')">
+            </div>
+          </div>
+        </div>
+
+        <!-- Weight -->
+        <div class="filter-group">
+          <div class="filter-title">Weight (kg)</div>
+          <div class="range-wrap" id="weightWrap">
+            <div class="range-row"><span>40</span><span class="range-vals" id="weightVals">40 – 100</span><span>100</span></div>
+            <div class="range-track" id="weightTrack">
+              <div class="range-fill" id="weightFill"></div>
+              <input type="range" min="40" max="100" value="40" id="weightMin" oninput="updateRange('weight')">
+              <input type="range" min="40" max="100" value="100" id="weightMax" oninput="updateRange('weight')">
+            </div>
+          </div>
+        </div>
+
+        <!-- Height -->
+        <div class="filter-group">
+          <div class="filter-title">Height (cm)</div>
+          <div class="range-wrap" id="heightWrap">
+            <div class="range-row"><span>150</span><span class="range-vals" id="heightVals">150 – 185</span><span>185</span></div>
+            <div class="range-track" id="heightTrack">
+              <div class="range-fill" id="heightFill"></div>
+              <input type="range" min="150" max="185" value="150" id="heightMin" oninput="updateRange('height')">
+              <input type="range" min="150" max="185" value="185" id="heightMax" oninput="updateRange('height')">
+            </div>
+          </div>
+        </div>
+
+        <!-- Services -->
+        <div class="filter-group">
+          <div class="filter-title">Services</div>
+          <div class="filter-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search service…" oninput="filterSvc(this.value)" id="svcSearch">
+          </div>
+          <div class="services-wrap filter-list" id="svcList"></div>
+        </div>
+
+        <button class="clear-filters" onclick="clearFilters()">✕ Clear all filters</button>
       </div>
-      <h1>Elite companions for <span>discerning</span> gentlemen</h1>
-      <p class="hero-sub">Velvet London offers exclusive social companionship for private, business, and leisure occasions — always discreet, always refined.</p>
-      <div class="hero-btns">
-        <a href="https://wa.me/447450842231?text=Hello%20Velvet%20Agency%20%F0%9F%91%8B%F0%9F%8F%BC" class="btn-wa" target="_blank">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          WhatsApp
-        </a>
-        <a href="https://t.me/velvetescortlondon?text=Hello%20Velvet%20Agency%20%F0%9F%91%8B%F0%9F%8F%BC" class="btn-tg" target="_blank">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-          Telegram
-        </a>
-        <a href="/become-a-model/" class="btn-model-cta">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Become a Model
-        </a>
+
+      <!-- GRID -->
+      <div>
+        <div class="filters-top-bar">
+          <div class="results-count" id="resultsCount">Showing all models</div>
+          <select class="sort-select" onchange="sortModels(this.value)">
+            <option value="default">Sort: Default</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="age-asc">Age: Youngest first</option>
+            <option value="name">Name: A–Z</option>
+          </select>
+        </div>
+        <div class="models-grid-main" id="modelsGrid"></div>
       </div>
     </div>
   </div>
-
-  <!-- RECOMMENDED -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-title">⭐ <span>Recommended</span> Girls</div>
-      <a class="see-all" href="/models/">See all →</a>
-    </div>
-    <div class="models-row" id="recommendedRow"></div>
-  </div>
-
-  <!-- UNDER 25 -->
-  <div class="section" style="padding-top:0">
-    <div class="section-header">
-      <div class="section-title">🌸 <span>Under 25</span></div>
-      <a class="see-all" href="/models/">See all →</a>
-    </div>
-    <div class="models-row" id="under25Row"></div>
-  </div>
-
-  <!-- TOP RATED -->
-  <div class="section" style="padding-top:0">
-    <div class="section-header">
-      <div class="section-title">🏆 <span>Top Rated</span></div>
-      <a class="see-all" href="/models/">See all →</a>
-    </div>
-    <div class="models-row" id="topRatedRow"></div>
-  </div>
-
-  <!-- FAQ -->
-  <div class="faq-section">
-    <div class="section-title" style="margin-bottom:0.3rem">Frequently Asked <span>Questions</span></div>
-    <p style="color:var(--text-soft);font-size:14px;margin-bottom:1.5rem">Everything you need to know before making a booking.</p>
-    <div id="faqHome"></div>
-    <div class="faq-see-all">
-      <a class="see-all" href="/faq/">See all FAQs →</a>
-    </div>
-  </div>
-
-  <!-- PARTNERS -->
-  <div class="partners-section">
-    <div class="partners-title">Our Partners</div>
-    <div class="partners-row">
-      <a class="partner-banner" href="https://www.eurogirlsescort.com" target="_blank" rel="noopener noreferrer">
-        <img src="/images/EuroEscortGirls.png" alt="EuroGirlsEscort.com">
-      </a>
-    </div>
-  </div>
-
 </div>
 
 <!-- SHARED FOOTER -->
@@ -1036,11 +1079,11 @@ const NATIONALITIES = ["Albanian","Argentine","Belarusian","Brazilian","British"
 const STATIONS = ["Aldgate","Aldgate East","Angel","Baker Street","Bank","Barbican","Barons Court","Battersea Power Station","Bayswater","Bermondsey","Bethnal Green","Blackfriars","Bond Street","Borough","Bow Road","Brixton","Camden Town","Canada Water","Canary Wharf","Cannon Street","Chalk Farm","Chancery Lane","Charing Cross","Chelsea","Clapham Common","Clapham North","Clapham South","Covent Garden","Earl's Court","Edgware Road","Elephant & Castle","Embankment","Euston","Farringdon","Finchley Road","Finsbury Park","Fulham Broadway","Gloucester Road","Green Park","Hammersmith","High Street Kensington","Highbury & Islington","Holborn","Holland Park","Hyde Park Corner","Islington","Kennington","Kensington","King's Cross St. Pancras","Knightsbridge","Lambeth North","Lancaster Gate","Leicester Square","Liverpool Street","London Bridge","Maida Vale","Mansion House","Marble Arch","Marylebone","Mile End","Monument","Moorgate","Nine Elms","Notting Hill Gate","Old Street","Oval","Oxford Circus","Paddington","Parsons Green","Piccadilly Circus","Pimlico","Putney Bridge","Queensway","Regent's Park","Shepherd's Bush","Sloane Square","Soho","South Kensington","Southwark","St. James's Park","St. Paul's","Stepney Green","Stockwell","Stratford","Swiss Cottage","Temple","Tottenham Court Road","Tower Hill","Vauxhall","Victoria","Warren Street","Waterloo","West Brompton","Westminster","Whitechapel"];
 </script>
 <script src="/assets/main.js"></script>
+<script src="/assets/catalog.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  renderHomeRows();
+  initModelsPage();
   loadAllReviews();
-  renderFAQs([0,1,2], 'faqHome');
 });
 </script>
 </body>
