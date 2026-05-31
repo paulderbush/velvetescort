@@ -160,7 +160,49 @@ const ROSA_DATA = {
   reviews: [],
 };
 
-const FAKE_MODELS = generateModels();
-const MODELS = [MILKYWAY_DATA, ROSA_DATA, ...FAKE_MODELS];
+const MANNY_DATA = {
+  id: 9997, real: true, folder: 'Manny', slug: 'manny',
+  name: 'Manny', age: 23, height: 173, weight: 60,
+  nationality: 'British', station: 'Southwark',
+  rateHour: 350,
+  color: ['rgba(70,130,180,0.4)', 'rgba(30,80,130,0.7)'],
+  initials: 'MA',
+  cats: ['recommended', 'under25', 'new'],
+  breastSize: '34C', breastType: 'Silicone', clothingSize: '8',
+  eyeColor: 'Blue', hairColor: 'Blonde', orientation: 'Bisexual',
+  languages: 'English (Fluent)',
+  svcs: ['69', 'Bisexual DUO', 'Couples', 'Deep French Kissing', 'Erotic Massage', 'Group For Extra', 'Handcuffs', 'Lap Dancing', 'MMF For Double Price', 'Party Girl', 'Peeing On Model', 'Professional Massage', 'Roleplay', 'Sensual Massage', 'Strapon'],
+  extraSvcs: [
+    {name: 'Anal Sex', price: 150},
+    {name: 'Blowjob Without Condom', price: 50},
+  ],
+  incallRates: [
+    {label: '30 min', price: 300},
+    {label: '45 min', price: 330},
+    {label: '1 Hour', price: 350},
+    {label: '2 Hours', price: 600},
+    {label: '3 Hours', price: 850},
+    {label: '4 Hours', price: 1100},
+    {label: 'Overnight', price: 1900},
+  ],
+  outcallRates: [
+    {label: '30 min', price: 350},
+    {label: '45 min', price: 370},
+    {label: '1 Hour', price: 400},
+    {label: '2 Hours', price: 650},
+    {label: '3 Hours', price: 900},
+    {label: '4 Hours', price: 1150},
+    {label: 'Overnight', price: 1900},
+  ],
+  description: [
+    'Manny is a captivating young British companion based in London, combining natural confidence with a warm, open personality that puts you instantly at ease. With striking blonde hair, vivid blue eyes, and a tall, elegant figure, she carries herself with effortless poise and an understated sensuality that is entirely her own.',
+    'Bisexual and genuinely open-minded, Manny welcomes a broad range of encounters — from intimate one-on-one meetings to couples experiences and group bookings. She takes real pleasure in creating a relaxed, unhurried atmosphere where every moment feels personal and entirely for you.',
+    'A native English speaker, Manny is as engaging in conversation as she is in company. Available daily across London from her South Bank location, close to Southwark station, for both incall and outcall bookings — all arranged with complete discretion.',
+  ],
+  reviews: [],
+};
 
-module.exports = { MODELS, MILKYWAY_DATA, ROSA_DATA, SERVICES, NATIONALITIES, STATIONS, NAMES_F };
+const FAKE_MODELS = generateModels();
+const MODELS = [MILKYWAY_DATA, ROSA_DATA, MANNY_DATA, ...FAKE_MODELS];
+
+module.exports = { MODELS, MILKYWAY_DATA, ROSA_DATA, MANNY_DATA, SERVICES, NATIONALITIES, STATIONS, NAMES_F };
