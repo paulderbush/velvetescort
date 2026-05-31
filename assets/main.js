@@ -228,7 +228,7 @@ function modelCardHTML(m, clickable = true) {
 
   // For real models wrap in link, for fake use onclick
   const cardStart = m.real
-    ? `<a class="model-card" href="/models/${m.slug}/" style="text-decoration:none;display:block">`
+    ? `<a class="model-card" href="/models/${m.slug}/" style="text-decoration:none;display:block;color:inherit">`
     : `<div class="model-card" onclick="${clickable ? `openFakeModel(${m.id})` : ''}">`;
   const cardEnd = m.real ? '</a>' : '</div>';
 
