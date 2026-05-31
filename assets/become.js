@@ -68,9 +68,17 @@ async function submitApplication(e) {
     return sel && sel.value ? sel.value + (lvl ? ' (' + lvl.textContent + ')' : '') : null;
   }).filter(Boolean).join(', ') || '—';
 
-  // Services
-  const svcs = Array.from(document.querySelectorAll('#servicesCheckList input[type=checkbox]:checked'))
-    .map(c => c.value).join(', ') || '—';
+  // Services (include extra price if set)
+  const svcs = Array.from(document.querySelectorAll('#servicesCheckList .svc-check'))
+    .filter(row => row.querySelector('input[type=checkbox]:checked'))
+    .map(row => {
+      const name = row.querySelector('input[type=checkbox]').value;
+      const extraBtn = row.querySelector('.svc-extra-btn');
+      const extraPrice = row.querySelector('.svc-extra-price');
+      if (extraBtn && extraBtn.classList.contains('active') && extraPrice && extraPrice.value)
+        return `${name} (+£${extraPrice.value})`;
+      return name;
+    }).join(', ') || '—';
 
   const msg = `
 🌸 <b>New Model Application</b>
