@@ -141,8 +141,8 @@ async function submitReview(modelId) {
   try {
     await Promise.all([
       saveReviewToSupabase(review),
-      fetch('https://api.telegram.org/bot8881061797:AAEDLHP9Uvs4Qw3Gezdzq3_T-_yFIo1fu0A/sendMessage', {
-        method: 'POST', body: new URLSearchParams({chat_id: '-5098693486', text: tgMsg, parse_mode: 'HTML'})
+      fetch(TG_BOT, {
+        method: 'POST', body: new URLSearchParams({chat_id: TG_CHAT_REVIEWS, text: tgMsg, parse_mode: 'HTML'})
       })
     ]);
     m.reviews = (m.reviews || []).concat(review);
