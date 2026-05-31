@@ -139,12 +139,12 @@ async function submitReview(modelId) {
   const review = {model_id: modelId, name, duration: dur, type, rating: _reviewRating, text, date: today, approved: true};
   const tgMsg = `⭐ <b>New Review</b>\n\n<b>Model:</b> ${m.name}\n<b>From:</b> ${name}\n<b>Duration:</b> ${dur} · ${type === 'incall' ? 'Incall' : 'Outcall'}\n<b>Rating:</b> ${'★'.repeat(_reviewRating)}${'☆'.repeat(5 - _reviewRating)} (${_reviewRating}/5)\n\n${text}`;
   try {
-    await Promise.all([
-      saveReviewToSupabase(review),
-      fetch(TG_BOT, {
-        method: 'POST', body: new URLSearchParams({chat_id: TG_CHAT_REVIEWS, text: tgMsg, parse_mode: 'HTML'})
-      })
-    ]);
+    // Critical: save to database. This is the source of truth.
+    await saveReviewToSupabase(review);
+    // Best-effort: notify Telegram. Must not block or fail the submission.
+    fetch(TG_BOT, {
+      method: 'POST', body: new URLSearchParams({chat_id: TG_CHAT_REVIEWS, text: tgMsg, parse_mode: 'HTML'})
+    }).catch(() => {});
     m.reviews = (m.reviews || []).concat(review);
     const listEl = document.getElementById('reviews-list');
     if (listEl) listEl.innerHTML = renderReviewsList(m.reviews);
