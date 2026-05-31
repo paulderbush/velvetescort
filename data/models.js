@@ -116,7 +116,51 @@ const MILKYWAY_DATA = {
   reviews: [],
 };
 
-const FAKE_MODELS = generateModels();
-const MODELS = [MILKYWAY_DATA, ...FAKE_MODELS];
+const ROSA_DATA = {
+  id: 9998, real: true, folder: 'ROSA', slug: 'rosa',
+  name: 'Rosa', age: 18, height: 168, weight: 55,
+  nationality: 'Russian', station: 'Angel',
+  rateHour: 600,
+  color: ['rgba(190,60,120,0.4)', 'rgba(110,30,70,0.7)'],
+  initials: 'RO',
+  cats: ['recommended', 'new', 'under25'],
+  breastSize: '32B', breastType: 'Natural', clothingSize: 'XS',
+  eyeColor: 'Brown', hairColor: 'Brown', orientation: 'Heterosexual',
+  languages: 'Russian (Fluent) · English (Intermediate)',
+  svcs: ['69', 'Bisexual DUO', 'Blowjob With Condom', 'Dirty Talk', 'Domination', 'Face Sitting', 'Fingering', 'Foot Fetish', 'Handcuffs', "Lady's Services", 'Lap Dancing', 'Lomilomi Massage', 'MMF For Double Price', 'Open Minded', 'Peeing On Client', 'Peeing On Model', 'Prostate Massage', 'Rimming Receives', 'Roleplay', 'Shower Together', 'Smoking Fetish', 'Snowballing', 'Spanking Giving', 'Striptease', 'Tie & Tease'],
+  extraSvcs: [
+    {name: 'Anal Sex', price: 200},
+    {name: 'Blowjob Without Condom', price: 50},
+  ],
+  incallRates: [
+    {label: '30 min', price: 500},
+    {label: '45 min', price: 550},
+    {label: '1 Hour', price: 600},
+    {label: '2 Hours', price: 1000},
+    {label: '3 Hours', price: 1400},
+    {label: '4 Hours', price: 1800},
+    {label: '5 Hours', price: 2200},
+    {label: 'Overnight', price: 3500},
+  ],
+  outcallRates: [
+    {label: '30 min', price: 550},
+    {label: '45 min', price: 600},
+    {label: '1 Hour', price: 650},
+    {label: '2 Hours', price: 1050},
+    {label: '3 Hours', price: 1450},
+    {label: '4 Hours', price: 1850},
+    {label: '5 Hours', price: 2250},
+    {label: 'Overnight', price: 3500},
+  ],
+  description: [
+    'Rosa is a striking young Russian companion based in London, combining youthful energy with a naturally elegant presence. With soft brown hair, warm brown eyes, and a slender, graceful figure, she carries herself with a poise that belies her years and an easy charm that puts you at ease from the very first moment.',
+    'Attentive, open-minded, and genuinely engaging, Rosa is the ideal companion for an intimate evening, a private dinner, or a relaxed social occasion. She takes pride in making every encounter feel personal and unhurried, bringing warmth and a playful spirit to her time with you.',
+    'A native Russian speaker with conversational English, Rosa welcomes gentlemen with discretion and care. All appointments are arranged with complete respect for your privacy. Available daily across London for both incall and outcall bookings.',
+  ],
+  reviews: [],
+};
 
-module.exports = { MODELS, MILKYWAY_DATA, SERVICES, NATIONALITIES, STATIONS, NAMES_F };
+const FAKE_MODELS = generateModels();
+const MODELS = [MILKYWAY_DATA, ROSA_DATA, ...FAKE_MODELS];
+
+module.exports = { MODELS, MILKYWAY_DATA, ROSA_DATA, SERVICES, NATIONALITIES, STATIONS, NAMES_F };
