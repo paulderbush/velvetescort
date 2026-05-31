@@ -1,8 +1,11 @@
 // =================== SUPABASE / TELEGRAM ===================
 const SUPABASE_URL = 'https://rfmixjljtwzhedsjsjni.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_r7LdYArejggySFV2So1rmg_72NU_XK5';
-const TG_BOT = 'https://api.telegram.org/bot8881061797:AAEDLHP9Uvs4Qw3Gezdzq3_T-_yFIo1fu0A/sendMessage';
-const TG_CHAT = '-5098693486';
+const TG_BOT_BASE = 'https://api.telegram.org/bot8881061797:AAEDLHP9Uvs4Qw3Gezdzq3_T-_yFIo1fu0A';
+const TG_BOT = TG_BOT_BASE + '/sendMessage';
+const TG_CHAT          = '-5098693486';  // VELVET BOOKINGS
+const TG_CHAT_REVIEWS  = '-5293058113';  // VELVET REVIEWS
+const TG_CHAT_MODELS   = '-5246680182';  // VELVET MODELS
 
 // =================== CART ===================
 let cart = JSON.parse(localStorage.getItem('velvet_cart') || '[]');
