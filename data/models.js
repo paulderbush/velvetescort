@@ -117,7 +117,7 @@ const MILKYWAY_DATA = {
 };
 
 const ROSA_DATA = {
-  id: 9998, real: true, folder: 'ROSA', slug: 'rosa',
+  id: 9998, real: true, folder: 'Rosa', slug: 'rosa',
   name: 'Rosa', age: 18, height: 168, weight: 55,
   nationality: 'Russian', station: 'Angel',
   rateHour: 600,
