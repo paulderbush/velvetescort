@@ -236,7 +236,7 @@ ${fakeModelOverlayHTML()}
 
 ${footerHTML()}
 ${modelsDataScript()}
-<script src="/assets/main.js"><\/script>
+<script src="/assets/main.js?v=${BUILD_TS}"><\/script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   renderHomeRows();
@@ -385,8 +385,8 @@ ${fakeModelOverlayHTML()}
 
 ${footerHTML()}
 ${modelsDataScript()}
-<script src="/assets/main.js"><\/script>
-<script src="/assets/catalog.js"><\/script>
+<script src="/assets/main.js?v=${BUILD_TS}"><\/script>
+<script src="/assets/catalog.js?v=${BUILD_TS}"><\/script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   initModelsPage();
@@ -428,8 +428,8 @@ const SERVICES = ${JSON.stringify(SERVICES)};
 const NATIONALITIES = ${JSON.stringify(NATIONALITIES)};
 const STATIONS = ${JSON.stringify(STATIONS)};
 <\/script>
-<script src="/assets/main.js"><\/script>
-<script src="/assets/profile.js"><\/script>
+<script src="/assets/main.js?v=${BUILD_TS}"><\/script>
+<script src="/assets/profile.js?v=${BUILD_TS}"><\/script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   openRealModel(MODEL_DATA);
@@ -470,7 +470,7 @@ const SERVICES = [];
 const NATIONALITIES = [];
 const STATIONS = [];
 <\/script>
-<script src="/assets/main.js"><\/script>
+<script src="/assets/main.js?v=${BUILD_TS}"><\/script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const allIds = Array.from({length: 17}, (_, i) => i);
@@ -628,8 +628,8 @@ const SERVICES = ${JSON.stringify(SERVICES)};
 const NATIONALITIES = ${JSON.stringify(NATIONALITIES)};
 const STATIONS = ${JSON.stringify(STATIONS)};
 <\/script>
-<script src="/assets/main.js"><\/script>
-<script src="/assets/become.js"><\/script>
+<script src="/assets/main.js?v=${BUILD_TS}"><\/script>
+<script src="/assets/become.js?v=${BUILD_TS}"><\/script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   initBecomePage();
