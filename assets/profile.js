@@ -10,7 +10,7 @@ function probeModelPhotos(folder, cb) {
     const img = new Image(); const idx = i;
     img.onload = () => { found.push({idx, src: img.src}); finish(); };
     img.onerror = finish;
-    img.src = `/${folder}/${idx}.webp`;
+    img.src = `/${folder}/${idx}.webp${window.BUILD_TS ? '?v=' + window.BUILD_TS : ''}`;
   }
   function finish() { if (++done === max) cb(found.sort((a, b) => a.idx - b.idx).map(x => x.src)); }
 }

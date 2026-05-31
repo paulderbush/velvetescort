@@ -9,6 +9,7 @@ const css = fs.readFileSync(path.join(__dirname, '../assets/style.css'), 'utf8')
 const { MODELS, SERVICES, NATIONALITIES, STATIONS } = require('../data/models.js');
 const REAL_MODELS = MODELS.filter(m => m.real);
 const SITE_URL = 'https://velvetescort.co.uk';
+const BUILD_TS = new Date().toISOString().slice(0, 10).replace(/-/g, '');
 
 // =================== SHARED PARTS ===================
 
@@ -30,6 +31,7 @@ function head(title, desc, canonical, extra = '') {
 <link rel="apple-touch-icon" href="/images/favicon.png?v=2">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>${css}</style>
+<script>window.BUILD_TS='${BUILD_TS}';</script>
 ${extra}
 </head>`;
 }

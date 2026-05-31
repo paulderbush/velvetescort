@@ -231,7 +231,7 @@ function modelCardHTML(m, clickable = true) {
 
   return `
   ${cardStart}
-    <div class="model-card-img" style="${m.real ? `background:url('/${m.folder}/1.webp') top center/cover no-repeat` : `background:linear-gradient(160deg,${m.color[0]} 0%,${m.color[1]} 100%)`}">
+    <div class="model-card-img" style="${m.real ? `background:url('/${m.folder}/1.webp${window.BUILD_TS ? '?v='+window.BUILD_TS : ''}') top center/cover no-repeat` : `background:linear-gradient(160deg,${m.color[0]} 0%,${m.color[1]} 100%)`}">
       ${!m.real ? `<div class="model-photo-placeholder">
         <svg class="model-silhouette-svg" width="60" height="100" viewBox="0 0 60 100" fill="none">
           <ellipse cx="30" cy="14" rx="13" ry="13" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
@@ -336,7 +336,7 @@ function handleNavSearch(q) {
   if (!res.length) { dd.innerHTML = '<div class="search-result-item" style="color:var(--text-muted)">No results found</div>'; dd.classList.add('show'); return; }
   dd.innerHTML = res.map(m => `
     <div class="search-result-item" onclick="${m.real ? `window.location='/models/${m.slug}/'` : `openFakeModel(${m.id})`}">
-      <div class="avatar" style="${m.real ? `background:url('/${m.folder}/1.webp') top center/cover no-repeat` : `background:linear-gradient(135deg,${m.color[0]},${m.color[1]})`}">${m.real ? '' : m.initials}</div>
+      <div class="avatar" style="${m.real ? `background:url('/${m.folder}/1.webp${window.BUILD_TS ? '?v='+window.BUILD_TS : ''}') top center/cover no-repeat` : `background:linear-gradient(135deg,${m.color[0]},${m.color[1]})`}">${m.real ? '' : m.initials}</div>
       <div>
         <div style="font-weight:500;font-size:13px">${m.name}</div>
         <div style="font-size:11px;color:var(--text-muted)">${m.nationality} · ${m.real ? `from £${Math.min(...m.incallRates.map(r => r.price))}` : `£${m.rateHour}/hr`}${(() => { const r = computeRating(m.reviews); return r ? ` · ★ ${r}` : ''; })()}</div>
