@@ -68,54 +68,6 @@ function generateModels() {
 }
 
 // =================== REAL MODELS ===================
-const MILKYWAY_DATA = {
-  id: 9999, real: true, folder: 'MILKYWAY', slug: 'milkyway',
-  name: 'Milkyway', age: 23, height: 166, weight: 54,
-  nationality: 'Brazilian', station: 'South Kensington',
-  rateHour: 350,
-  color: ['rgba(160,80,30,0.4)', 'rgba(100,45,15,0.7)'],
-  initials: 'MW',
-  cats: ['recommended', 'toprated', 'under25', 'new'],
-  breastSize: '32B', breastType: 'Natural', clothingSize: 'S',
-  eyeColor: 'Brown', hairColor: 'Brunette', orientation: 'Heterosexual',
-  languages: 'English (Basic) · Portuguese (Fluent)',
-  svcs: ['69', 'Blowjob With Condom', 'Cum On Body', 'Deep Throat', 'Face Sitting', 'MMF For Double Price', 'Group For Extra', 'Massage', 'Striptease', 'Lap Dancing', 'Toys', 'Light Domination', 'Soft Spanking Receiving', 'Spanking Giving'],
-  extraSvcs: [
-    {name: 'Blowjob Without Condom', price: 40},
-    {name: 'Cum On Face', price: 50},
-    {name: 'Peeing On Client', price: 60},
-    {name: 'Rimming Gives', price: 80},
-    {name: 'Strapon', price: 100},
-    {name: 'Cum In Mouth', price: 80},
-    {name: 'Prostate Massage', price: 40},
-    {name: 'Filming Without Mask', price: 200},
-  ],
-  incallRates: [
-    {label: '30 min', price: 300},
-    {label: '45 min', price: 350},
-    {label: '1 Hour', price: 350},
-    {label: '2 Hours', price: 650},
-    {label: '3 Hours', price: 950},
-    {label: '4 Hours', price: 1250},
-    {label: '5 Hours', price: 1550},
-    {label: '9 Hours', price: 2700},
-  ],
-  outcallRates: [
-    {label: '1 Hour', price: 400},
-    {label: '2 Hours', price: 700},
-    {label: '3 Hours', price: 1000},
-    {label: '4 Hours', price: 1300},
-    {label: '5 Hours', price: 1600},
-    {label: '9 Hours', price: 2700},
-  ],
-  description: [
-    'Milkyway is a captivating Brazilian companion based in London, known for her natural warmth, effortless elegance, and an innate ability to make every encounter feel genuinely special. With striking brunette hair, expressive brown eyes, and a naturally beautiful figure, she is as visually captivating as she is engaging in conversation.',
-    'Whether you are looking for a refined companion for a private dinner, a social event, or an intimate experience, Milkyway brings attentiveness and genuine care to every meeting. Her easygoing nature and exotic charm make every moment feel relaxed, personal, and memorable.',
-    'Fluent in Portuguese and conversational in English, she welcomes gentlemen from all backgrounds with warmth and discretion. All appointments are arranged with complete respect for your privacy. Available daily across London for both incall and outcall bookings.',
-  ],
-  reviews: [],
-};
-
 const ROSA_DATA = {
   id: 9998, real: true, folder: 'Rosa', slug: 'rosa',
   name: 'Rosa', age: 18, height: 168, weight: 55,
@@ -203,6 +155,6 @@ const MANNY_DATA = {
 };
 
 const FAKE_MODELS = generateModels();
-const MODELS = [MILKYWAY_DATA, ROSA_DATA, MANNY_DATA, ...FAKE_MODELS];
+const MODELS = [ROSA_DATA, MANNY_DATA, ...FAKE_MODELS];
 
-module.exports = { MODELS, MILKYWAY_DATA, ROSA_DATA, MANNY_DATA, SERVICES, NATIONALITIES, STATIONS, NAMES_F };
+module.exports = { MODELS, ROSA_DATA, MANNY_DATA, SERVICES, NATIONALITIES, STATIONS, NAMES_F };
